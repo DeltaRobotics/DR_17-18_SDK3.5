@@ -318,17 +318,17 @@ public class AutoTesting extends LinearOpMode
         drive.timeDrive(1000, 0.5, driveStyle.PIVOT_RIGHT, motors);
         */
 
-        drive.encoderDrive(500, driveStyle.FORWARD, 0.5, 5000, motors);
-        sleep(3000);
-        drive.encoderDrive(500, driveStyle.BACKWARD, 0.5, 5000, motors);
-        sleep(3000);
-        drive.encoderDrive(500, driveStyle.STRAFE_LEFT, 0.5, 5000, motors);
-        sleep(3000);
-        drive.encoderDrive(500, driveStyle.STRAFE_RIGHT, 0.5, 5000, motors);
-        sleep(3000);
-        drive.encoderDrive(500, driveStyle.FORWARD_RIGHT, 0.5, 5000, motors);
-        sleep(3000);
-        drive.encoderDrive(500, driveStyle.BACKWARD_LEFT, 0.5, 5000, motors);
+        drive.encoderDrive(2000, driveStyle.FORWARD, 0.5, 5000, motors);
+        sleep(1000);
+        drive.encoderDrive(2000, driveStyle.BACKWARD, 0.5, 5000, motors);
+        sleep(1000);
+        drive.encoderDrive(2000, driveStyle.STRAFE_LEFT, 0.5, 5000, motors);
+        sleep(1000);
+        drive.encoderDrive(2000, driveStyle.STRAFE_RIGHT, 0.5, 5000, motors);
+        sleep(1000);
+        drive.encoderDrive(2000, driveStyle.FORWARD_RIGHT, 0.5, 5000, motors);
+        sleep(1000);
+        /*drive.encoderDrive(500, driveStyle.BACKWARD_LEFT, 0.5, 5000, motors);
         sleep(3000);
         drive.encoderDrive(500, driveStyle.FORWARD_LEFT, 0.5, 5000, motors);
         sleep(3000);
@@ -337,7 +337,30 @@ public class AutoTesting extends LinearOpMode
         drive.encoderDrive(500, driveStyle.PIVOT_LEFT, 0.5, 5000, motors);
         sleep(3000);
         drive.encoderDrive(500, driveStyle.PIVOT_RIGHT, 0.5, 5000, motors);
-        sleep(3000);
+        */
+        //sleep(3000);
+
+
+        /*drive.timeDrive(1000, 0.5, driveStyle.FORWARD, motors);
+        sleep(1000);
+        drive.timeDrive(1000, 0.5, driveStyle.BACKWARD, motors);
+        sleep(1000);
+        drive.timeDrive(1000, 0.5, driveStyle.STRAFE_LEFT, motors);
+        sleep(1000);
+        drive.timeDrive(1000, 0.5, driveStyle.STRAFE_RIGHT, motors);
+        sleep(1000);
+        drive.timeDrive(1000, 0.5, driveStyle.FORWARD_RIGHT, motors);
+        sleep(1000);
+        drive.timeDrive(1000, 0.5, driveStyle.BACKWARD_LEFT, motors);
+        sleep(1000);
+        drive.timeDrive(1000, 0.5, driveStyle.FORWARD_LEFT, motors);
+        sleep(1000);
+        drive.timeDrive(1000, 0.5, driveStyle.BACKWARD_RIGHT, motors);
+        sleep(1000);
+        drive.timeDrive(1000, 0.5, driveStyle.PIVOT_RIGHT, motors);
+        sleep(1000);
+        drive.timeDrive(1000, 0.5, driveStyle.PIVOT_LEFT, motors);
+        */
 
         /*robot.motorRF.setPower(drive.setPower(0, -0.5, 0)[0]);
         robot.motorRB.setPower(drive.setPower(0, -0.5, 0)[1]);

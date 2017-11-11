@@ -49,21 +49,17 @@ public class Drive extends LinearOpMode
             case FORWARD:
             {
                 double encoderReadingLB = motors[2].getCurrentPosition();
-                motors[0].setPower(setPower(0, -motorPower, 0)[0]);
-                motors[1].setPower(setPower(0, -motorPower, 0)[1]);
-                motors[2].setPower(setPower(0, -motorPower, 0)[2]);
-                motors[3].setPower(setPower(0, -motorPower, 0)[3]);
+                double target = (encoderReadingLB - encoderDelta);
 
-                while (motors[2].getCurrentPosition() >= (-encoderDelta + encoderReadingLB))
+                forward(motorPower, motors);
+
+                while (motors[2].getCurrentPosition() >= target)
                 {
 
                 }
 
 
-                motors[0].setPower(setPower(-motorPower, 0, 0)[0]);
-                motors[1].setPower(setPower(-motorPower, 0, 0)[1]);
-                motors[2].setPower(setPower(-motorPower, 0, 0)[2]);
-                motors[3].setPower(setPower(-motorPower, 0, 0)[3]);
+
 
                 break;
 
@@ -73,21 +69,14 @@ public class Drive extends LinearOpMode
             case BACKWARD:
             {
                 double encoderReadingLB = motors[2].getCurrentPosition();
-                motors[0].setPower(setPower(0, motorPower, 0)[0]);
-                motors[1].setPower(setPower(0, motorPower, 0)[1]);
-                motors[2].setPower(setPower(0, motorPower, 0)[2]);
-                motors[3].setPower(setPower(0, motorPower, 0)[3]);
+                double target = (encoderDelta + encoderReadingLB);
+                backward(motorPower, motors);
 
-                while (motors[2].getCurrentPosition() <= (encoderDelta + encoderReadingLB))
+                while (motors[2].getCurrentPosition() <= target)
                 {
 
                 }
 
-
-                motors[0].setPower(setPower(-motorPower, 0, 0)[0]);
-                motors[1].setPower(setPower(-motorPower, 0, 0)[1]);
-                motors[2].setPower(setPower(-motorPower, 0, 0)[2]);
-                motors[3].setPower(setPower(-motorPower, 0, 0)[3]);
 
                 break;
             }
@@ -95,21 +84,14 @@ public class Drive extends LinearOpMode
             case STRAFE_LEFT:
             {
                 double encoderReadingLB = motors[2].getCurrentPosition();
-                motors[0].setPower(setPower(-motorPower, 0, 0)[0]);
-                motors[1].setPower(setPower(-motorPower, 0, 0)[1]);
-                motors[2].setPower(setPower(-motorPower, 0, 0)[2]);
-                motors[3].setPower(setPower(-motorPower, 0, 0)[3]);
+                double target = (encoderReadingLB - encoderDelta);
+                strafeLeft(motorPower, motors);
 
-                while (motors[2].getCurrentPosition() >= (encoderReadingLB - encoderDelta))
+                while (motors[2].getCurrentPosition() >= target)
                 {
 
                 }
 
-
-                motors[0].setPower(setPower(-motorPower, 0, 0)[0]);
-                motors[1].setPower(setPower(-motorPower, 0, 0)[1]);
-                motors[2].setPower(setPower(-motorPower, 0, 0)[2]);
-                motors[3].setPower(setPower(-motorPower, 0, 0)[3]);
 
                 break;
             }
@@ -117,21 +99,14 @@ public class Drive extends LinearOpMode
             case STRAFE_RIGHT:
             {
                 double encoderReadingLB = motors[2].getCurrentPosition();
-                motors[0].setPower(setPower(motorPower, 0, 0)[0]);
-                motors[1].setPower(setPower(motorPower, 0, 0)[1]);
-                motors[2].setPower(setPower(motorPower, 0, 0)[2]);
-                motors[3].setPower(setPower(motorPower, 0, 0)[3]);
+                double target = (encoderReadingLB + encoderDelta);
+                strafeRight(motorPower, motors);
 
-                while (motors[2].getCurrentPosition() >= (-encoderDelta + encoderReadingLB))
+                while (motors[2].getCurrentPosition() <= target)
                 {
 
                 }
 
-
-                motors[0].setPower(setPower(-motorPower, 0, 0)[0]);
-                motors[1].setPower(setPower(-motorPower, 0, 0)[1]);
-                motors[2].setPower(setPower(-motorPower, 0, 0)[2]);
-                motors[3].setPower(setPower(-motorPower, 0, 0)[3]);
 
                 break;
             }
@@ -139,21 +114,13 @@ public class Drive extends LinearOpMode
             case FORWARD_LEFT:
             {
                 double encoderReadingLB = motors[2].getCurrentPosition();
-                motors[0].setPower(setPower(-motorPower, -motorPower, 0)[0]);
-                motors[1].setPower(setPower(-motorPower, -motorPower, 0)[1]);
-                motors[2].setPower(setPower(-motorPower, -motorPower, 0)[2]);
-                motors[3].setPower(setPower(-motorPower, -motorPower, 0)[3]);
-
-                while (motors[2].getCurrentPosition() <= (encoderDelta + encoderReadingLB))
+                double target = (encoderReadingLB - encoderDelta);
+                forwardLeft(motorPower, motors);
+                while (motors[2].getCurrentPosition() >= target)
                 {
 
                 }
 
-
-                motors[0].setPower(setPower(-motorPower, 0, 0)[0]);
-                motors[1].setPower(setPower(-motorPower, 0, 0)[1]);
-                motors[2].setPower(setPower(-motorPower, 0, 0)[2]);
-                motors[3].setPower(setPower(-motorPower, 0, 0)[3]);
 
                 break;
             }
@@ -161,21 +128,14 @@ public class Drive extends LinearOpMode
             case FORWARD_RIGHT:
             {
                 double encoderReadingRB = motors[1].getCurrentPosition();
-                motors[0].setPower(setPower(motorPower, -motorPower, 0)[0]);
-                motors[1].setPower(setPower(motorPower, -motorPower, 0)[1]);
-                motors[2].setPower(setPower(motorPower, -motorPower, 0)[2]);
-                motors[3].setPower(setPower(motorPower, -motorPower, 0)[3]);
+                double target = (encoderReadingRB + encoderDelta);
+                forwardRight(motorPower, motors);
 
-                while (motors[1].getCurrentPosition() >= (-encoderDelta + encoderReadingRB))
+                while (motors[1].getCurrentPosition() <= target)
                 {
 
                 }
 
-
-                motors[0].setPower(setPower(-motorPower, 0, 0)[0]);
-                motors[1].setPower(setPower(-motorPower, 0, 0)[1]);
-                motors[2].setPower(setPower(-motorPower, 0, 0)[2]);
-                motors[3].setPower(setPower(-motorPower, 0, 0)[3]);
 
                 break;
             }
@@ -183,21 +143,14 @@ public class Drive extends LinearOpMode
             case BACKWARD_LEFT:
             {
                 double encoderReadingRB = motors[1].getCurrentPosition();
-                motors[0].setPower(setPower(-motorPower, motorPower, 0)[0]);
-                motors[1].setPower(setPower(-motorPower, motorPower, 0)[1]);
-                motors[2].setPower(setPower(-motorPower, motorPower, 0)[2]);
-                motors[3].setPower(setPower(-motorPower, motorPower, 0)[3]);
+                double target = (encoderDelta + encoderReadingRB);
+                backwardLeft(motorPower, motors);
 
-                while (motors[1].getCurrentPosition() <= (encoderDelta + encoderReadingRB))
+                while (motors[1].getCurrentPosition() <= target)
                 {
 
                 }
 
-
-                motors[0].setPower(setPower(-motorPower, 0, 0)[0]);
-                motors[1].setPower(setPower(-motorPower, 0, 0)[1]);
-                motors[2].setPower(setPower(-motorPower, 0, 0)[2]);
-                motors[3].setPower(setPower(-motorPower, 0, 0)[3]);
 
                 break;
             }
@@ -205,21 +158,14 @@ public class Drive extends LinearOpMode
             case BACKWARD_RIGHT:
             {
                 double encoderReadingLB = motors[2].getCurrentPosition();
-                motors[0].setPower(setPower(motorPower, motorPower, 0)[0]);
-                motors[1].setPower(setPower(motorPower, motorPower, 0)[1]);
-                motors[2].setPower(setPower(motorPower, motorPower, 0)[2]);
-                motors[3].setPower(setPower(motorPower, motorPower, 0)[3]);
+                double target = (encoderReadingLB - encoderDelta);
+                backwardRight(motorPower, motors);
 
-                while (motors[2].getCurrentPosition() >= (-encoderDelta + encoderReadingLB))
+                while (motors[2].getCurrentPosition() >= target)
                 {
 
                 }
 
-
-                motors[0].setPower(setPower(-motorPower, 0, 0)[0]);
-                motors[1].setPower(setPower(-motorPower, 0, 0)[1]);
-                motors[2].setPower(setPower(-motorPower, 0, 0)[2]);
-                motors[3].setPower(setPower(-motorPower, 0, 0)[3]);
 
                 break;
             }
@@ -227,21 +173,14 @@ public class Drive extends LinearOpMode
             case PIVOT_LEFT:
             {
                 double encoderReadingLB = motors[2].getCurrentPosition();
-                motors[0].setPower(setPower(0, 0, -motorPower)[0]);
-                motors[1].setPower(setPower(0, 0, -motorPower)[1]);
-                motors[2].setPower(setPower(0, 0, -motorPower)[2]);
-                motors[3].setPower(setPower(0, 0, -motorPower)[3]);
+                double target = (encoderReadingLB - encoderDelta);
+                pivotLeft(motorPower, motors);
 
-                while (motors[2].getCurrentPosition() >= (-encoderDelta + encoderReadingLB))
+                while (motors[2].getCurrentPosition() >= target)
                 {
 
                 }
 
-
-                motors[0].setPower(setPower(-motorPower, 0, 0)[0]);
-                motors[1].setPower(setPower(-motorPower, 0, 0)[1]);
-                motors[2].setPower(setPower(-motorPower, 0, 0)[2]);
-                motors[3].setPower(setPower(-motorPower, 0, 0)[3]);
 
                 break;
             }
@@ -249,27 +188,25 @@ public class Drive extends LinearOpMode
             case PIVOT_RIGHT:
             {
                 double encoderReadingLB = motors[2].getCurrentPosition();
-                motors[0].setPower(setPower(0, 0, motorPower)[0]);
-                motors[1].setPower(setPower(0, 0, motorPower)[1]);
-                motors[2].setPower(setPower(0, 0, motorPower)[2]);
-                motors[3].setPower(setPower(0, 0, motorPower)[3]);
+                double target = (encoderDelta + encoderReadingLB);
+                pivotRight(motorPower, motors);
 
-                while (motors[2].getCurrentPosition() <= (encoderDelta + encoderReadingLB))
+                while (motors[2].getCurrentPosition() <= target)
                 {
 
                 }
 
-
-                motors[0].setPower(setPower(-motorPower, 0, 0)[0]);
-                motors[1].setPower(setPower(-motorPower, 0, 0)[1]);
-                motors[2].setPower(setPower(-motorPower, 0, 0)[2]);
-                motors[3].setPower(setPower(-motorPower, 0, 0)[3]);
 
                 break;
             }
 
 
         }
+
+        motors[0].setPower(setPower(0, 0, 0)[0]);
+        motors[1].setPower(setPower(0, 0, 0)[1]);
+        motors[2].setPower(setPower(0, 0, 0)[2]);
+        motors[3].setPower(setPower(0, 0, 0)[3]);
 
        return true;
     }
@@ -280,17 +217,10 @@ public class Drive extends LinearOpMode
         {
             case FORWARD:
                 {
-                    motors[0].setPower(setPower(0, -motorPower, 0)[0]);
-                    motors[1].setPower(setPower(0, -motorPower, 0)[1]);
-                    motors[2].setPower(setPower(0, -motorPower, 0)[2]);
-                    motors[3].setPower(setPower(0, -motorPower, 0)[3]);
+                    forward(motorPower, motors);
 
                     sleep(time);
 
-                    motors[0].setPower(setPower(0, 0, 0)[0]);
-                    motors[1].setPower(setPower(0, 0, 0)[1]);
-                    motors[2].setPower(setPower(0, 0, 0)[2]);
-                    motors[3].setPower(setPower(0, 0, 0)[3]);
 
                     break;
 
@@ -299,17 +229,10 @@ public class Drive extends LinearOpMode
 
             case BACKWARD:
             {
-                motors[0].setPower(setPower(0, motorPower, 0)[0]);
-                motors[1].setPower(setPower(0, motorPower, 0)[1]);
-                motors[2].setPower(setPower(0, motorPower, 0)[2]);
-                motors[3].setPower(setPower(0, motorPower, 0)[3]);
+                backward(motorPower, motors);
 
                 sleep(time);
 
-                motors[0].setPower(setPower(0, 0, 0)[0]);
-                motors[1].setPower(setPower(0, 0, 0)[1]);
-                motors[2].setPower(setPower(0, 0, 0)[2]);
-                motors[3].setPower(setPower(0, 0, 0)[3]);
 
                 break;
 
@@ -317,140 +240,163 @@ public class Drive extends LinearOpMode
 
             case STRAFE_LEFT:
             {
-                motors[0].setPower(setPower(-motorPower, 0, 0)[0]);
-                motors[1].setPower(setPower(-motorPower, 0, 0)[1]);
-                motors[2].setPower(setPower(-motorPower, 0, 0)[2]);
-                motors[3].setPower(setPower(-motorPower, 0, 0)[3]);
+                strafeLeft(motorPower, motors);
 
                 sleep(time);
 
-                motors[0].setPower(setPower(0, 0, 0)[0]);
-                motors[1].setPower(setPower(0, 0, 0)[1]);
-                motors[2].setPower(setPower(0, 0, 0)[2]);
-                motors[3].setPower(setPower(0, 0, 0)[3]);
 
                 break;
             }
 
             case STRAFE_RIGHT:
             {
-                motors[0].setPower(setPower(motorPower, 0, 0)[0]);
-                motors[1].setPower(setPower(motorPower, 0, 0)[1]);
-                motors[2].setPower(setPower(motorPower, 0, 0)[2]);
-                motors[3].setPower(setPower(motorPower, 0, 0)[3]);
+                strafeRight(motorPower, motors);
 
                 sleep(time);
 
-                motors[0].setPower(setPower(0, 0, 0)[0]);
-                motors[1].setPower(setPower(0, 0, 0)[1]);
-                motors[2].setPower(setPower(0, 0, 0)[2]);
-                motors[3].setPower(setPower(0, 0, 0)[3]);
                 break;
             }
 
             case FORWARD_LEFT:
             {
-                motors[0].setPower(setPower(-motorPower, -motorPower, 0)[0]);
-                motors[1].setPower(setPower(-motorPower, -motorPower, 0)[1]);
-                motors[2].setPower(setPower(-motorPower, -motorPower, 0)[2]);
-                motors[3].setPower(setPower(-motorPower, -motorPower, 0)[3]);
+                forwardLeft(motorPower, motors);
 
                 sleep(time);
 
-                motors[0].setPower(setPower(0, 0, 0)[0]);
-                motors[1].setPower(setPower(0, 0, 0)[1]);
-                motors[2].setPower(setPower(0, 0, 0)[2]);
-                motors[3].setPower(setPower(0, 0, 0)[3]);
                 break;
             }
 
             case FORWARD_RIGHT:
             {
-                motors[0].setPower(setPower(motorPower, -motorPower, 0)[0]);
-                motors[1].setPower(setPower(motorPower, -motorPower, 0)[1]);
-                motors[2].setPower(setPower(motorPower, -motorPower, 0)[2]);
-                motors[3].setPower(setPower(motorPower, -motorPower, 0)[3]);
+                forwardRight(motorPower, motors);
+
 
                 sleep(time);
 
-                motors[0].setPower(setPower(0, 0, 0)[0]);
-                motors[1].setPower(setPower(0, 0, 0)[1]);
-                motors[2].setPower(setPower(0, 0, 0)[2]);
-                motors[3].setPower(setPower(0, 0, 0)[3]);
                 break;
             }
 
             case BACKWARD_LEFT:
             {
-                motors[0].setPower(setPower(-motorPower, motorPower, 0)[0]);
-                motors[1].setPower(setPower(-motorPower, motorPower, 0)[1]);
-                motors[2].setPower(setPower(-motorPower, motorPower, 0)[2]);
-                motors[3].setPower(setPower(-motorPower, motorPower, 0)[3]);
+                backwardLeft(motorPower, motors);
 
                 sleep(time);
 
-                motors[0].setPower(setPower(0, 0, 0)[0]);
-                motors[1].setPower(setPower(0, 0, 0)[1]);
-                motors[2].setPower(setPower(0, 0, 0)[2]);
-                motors[3].setPower(setPower(0, 0, 0)[3]);
                 break;
             }
 
             case BACKWARD_RIGHT:
             {
-                motors[0].setPower(setPower(motorPower, motorPower, 0)[0]);
-                motors[1].setPower(setPower(motorPower, motorPower, 0)[1]);
-                motors[2].setPower(setPower(motorPower, motorPower, 0)[2]);
-                motors[3].setPower(setPower(motorPower, motorPower, 0)[3]);
+                backwardRight(motorPower, motors);
 
                 sleep(time);
 
-                motors[0].setPower(setPower(0, 0, 0)[0]);
-                motors[1].setPower(setPower(0, 0, 0)[1]);
-                motors[2].setPower(setPower(0, 0, 0)[2]);
-                motors[3].setPower(setPower(0, 0, 0)[3]);
                 break;
             }
 
             case PIVOT_LEFT:
             {
-                motors[0].setPower(setPower(0, 0, -motorPower)[0]);
-                motors[1].setPower(setPower(0, 0, -motorPower)[1]);
-                motors[2].setPower(setPower(0, 0, -motorPower)[2]);
-                motors[3].setPower(setPower(0, 0, -motorPower)[3]);
+                pivotLeft(motorPower, motors);
+
 
 
 
                 sleep(time);
 
-                motors[0].setPower(setPower(0, 0, 0)[0]);
-                motors[1].setPower(setPower(0, 0, 0)[1]);
-                motors[2].setPower(setPower(0, 0, 0)[2]);
-                motors[3].setPower(setPower(0, 0, 0)[3]);
                 break;
             }
 
             case PIVOT_RIGHT:
             {
-                motors[0].setPower(setPower(0, 0, motorPower)[0]);
-                motors[1].setPower(setPower(0, 0, motorPower)[1]);
-                motors[2].setPower(setPower(0, 0, motorPower)[2]);
-                motors[3].setPower(setPower(0, 0, motorPower)[3]);
-
+                pivotRight(motorPower, motors);
 
 
                 sleep(time);
 
-                motors[0].setPower(setPower(0, 0, 0)[0]);
-                motors[1].setPower(setPower(0, 0, 0)[1]);
-                motors[2].setPower(setPower(0, 0, 0)[2]);
-                motors[3].setPower(setPower(0, 0, 0)[3]);
+
                 break;
             }
         }
 
+
+        motors[0].setPower(setPower(-motorPower, 0, 0)[0]);
+        motors[1].setPower(setPower(-motorPower, 0, 0)[1]);
+        motors[2].setPower(setPower(-motorPower, 0, 0)[2]);
+        motors[3].setPower(setPower(-motorPower, 0, 0)[3]);
+
     }
 
+    public void forward(double motorPower, DcMotor[] motors)
+    {
+        motors[0].setPower(setPower(0, -motorPower, 0)[0]);
+        motors[1].setPower(setPower(0, -motorPower, 0)[1]);
+        motors[2].setPower(setPower(0, -motorPower, 0)[2]);
+        motors[3].setPower(setPower(0, -motorPower, 0)[3]);
+    }
+    public void backward(double motorPower, DcMotor[] motors)
+    {
+        motors[0].setPower(setPower(0, motorPower, 0)[0]);
+        motors[1].setPower(setPower(0, motorPower, 0)[1]);
+        motors[2].setPower(setPower(0, motorPower, 0)[2]);
+        motors[3].setPower(setPower(0, motorPower, 0)[3]);
+    }
+    public void strafeLeft(double motorPower, DcMotor[] motors)
+    {
+        motors[0].setPower(setPower(-motorPower, 0, 0)[0]);
+        motors[1].setPower(setPower(-motorPower, 0, 0)[1]);
+        motors[2].setPower(setPower(-motorPower, 0, 0)[2]);
+        motors[3].setPower(setPower(-motorPower, 0, 0)[3]);
+    }
+    public void strafeRight(double motorPower, DcMotor[] motors)
+    {
+        motors[0].setPower(setPower(motorPower, 0, 0)[0]);
+        motors[1].setPower(setPower(motorPower, 0, 0)[1]);
+        motors[2].setPower(setPower(motorPower, 0, 0)[2]);
+        motors[3].setPower(setPower(motorPower, 0, 0)[3]);
+    }
+    public void forwardLeft(double motorPower, DcMotor[] motors)
+    {
+        motors[0].setPower(setPower(-motorPower, -motorPower, 0)[0]);
+        motors[1].setPower(setPower(-motorPower, -motorPower, 0)[1]);
+        motors[2].setPower(setPower(-motorPower, -motorPower, 0)[2]);
+        motors[3].setPower(setPower(-motorPower, -motorPower, 0)[3]);
+    }
+    public void forwardRight(double motorPower, DcMotor[] motors)
+    {
+        motors[0].setPower(setPower(motorPower, -motorPower, 0)[0]);
+        motors[1].setPower(setPower(motorPower, -motorPower, 0)[1]);
+        motors[2].setPower(setPower(motorPower, -motorPower, 0)[2]);
+        motors[3].setPower(setPower(motorPower, -motorPower, 0)[3]);
+    }
+    public void backwardLeft(double motorPower, DcMotor[] motors)
+    {
+        motors[0].setPower(setPower(-motorPower, motorPower, 0)[0]);
+        motors[1].setPower(setPower(-motorPower, motorPower, 0)[1]);
+        motors[2].setPower(setPower(-motorPower, motorPower, 0)[2]);
+        motors[3].setPower(setPower(-motorPower, motorPower, 0)[3]);
+    }
+    public void backwardRight(double motorPower, DcMotor[] motors)
+    {
+        motors[0].setPower(setPower(motorPower, motorPower, 0)[0]);
+        motors[1].setPower(setPower(motorPower, motorPower, 0)[1]);
+        motors[2].setPower(setPower(motorPower, motorPower, 0)[2]);
+        motors[3].setPower(setPower(motorPower, motorPower, 0)[3]);
+    }
+    public void pivotLeft(double motorPower, DcMotor[] motors)
+    {
+        motors[0].setPower(setPower(0, 0, -motorPower)[0]);
+        motors[1].setPower(setPower(0, 0, -motorPower)[1]);
+        motors[2].setPower(setPower(0, 0, -motorPower)[2]);
+        motors[3].setPower(setPower(0, 0, -motorPower)[3]);
+
+    }
+    public void pivotRight(double motorPower, DcMotor[] motors)
+    {
+        motors[0].setPower(setPower(0, 0, motorPower)[0]);
+        motors[1].setPower(setPower(0, 0, motorPower)[1]);
+        motors[2].setPower(setPower(0, 0, motorPower)[2]);
+        motors[3].setPower(setPower(0, 0, motorPower)[3]);
+    }
     @Override
     public void runOpMode()
     {}
