@@ -142,12 +142,14 @@ public class DRTeleOp extends LinearOpMode
             curiosity.joint3.setPower(-(gamepad2.left_stick_y * joint3MaxSpeed));
             if((curiosity.joint3.getCurrentPosition() < last) && (last != 99999) && (last < joint1Midpoint))
             {
+                telemetry.addData("Encoder Adjust", "Activated");
                 curiosity.joint3.setPower(-(gamepad2.left_stick_y * 0.1));
             }
 
 
             if((curiosity.joint3.getCurrentPosition() > last) && (last != 99999) && (last > joint1Midpoint))
             {
+                telemetry.addData("Encoder Adjust", "Activated");
                 curiosity.joint3.setPower(-(gamepad2.left_stick_y * 0.1));
             }
 
@@ -167,7 +169,7 @@ public class DRTeleOp extends LinearOpMode
                 curiosity.joint2.setPower(0.0);
             }
 
-            //Setting Joint 3
+            //Setting Joint 1
             if(gamepad2.dpad_up)
             {
                 curiosity.joint1.setPower(joint3MaxSpeed);
@@ -218,8 +220,9 @@ public class DRTeleOp extends LinearOpMode
             telemetry.addData("armServoAdjustment", armServoAdjustment);
             //telemetry.addData("Joint 1", curiosity.joint1.getPower());
             //telemetry.addData("Joint 2", curiosity.joint2.getCurrentPosition());
-            telemetry.addData("Joint 3", curiosity.joint3.getCurrentPosition());
-            telemetry.addData("Joint 3", curiosity.joint3.getPower());
+            telemetry.addData("Joint 3 Encoder", curiosity.joint3.getCurrentPosition());
+            telemetry.addData("Joint 3 Actual Power", curiosity.joint3.getPower());
+            telemetry.addData("Joint 3 Set Power", (-(gamepad2.left_stick_y * joint3MaxSpeed)));
             telemetry.addData("Wrist Pos", curiosity.wrist.getPosition());
             telemetry.addData("Knock Pos", curiosity.knock.getPosition());
             telemetry.addData("Claw Pos", curiosity.claw.getPosition());
