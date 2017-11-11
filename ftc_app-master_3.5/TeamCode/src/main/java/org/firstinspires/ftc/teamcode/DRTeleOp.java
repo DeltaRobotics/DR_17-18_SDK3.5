@@ -137,7 +137,7 @@ public class DRTeleOp extends LinearOpMode
                 dPadDownState = false;
             }
 
-            //Setting Joint 1
+            //Setting Joint 3
 
             curiosity.joint3.setPower(-(gamepad2.left_stick_y * joint3MaxSpeed));
             if((curiosity.joint3.getCurrentPosition() < last) && (last != 99999) && (last < joint1Midpoint))
@@ -216,9 +216,10 @@ public class DRTeleOp extends LinearOpMode
 
             //Sending telemetry for arm data
             telemetry.addData("armServoAdjustment", armServoAdjustment);
-            telemetry.addData("Joint 1", curiosity.joint1.getPower());
-            telemetry.addData("Joint 2", curiosity.joint2.getCurrentPosition());
+            //telemetry.addData("Joint 1", curiosity.joint1.getPower());
+            //telemetry.addData("Joint 2", curiosity.joint2.getCurrentPosition());
             telemetry.addData("Joint 3", curiosity.joint3.getCurrentPosition());
+            telemetry.addData("Joint 3", curiosity.joint3.getPower());
             telemetry.addData("Wrist Pos", curiosity.wrist.getPosition());
             telemetry.addData("Knock Pos", curiosity.knock.getPosition());
             telemetry.addData("Claw Pos", curiosity.claw.getPosition());
