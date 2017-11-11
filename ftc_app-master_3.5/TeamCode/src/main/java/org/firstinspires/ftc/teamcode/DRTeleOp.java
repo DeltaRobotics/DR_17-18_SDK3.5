@@ -21,7 +21,7 @@ public class DRTeleOp extends LinearOpMode
     double flapperInit = 1.0;
     double flapperPosition = flapperInit;
     double wristInit = 0.375;
-    double knockInit = 0.928;
+    double knockInit = 0.702;
     double clawInit = 0.93;
     double wristMaxChange = 0.005;
     double knockMaxChange = 0.005;
@@ -36,13 +36,16 @@ public class DRTeleOp extends LinearOpMode
     double joint2MaxSpeed = 0.50;
     double joint3MaxSpeed = 1.0;
 
-    double joint2Target = 0.0;
-    double joint3Target = 0.0;
-
-    long initTime;
-    long changeTime = 1200;
-    int last = 99999;
-    int joint1Midpoint = -111;
+    double j3Low = 0;
+    double j3High = 0;
+    double joint3Power = 0.0;
+    double j3Hold = 0.0;
+    double j3AdjHold = 0.0;
+    int j3EncoderChange = 0;
+    int j3EncoderTarget = 99999;
+    int j3currentEncoder = 99999;
+    boolean j3MoveModeLast = true;
+    boolean j3MoveMode = true;
     double speed = 1.0;
 
     boolean dPadUpState = false;
@@ -68,6 +71,11 @@ public class DRTeleOp extends LinearOpMode
         curiosity.knock.setPosition(knockInit);
         curiosity.claw.setPosition(clawInit);
 
+        curiosity.joint3.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        curiosity.joint3.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        j3EncoderTarget = curiosity.joint3.getCurrentPosition();
+        j3currentEncoder = curiosity.joint3.getCurrentPosition();
+
         waitForStart();
 
         while (opModeIsActive())
@@ -76,7 +84,7 @@ public class DRTeleOp extends LinearOpMode
             slapperPosition = Range.clip(slapperPosition, 0.05, 0.95);
             flapperPosition = Range.clip(flapperPosition, 0.05, 0.95);
             armServoAdjustment = Range.clip(armServoAdjustment, 0.2, 0.7);
-            knockPos = Range.clip(knockPos, 0.01, 0.928);
+            knockPos = Range.clip(knockPos, 0.01, 0.702);
             wristPos = Range.clip(wristPos, 0.01, 0.99);
 
 
@@ -138,22 +146,86 @@ public class DRTeleOp extends LinearOpMode
             }
 
             //Setting Joint 3
-
-            curiosity.joint3.setPower(-(gamepad2.left_stick_y * joint3MaxSpeed));
-            if((curiosity.joint3.getCurrentPosition() < last) && (last != 99999) && (last < joint1Midpoint))
+            //Getting current encoder value for j3
+            j3currentEncoder = curiosity.joint3.getCurrentPosition();
+            //Setting Power Ranges
+            if((j3currentEncoder >= 0) && (j3currentEncoder <= 200))
             {
-                telemetry.addData("Encoder Adjust", "Activated");
-                curiosity.joint3.setPower(-(gamepad2.left_stick_y * 0.1));
+                j3High = .85;
+                j3Low = .65;
+                j3Hold = .6;
             }
-
-
-            if((curiosity.joint3.getCurrentPosition() > last) && (last != 99999) && (last > joint1Midpoint))
+            else if((j3currentEncoder >= 200) && (j3currentEncoder <= 400))
             {
-                telemetry.addData("Encoder Adjust", "Activated");
-                curiosity.joint3.setPower(-(gamepad2.left_stick_y * 0.1));
+                j3High = .40;
+                j3Low = .20;
+                j3Hold = .15;
             }
+            else if((j3currentEncoder >= 400) && (j3currentEncoder <= 600))
+            {
+                j3High = -.85;
+                j3Low = -.65;
+                j3Hold = -.6;
+            }
+            else
+            {
+                j3High = 0.0;
+                j3Low = 0.0;
+                j3Hold = 0.0;
+            }
+            //Or j3Hold = fancy formula for value
 
-            last = curiosity.joint3.getCurrentPosition();
+
+            if(Math.abs(gamepad2.left_stick_y) < 0.1)
+            {
+                //Hold Position
+                j3MoveMode = false;
+                if(!j3MoveMode && j3MoveModeLast) //Transition from joystick movement to holding
+                {
+                    j3EncoderTarget = j3currentEncoder;
+                    j3AdjHold = j3Hold;
+                }
+
+                j3EncoderChange = j3currentEncoder - j3EncoderTarget; //Finding change in encoder values
+                if(j3EncoderChange >= 10)
+                {
+                    if(j3AdjHold > 0)
+                    {
+                        j3AdjHold += .01;
+                    }
+                    else
+                    {
+                        j3AdjHold -= .01;
+                    }
+                }
+                else if(j3EncoderChange <= -10)
+                {
+                    if(j3AdjHold > 0)
+                    {
+                        j3AdjHold -= .01;
+                    }
+                    else
+                    {
+                        j3AdjHold += .01;
+                    }
+                }
+                else
+                {
+                    j3AdjHold = j3Hold;
+                }
+                joint3Power = j3AdjHold;
+            }
+            else
+            {
+                //Not-Hold Position
+                j3MoveMode = true;
+                joint3Power = ((gamepad2.left_stick_y * 0.2) + j3Low);
+            }
+            curiosity.joint3.setPower(joint3Power);
+            //Resetting Encoders for the next loop
+            j3MoveModeLast = j3MoveMode;
+
+
 
             //Setting Joint 2
             if(gamepad2.left_bumper)
