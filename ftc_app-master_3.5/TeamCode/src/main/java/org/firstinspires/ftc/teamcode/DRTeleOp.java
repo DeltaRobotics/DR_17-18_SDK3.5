@@ -16,19 +16,15 @@ public class DRTeleOp extends LinearOpMode
     RobotHardware curiosity = new RobotHardware();
 
 
-    double slapperInit = 0.8;
-    double slapperPosition = slapperInit;
+    /*double slapperInit = 0.8;
     double flapperInit = 1.0;
-    double flapperPosition = flapperInit;
     double wristInit = 0.375;
     double knockInit = 0.702;
     double clawInit = 0.93;
+    */
     double wristMaxChange = 0.005;
     double knockMaxChange = 0.005;
     double clawMaxChange = 0.005;
-    double wristPos = wristInit;
-    double knockPos = knockInit;
-    double clawPos = clawInit;
     double zSclae = 0.75;
 
     double armServoAdjustment = 0.2;
@@ -58,26 +54,18 @@ public class DRTeleOp extends LinearOpMode
 
     public void runOpMode()
     {
+        // Sets initial servo positions, sets motor's mode to brake, and stops all the motors
         curiosity.init(hardwareMap);
-
-        //Sets the end behavior of the motors - brake implies the robot will physically attempt to stop instead of just coasting
-        curiosity.motorRF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        curiosity.motorLF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        curiosity.motorLB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        curiosity.motorRB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        curiosity.joint1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        curiosity.joint2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        curiosity.joint3.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-        curiosity.slapper.setPosition(slapperInit);
-        curiosity.flapper.setPosition(flapperInit);
-        curiosity.wrist.setPosition(wristInit);
-        curiosity.knock.setPosition(knockInit);
-        curiosity.claw.setPosition(clawInit);
 
         curiosity.joint3.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         curiosity.joint3.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         j3currentEncoder = curiosity.joint3.getCurrentPosition();
+
+        double flapperPosition = curiosity.flapper.getPosition();
+        double slapperPosition = curiosity.slapper.getPosition();
+        double wristPos = curiosity.wrist.getPosition();
+        double knockPos = curiosity.knock.getPosition();
+        double clawPos = curiosity.claw.getPosition();
 
         waitForStart();
 
@@ -85,7 +73,7 @@ public class DRTeleOp extends LinearOpMode
         {
             //Clipping the ranges of servos so they don't go out of bounds
             slapperPosition = Range.clip(slapperPosition, 0.05, 0.95);
-            flapperPosition = Range.clip(flapperPosition, 0.05, 0.95);
+            flapperPosition = Range.clip(flapperPosition, 0.30, 0.70);
             armServoAdjustment = Range.clip(armServoAdjustment, 0.2, 0.7);
             knockPos = Range.clip(knockPos, 0.01, 0.702);
             wristPos = Range.clip(wristPos, 0.01, 0.99);

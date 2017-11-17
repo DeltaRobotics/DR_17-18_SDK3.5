@@ -14,13 +14,13 @@ public class ServoMove extends LinearOpMode
         sleep(2000);
         servos[1].setPosition(0.3);
         sleep(1000);
-        servos[0].setPosition(0.68);
+        servos[0].setPosition(0.30);
         sleep(1000);
         if(color == 0 && alliance.equals("blue"))
         {
-            servos[1].setPosition(0.10);
+            servos[1].setPosition(0.1);
             sleep(1000);
-            servos[1].setPosition(0.15);
+            servos[1].setPosition(0.20);
         }
         if(color == 0 && alliance.equals("red"))
         {
@@ -38,16 +38,16 @@ public class ServoMove extends LinearOpMode
         {
             servos[1].setPosition(0.10);
             sleep(1000);
-            servos[1].setPosition(0.15);
+            servos[1].setPosition(0.20);
         }
 
         if(color == 2)
         {
-            servos[1].setPosition(0.15);
+            servos[1].setPosition(0.20);
         }
 
         sleep(1000);
-        servos[0].setPosition(1.0);
+        servos[0].setPosition(0.7);
         sleep(1000);
         servos[1].setPosition(0.8);
         sleep(1000);

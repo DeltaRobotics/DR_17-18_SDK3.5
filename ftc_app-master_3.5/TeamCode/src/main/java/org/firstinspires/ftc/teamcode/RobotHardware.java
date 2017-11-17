@@ -55,6 +55,19 @@ public class RobotHardware
         flapper = ahwMap.servo.get("flapper");
         slapper = ahwMap.servo.get("slapper");
 
+        slapper.setPosition(0.8);
+        flapper.setPosition(0.7);
+        wrist.setPosition(0.375);
+        knock.setPosition(0.702);
+        claw.setPosition(0.94);
+
+        motorRF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorLF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorLB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorRB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        joint1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        joint2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        joint3.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         motorRF.setPower(0);
         motorLF.setPower(0);

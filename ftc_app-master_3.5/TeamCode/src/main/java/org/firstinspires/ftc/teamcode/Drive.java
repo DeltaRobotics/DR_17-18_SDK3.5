@@ -143,10 +143,10 @@ public class Drive extends LinearOpMode
             case BACKWARD_LEFT:
             {
                 double encoderReadingRB = motors[1].getCurrentPosition();
-                double target = (encoderDelta + encoderReadingRB);
+                double target = (encoderDelta - encoderReadingRB);
                 backwardLeft(motorPower, motors);
 
-                while (motors[1].getCurrentPosition() <= target)
+                while (motors[1].getCurrentPosition() >= target)
                 {
 
                 }
@@ -158,10 +158,10 @@ public class Drive extends LinearOpMode
             case BACKWARD_RIGHT:
             {
                 double encoderReadingLB = motors[2].getCurrentPosition();
-                double target = (encoderReadingLB - encoderDelta);
+                double target = (encoderReadingLB + encoderDelta);
                 backwardRight(motorPower, motors);
 
-                while (motors[2].getCurrentPosition() >= target)
+                while (motors[2].getCurrentPosition() <= target)
                 {
 
                 }
@@ -173,10 +173,10 @@ public class Drive extends LinearOpMode
             case PIVOT_LEFT:
             {
                 double encoderReadingLB = motors[2].getCurrentPosition();
-                double target = (encoderReadingLB - encoderDelta);
+                double target = (encoderReadingLB + encoderDelta);
                 pivotLeft(motorPower, motors);
 
-                while (motors[2].getCurrentPosition() >= target)
+                while (motors[2].getCurrentPosition() <= target)
                 {
 
                 }
@@ -188,10 +188,10 @@ public class Drive extends LinearOpMode
             case PIVOT_RIGHT:
             {
                 double encoderReadingLB = motors[2].getCurrentPosition();
-                double target = (encoderDelta + encoderReadingLB);
+                double target = (encoderDelta - encoderReadingLB);
                 pivotRight(motorPower, motors);
 
-                while (motors[2].getCurrentPosition() <= target)
+                while (motors[2].getCurrentPosition() >= target)
                 {
 
                 }

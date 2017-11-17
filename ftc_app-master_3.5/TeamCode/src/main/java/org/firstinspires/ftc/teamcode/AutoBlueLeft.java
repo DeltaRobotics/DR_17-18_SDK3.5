@@ -22,9 +22,6 @@ public class AutoBlueLeft extends LinearOpModeCamera
     ServoMove servoMove = new ServoMove();
 
     String color = "undecided";
-    double wristInit = 0.375;
-    double knockInit = 0.928;
-    double clawInit = 0.93;
 
     int jewelColorInt;
 
@@ -48,12 +45,6 @@ public class AutoBlueLeft extends LinearOpModeCamera
         Servo[] servos = new Servo[2];
         servos[0] = robot.flapper;
         servos[1] = robot.slapper;
-
-        robot.slapper.setPosition(0.8);
-        robot.flapper.setPosition(1.0);
-        robot.wrist.setPosition(wristInit);
-        robot.knock.setPosition(knockInit);
-        robot.claw.setPosition(clawInit);
 
 
         if (isCameraAvailable())

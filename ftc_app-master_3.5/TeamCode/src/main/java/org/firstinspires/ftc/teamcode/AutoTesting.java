@@ -323,22 +323,22 @@ public class AutoTesting extends LinearOpMode
         sleep(1000);
         drive.encoderDrive(2000, driveStyle.BACKWARD, 0.5, 5000, motors);
         sleep(1000);
-        drive.encoderDrive(2000, driveStyle.STRAFE_LEFT, 0.5, 5000, motors);
+        drive.encoderDrive(2000, driveStyle.STRAFE_LEFT, 0.75, 5000, motors);
         sleep(1000);
-        drive.encoderDrive(2000, driveStyle.STRAFE_RIGHT, 0.5, 5000, motors);
+        drive.encoderDrive(2000, driveStyle.STRAFE_RIGHT, 075, 5000, motors);
         sleep(1000);
         drive.encoderDrive(2000, driveStyle.FORWARD_RIGHT, 0.5, 5000, motors);
         sleep(1000);
-        drive.encoderDrive(500, driveStyle.BACKWARD_LEFT, 0.5, 5000, motors);
-        sleep(3000);
-        /*drive.encoderDrive(500, driveStyle.FORWARD_LEFT, 0.5, 5000, motors);
-        sleep(3000);
-        drive.encoderDrive(500, driveStyle.BACKWARD_RIGHT, 0.5, 5000, motors);
-        sleep(3000);
-        drive.encoderDrive(500, driveStyle.PIVOT_LEFT, 0.5, 5000, motors);
-        sleep(3000);
-        drive.encoderDrive(500, driveStyle.PIVOT_RIGHT, 0.5, 5000, motors);
-        */
+        drive.encoderDrive(2000, driveStyle.BACKWARD_LEFT, 0.5, 5000, motors);
+        sleep(1000);
+        drive.encoderDrive(2000, driveStyle.FORWARD_LEFT, 0.5, 5000, motors);
+        sleep(1000);
+        drive.encoderDrive(2000, driveStyle.BACKWARD_RIGHT, 0.5, 5000, motors);
+        sleep(1000);
+        drive.encoderDrive(2000, driveStyle.PIVOT_LEFT, 0.5, 5000, motors);
+        sleep(1000);
+        drive.encoderDrive(2000, driveStyle.PIVOT_RIGHT, 0.5, 5000, motors);
+
         //sleep(3000);
 
 
