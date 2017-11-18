@@ -75,8 +75,9 @@ public class DRTeleOp extends LinearOpMode
             slapperPosition = Range.clip(slapperPosition, 0.05, 0.95);
             flapperPosition = Range.clip(flapperPosition, 0.30, 0.70);
             armServoAdjustment = Range.clip(armServoAdjustment, 0.2, 0.7);
-            knockPos = Range.clip(knockPos, 0.01, 0.702);
+            knockPos = Range.clip(knockPos, 0.01, 0.75);
             wristPos = Range.clip(wristPos, 0.01, 0.99);
+            clawPos = Range.clip(clawPos, 0.01, 0.99);
 
 
             if(gamepad1.a)
@@ -301,9 +302,9 @@ public class DRTeleOp extends LinearOpMode
             telemetry.addData("Joint 3 Target Encoder", j3EncoderTarget);
             telemetry.addData("Joint 3 Adjust Hold", j3AdjHold);
             telemetry.addData("Count", count);
-            //telemetry.addData("Wrist Pos", curiosity.wrist.getPosition());
-            //telemetry.addData("Knock Pos", curiosity.knock.getPosition());
-            //telemetry.addData("Claw Pos", curiosity.claw.getPosition());
+            telemetry.addData("Wrist Pos", curiosity.wrist.getPosition());
+            telemetry.addData("Knock Pos", curiosity.knock.getPosition());
+            telemetry.addData("Claw Pos", curiosity.claw.getPosition());
 
             telemetry.update();
 

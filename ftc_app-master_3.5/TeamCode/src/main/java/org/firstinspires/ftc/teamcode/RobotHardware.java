@@ -58,7 +58,7 @@ public class RobotHardware
         slapper.setPosition(0.8);
         flapper.setPosition(0.7);
         wrist.setPosition(0.375);
-        knock.setPosition(0.702);
+        knock.setPosition(0.75);
         claw.setPosition(0.94);
 
         motorRF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);

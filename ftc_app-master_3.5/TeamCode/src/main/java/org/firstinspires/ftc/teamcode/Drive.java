@@ -39,7 +39,7 @@ public class Drive extends LinearOpMode
     }
 
 
-    public boolean encoderDrive(int encoderDelta, driveStyle drive, double motorPower, double timeout, DcMotor[] motors)
+    public boolean encoderDrive(int encoderDelta, driveStyle drive, double motorPower, DcMotor[] motors)
     {
         //ElapsedTime runtime = new ElapsedTime();
 
@@ -98,11 +98,11 @@ public class Drive extends LinearOpMode
 
             case STRAFE_RIGHT:
             {
-                double encoderReadingLB = motors[2].getCurrentPosition();
+                double encoderReadingLB = motors[1].getCurrentPosition();
                 double target = (encoderReadingLB + encoderDelta);
                 strafeRight(motorPower, motors);
 
-                while (motors[2].getCurrentPosition() <= target)
+                while (motors[1].getCurrentPosition() <= target)
                 {
 
                 }

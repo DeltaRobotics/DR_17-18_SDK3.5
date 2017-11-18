@@ -22,9 +22,6 @@ public class AutoBlueRight extends LinearOpModeCamera {
     ServoMove servoMove = new ServoMove();
 
     String color = "undecided";
-    double wristInit = 0.375;
-    double knockInit = 0.928;
-    double clawInit = 0.93;
 
     int jewelColorInt;
 
@@ -47,12 +44,6 @@ public class AutoBlueRight extends LinearOpModeCamera {
         Servo[] servos = new Servo[2];
         servos[0] = robot.flapper;
         servos[1] = robot.slapper;
-
-        robot.slapper.setPosition(0.8);
-        robot.flapper.setPosition(1.0);
-        robot.wrist.setPosition(wristInit);
-        robot.knock.setPosition(knockInit);
-        robot.claw.setPosition(clawInit);
 
 
         if (isCameraAvailable()) {
@@ -153,9 +144,12 @@ public class AutoBlueRight extends LinearOpModeCamera {
             }
             telemetry.update();
 
-            drive.timeDrive(750, 0.4, driveStyle.STRAFE_LEFT, motors);
+            //drive.timeDrive(750, 0.4, driveStyle.STRAFE_LEFT, motors);
             sleep(1000);
-            drive.timeDrive(800, 0.5, driveStyle.STRAFE_RIGHT, motors);
+            drive.encoderDrive(600, driveStyle.STRAFE_LEFT, 0.45, motors);
+            sleep(1000);
+            drive.encoderDrive(280, driveStyle.STRAFE_RIGHT, 0.45, motors);
+            //drive.timeDrive(800, 0.5, driveStyle.STRAFE_RIGHT, motors);
             servoMove.knockOffJewel(servos, jewelColorInt, "blue");
             sleep(1000);
         /*
@@ -180,9 +174,11 @@ public class AutoBlueRight extends LinearOpModeCamera {
         robot.slapper.setPosition(1.0);
         sleep(1000);
         */
-            drive.timeDrive(85, 0.4, driveStyle.STRAFE_LEFT, motors);
+            //drive.timeDrive(85, 0.4, driveStyle.STRAFE_LEFT, motors);
+            drive.encoderDrive(50, driveStyle.STRAFE_LEFT, 0.45, motors);
             sleep(1000);
-            drive.timeDrive(1000, 0.5, driveStyle.FORWARD, motors);
+            drive.encoderDrive(2000, driveStyle.FORWARD, 0.5, motors);
+            //drive.timeDrive(1000, 0.5, driveStyle.FORWARD, motors);
         }
     }
 }
