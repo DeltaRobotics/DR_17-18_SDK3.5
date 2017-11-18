@@ -38,6 +38,10 @@ public class DRTeleOp extends LinearOpMode
     double j3Hold = 0.0;
     double j3AdjHold = 0.0;
     boolean j3HoldON = false;
+    int j3EncoderLast = 0;
+    double j3ChangeAmount = 0.01;
+
+    int armMotion = 0;
 
     int count = 0;
 
@@ -139,24 +143,26 @@ public class DRTeleOp extends LinearOpMode
 
             //Setting Joint 3
             //Getting current encoder value for j3
+            j3EncoderLast = j3currentEncoder;
             j3currentEncoder = curiosity.joint3.getCurrentPosition();
+            armMotion = j3currentEncoder - j3EncoderLast;
             //Setting Power Ranges
-            if((j3currentEncoder >= -1000) && (j3currentEncoder <= 200))
+            if((j3currentEncoder >= -1000) && (j3currentEncoder <= 120))
             {
                 j3High = .75;
-                j3Low = .55;
+                j3Low = .35;
                 j3Hold = .02;
             }
-            else if((j3currentEncoder >= 200) && (j3currentEncoder <= 600))
+            else if((j3currentEncoder >= 120) && (j3currentEncoder <= 680))
             {
                 j3High = .40;
                 j3Low = .20;
                 j3Hold = .02;
             }
-            else if((j3currentEncoder >= 600) && (j3currentEncoder <= 712))
+            else if((j3currentEncoder >= 680) && (j3currentEncoder <= 712))
             {
                 j3High = -.75;
-                j3Low = -.55;
+                j3Low = -.35;
                 j3Hold = -.02;
             }
             else
@@ -170,52 +176,84 @@ public class DRTeleOp extends LinearOpMode
 
             if(Math.abs(gamepad2.left_stick_y) < 0.1)
             {
-                if (j3currentEncoder > 80)
+
+                //Hold Position
+                j3MoveMode = false;
+                if (!j3MoveMode && j3MoveModeLast) //Transition from joystick movement to holding
                 {
+                    count++;
+                    j3EncoderTarget = j3currentEncoder;
+                    j3AdjHold = j3Hold;
+                    joint3Power = j3AdjHold;
+                }
 
-                    //Hold Position
-                    j3MoveMode = false;
-                    if (!j3MoveMode && j3MoveModeLast) //Transition from joystick movement to holding
-                    {
-                        count++;
-                        j3EncoderTarget = j3currentEncoder;
-                        j3AdjHold = j3Hold;
-                    }
+                j3EncoderChange = j3EncoderTarget - j3currentEncoder; //Finding change in encoder values
 
-                    j3EncoderChange = j3currentEncoder - j3EncoderTarget; //Finding change in encoder values
-                    if (j3EncoderChange >= 10)
+                if (j3EncoderChange >= 10)
+                {
+                    if (j3EncoderTarget > 40)
                     {
-                        if (j3currentEncoder < 400)
+                    if (j3currentEncoder > 400)
+                    {
+                        if (j3EncoderChange > 0)
                         {
-                            j3AdjHold -= .01;
-                        } else
-                        {
-                            j3AdjHold += .01;
+                            if (armMotion < 0)
+                            {
+
+                            }
+                            else
+                                {
+                                j3AdjHold -= j3ChangeAmount;
+                            }
                         }
-                    }
-                    else if (j3EncoderChange <= -10)
-                    {
-                        if (j3currentEncoder > 400)
-                        {
-                            j3AdjHold += .01;
-                        } else
-                        {
-                            j3AdjHold -= .01;
+                        else
+                            {
+                            if (armMotion > 0)
+                            {
+
+                            }
+                            else
+                                {
+                                j3AdjHold += j3ChangeAmount;
+                            }
                         }
                     }
                     else
-                    {
-                        //j3AdjHold = j3Hold;
+                        {
+                        if (j3EncoderChange > 0)
+                        {
+                            if (armMotion > 0)
+                            {
+
+                            }
+                            else
+                                {
+                                j3AdjHold += j3ChangeAmount;
+                            }
+                        }
+                        else
+                            {
+                            if (armMotion < 0)
+                            {
+
+                            }
+                            else
+                                {
+                                j3AdjHold -= j3ChangeAmount;
+                            }
+                        }
                     }
+                }
+                    else
+                    {
+                        j3Hold = 0.0;
+                        telemetry.addData("Under 80 Encoder Counts", "Not Holding Power");
+                        joint3Power = 0.0;
+                    }
+                    Range.clip(j3AdjHold,-1, 1);
                     joint3Power = j3AdjHold;
-                    //joint3Power = 0.0;
-                }
-                else
-                {
-                    j3Hold = 0.0;
-                    telemetry.addData("Under 80 Encoder Counts", "Not Holding Power");
-                    joint3Power = 0.0;
-                }
+            }
+
             }
             else
             {
@@ -301,6 +339,8 @@ public class DRTeleOp extends LinearOpMode
             telemetry.addData("Joint 3 Actual Power", curiosity.joint3.getPower());
             telemetry.addData("Joint 3 Target Encoder", j3EncoderTarget);
             telemetry.addData("Joint 3 Adjust Hold", j3AdjHold);
+            telemetry.addData("j3EncoderChange", j3EncoderChange);
+            telemetry.addData("j3DirectionChange", armMotion);
             telemetry.addData("Count", count);
             telemetry.addData("Wrist Pos", curiosity.wrist.getPosition());
             telemetry.addData("Knock Pos", curiosity.knock.getPosition());
