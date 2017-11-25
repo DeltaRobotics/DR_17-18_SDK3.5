@@ -160,7 +160,7 @@ public class AutoBlueLeft extends LinearOpModeCamera
             drive.encoderDrive(600, driveStyle.STRAFE_LEFT, 0.45, motors);
             sleep(1000);
             //drive.timeDrive(800, 0.5, driveStyle.STRAFE_RIGHT, motors);
-            drive.encoderDrive(280, driveStyle.STRAFE_RIGHT, 0.45, motors);
+            drive.encoderDrive(450, driveStyle.STRAFE_RIGHT, 0.45, motors);
         /*sleep(2000);
         robot.slapper.setPosition(0.3);
         sleep(1000);
@@ -193,6 +193,7 @@ public class AutoBlueLeft extends LinearOpModeCamera
             sleep(1000);
             //drive.timeDrive(750, 0.5, driveStyle.STRAFE_RIGHT, motors);
             drive.encoderDrive(675, driveStyle.STRAFE_RIGHT, 0.45, motors);
+            sleep(1000);
         }
     }
 }

@@ -24,10 +24,6 @@ public class AutoRedRight extends LinearOpModeCamera
 
     String color = "undecided";
 
-    double wristInit = 0.375;
-    double knockInit = 0.928;
-    double clawInit = 0.93;
-
     int jewelColorInt;
 
     @Override
@@ -51,11 +47,6 @@ public class AutoRedRight extends LinearOpModeCamera
         servos[0] = robot.flapper;
         servos[1] = robot.slapper;
 
-        robot.slapper.setPosition(0.8);
-        robot.flapper.setPosition(1.0);
-        robot.wrist.setPosition(wristInit);
-        robot.knock.setPosition(knockInit);
-        robot.claw.setPosition(clawInit);
 
         if (isCameraAvailable()) {
             //Resolution of image, currently set to 1 (higher number means less resolution but faster speed)
@@ -154,9 +145,11 @@ public class AutoRedRight extends LinearOpModeCamera
             }
             telemetry.update();
 
-        drive.timeDrive(750, 0.4, driveStyle.STRAFE_LEFT, motors);
+        //drive.timeDrive(750, 0.4, driveStyle.STRAFE_LEFT, motors);
+            drive.encoderDrive(600, driveStyle.STRAFE_LEFT, 0.45, motors);
             sleep(1000);
-            drive.timeDrive(800, 0.5, driveStyle.STRAFE_RIGHT, motors);
+            //drive.timeDrive(800, 0.5, driveStyle.STRAFE_RIGHT, motors);
+            drive.encoderDrive(280, driveStyle.STRAFE_RIGHT, 0.45, motors);
         /*
         robot.slapper.setPosition(0.5);
         sleep(1000);
@@ -180,11 +173,15 @@ public class AutoRedRight extends LinearOpModeCamera
         sleep(1000);
         */
         servoMove.knockOffJewel(servos, jewelColorInt, "red");
-            drive.timeDrive(85, 0.4, driveStyle.STRAFE_LEFT, motors);
+            //drive.timeDrive(85, 0.4, driveStyle.STRAFE_LEFT, motors);
+            drive.encoderDrive(50, driveStyle.STRAFE_LEFT, 0.45, motors);
             sleep(1000);
-        drive.timeDrive(800, 0.5, driveStyle.BACKWARD, motors);
+        //drive.timeDrive(800, 0.5, driveStyle.BACKWARD, motors);
+            drive.encoderDrive(1300, driveStyle.BACKWARD, 0.5, motors);
         sleep(1000);
-        drive.timeDrive(750, 0.5, driveStyle.STRAFE_RIGHT, motors);
+        //drive.timeDrive(750, 0.5, driveStyle.STRAFE_RIGHT, motors);
+            drive.encoderDrive(775, driveStyle.STRAFE_RIGHT, 0.5, motors);
+            sleep(1000);
     }
 }
 }
