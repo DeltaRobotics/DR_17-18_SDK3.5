@@ -8,6 +8,12 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
+
 import for_camera_opmodes.LinearOpModeCamera;
 
 /**
@@ -22,6 +28,10 @@ public class AutoBlueRight extends LinearOpModeCamera {
     ServoMove servoMove = new ServoMove();
 
     String color = "undecided";
+    VuforiaLocalizer vuforia;
+    String keyPosition;
+    boolean vuforiaOn = true;
+    boolean relicAnalysis = true;
 
     int jewelColorInt;
 
@@ -127,22 +137,53 @@ public class AutoBlueRight extends LinearOpModeCamera {
                 telemetry.update();
             }
             stopCamera();
-            if (jewelColorInt == 0)
+
+            if(vuforiaOn)
             {
-                telemetry.addData("Jewel Color", "0 : Red");
+                //int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+                VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
+
+                parameters.vuforiaLicenseKey = "ARab//j/////AAAAGa3dGFLc9ECfpTtxg0azy4sjU1xxnDSHmo2gKPM2BecEH5y5QNOI7fiEsflqB1" +
+                        "9dYDi655Mj6avzS4Vru7PegjjQCH1YVLwUZ4iX80Q02P0S+cA9Vw71hoZoI8nMdLgvgplYFv/M3ofqFezhHE7Afc9fq/ixLzl4P5d" +
+                        "z61T+SR43HzNb7At7XC3z9cSLqHD2ba+WWbKUPf6bcivgqimS8ekVeZHubkwfIqFVxXGZEfSScTfGa0/3l5/TaBpaUoUkz+JhAULt" +
+                        "pt2PwYdpCfhdCP3eo+2a8DJjP3eSXlCkuEoAUtUCUzCXWxS+pHDHCyUtEAxf8LaKvSh3aYoO7dNzmh4TspC3mFVrLbyZMzii8GgC";
+
+                parameters.cameraDirection = VuforiaLocalizer.CameraDirection.FRONT;
+                this.vuforia = ClassFactory.createVuforiaLocalizer(parameters);
+
+                VuforiaTrackables relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
+                VuforiaTrackable relicTemplate = relicTrackables.get(0);
+
+                relicTrackables.activate();
+
+                while (opModeIsActive() && relicAnalysis)
+                {
+                    RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
+                    if (vuMark != RelicRecoveryVuMark.UNKNOWN)
+                    {
+                        telemetry.addData("VuMark", "%s visible", vuMark);
+                        relicAnalysis = false;
+                        if(vuMark == RelicRecoveryVuMark.CENTER)
+                        {
+                            keyPosition = "CENTER";
+                        }
+                        if(vuMark == RelicRecoveryVuMark.LEFT)
+                        {
+                            keyPosition = "LEFT";
+                        }
+                        if(vuMark == RelicRecoveryVuMark.RIGHT)
+                        {
+                            keyPosition = "RIGHT";
+                        }
+                    }
+                    else
+                    {
+                        telemetry.addData("VuMark", "UNKNOWN visible");
+                        keyPosition = "UNKNOWN";
+                    }
+                    telemetry.update();
+                }
             }
-            else if (jewelColorInt == 1)
-            {
-                telemetry.addData("Jewel Color", "1 : Blue");
-            }
-            else if (jewelColorInt == 2)
-            {
-                telemetry.addData("Jewel Color", "Green? What Did You Do? Green Shouldn't Even Be An Option!");
-            } else
-            {
-                telemetry.addData("Jewel Color", "Something's Wrong");
-            }
-            telemetry.update();
 
             //drive.timeDrive(750, 0.4, driveStyle.STRAFE_LEFT, motors);
             sleep(1000);

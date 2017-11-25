@@ -31,6 +31,7 @@ public class JustCameraJewel extends LinearOpModeCamera
 {
     VuforiaLocalizer vuforia;
     int jewelColorInt;
+    String keyPosition;
 
     boolean vuforiaOn = true;
     boolean relicAnalysis = true;
@@ -154,16 +155,30 @@ public class JustCameraJewel extends LinearOpModeCamera
                     {
                         telemetry.addData("VuMark", "%s visible", vuMark);
                         relicAnalysis = false;
+                        if(vuMark == RelicRecoveryVuMark.CENTER)
+                        {
+                            keyPosition = "CENTER";
+                        }
+                        if(vuMark == RelicRecoveryVuMark.LEFT)
+                        {
+                            keyPosition = "LEFT";
+                        }
+                        if(vuMark == RelicRecoveryVuMark.RIGHT)
+                        {
+                            keyPosition = "RIGHT";
+                        }
                     }
                     else
                     {
-                        telemetry.addData("VuMark", "not visible");
+                        telemetry.addData("VuMark", "UNKNOWN visible");
+                        keyPosition = "UNKNOWN";
                     }
                     telemetry.update();
                 }
             }
 
         }
+
 
     }
 }
