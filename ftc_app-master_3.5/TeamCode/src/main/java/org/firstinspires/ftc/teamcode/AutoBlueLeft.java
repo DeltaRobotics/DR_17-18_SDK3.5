@@ -198,9 +198,9 @@ public class AutoBlueLeft extends LinearOpModeCamera
             }
             //drive.timeDrive(750, 0.4, driveStyle.STRAFE_LEFT, motors);
             drive.encoderDrive(600, driveStyle.STRAFE_LEFT, 0.45, motors);
-            sleep(1000);
+            sleep(250);
             //drive.timeDrive(800, 0.5, driveStyle.STRAFE_RIGHT, motors);
-            drive.encoderDrive(450, driveStyle.STRAFE_RIGHT, 0.45, motors);
+            drive.encoderDrive(400, driveStyle.STRAFE_RIGHT, 0.45, motors);
         /*sleep(2000);
         robot.slapper.setPosition(0.3);
         sleep(1000);
@@ -224,16 +224,90 @@ public class AutoBlueLeft extends LinearOpModeCamera
         sleep(1000);
         */
             servoMove.knockOffJewel(servos, jewelColorInt, "blue");
-            sleep(1000);
+            sleep(250);
             //drive.timeDrive(85, 0.4, driveStyle.STRAFE_LEFT, motors);
             drive.encoderDrive(50, driveStyle.STRAFE_LEFT, 0.45, motors);
-            sleep(1000);
+            sleep(250);
             //drive.timeDrive(800, 0.5, driveStyle.FORWARD, motors);
-            drive.encoderDrive(1300, driveStyle.FORWARD, 0.5, motors);
-            sleep(1000);
+            drive.encoderDrive(1150, driveStyle.FORWARD, 0.5, motors);
+            sleep(250);
             //drive.timeDrive(750, 0.5, driveStyle.STRAFE_RIGHT, motors);
-            drive.encoderDrive(675, driveStyle.STRAFE_RIGHT, 0.45, motors);
-            sleep(1000);
+            switch(keyPosition)
+            {
+                case "LEFT":
+                {
+                    drive.encoderDrive(600, driveStyle.STRAFE_RIGHT, 0.45, motors);
+                    sleep(500);
+                    robot.knock.setPosition(0.15);
+                    sleep(1000);
+                    robot.claw.setPosition(0.85);
+                    sleep(1000);
+                    robot.knock.setPosition(0.395);
+                    sleep(500);
+                    robot.claw.setPosition(0.94);
+                    sleep(500);
+                    robot.knock.setPosition(0.75);
+                    sleep(500);
+                    break;
+                }
+
+                case "CENTER":
+                {
+                    drive.encoderDrive(1000, driveStyle.STRAFE_RIGHT, 0.45, motors);
+                    sleep(500);
+                    robot.knock.setPosition(0.15);
+                    sleep(1000);
+                    robot.claw.setPosition(0.85);
+                    sleep(1000);
+                    robot.knock.setPosition(0.395);
+                    sleep(500);
+                    robot.claw.setPosition(0.94);
+                    sleep(500);
+                    robot.knock.setPosition(0.75);
+                    sleep(500);
+
+                    break;
+                }
+
+                case "RIGHT":
+                {
+                    drive.encoderDrive(1400, driveStyle.STRAFE_RIGHT, 0.45, motors);
+                    sleep(500);
+                    robot.knock.setPosition(0.15);
+                    sleep(1000);
+                    robot.claw.setPosition(0.85);
+                    sleep(1000);
+                    robot.knock.setPosition(0.395);
+                    sleep(500);
+                    robot.claw.setPosition(0.94);
+                    sleep(500);
+                    robot.knock.setPosition(0.75);
+                    sleep(500);
+
+                    break;
+                }
+
+                case "UNKNOWN":
+                {
+                    drive.encoderDrive(1000, driveStyle.STRAFE_RIGHT, 0.45, motors);
+                    sleep(500);
+                    robot.knock.setPosition(0.15);
+                    sleep(1000);
+                    robot.claw.setPosition(0.85);
+                    sleep(1000);
+                    robot.knock.setPosition(0.395);
+                    sleep(500);
+                    robot.claw.setPosition(0.94);
+                    sleep(500);
+                    robot.knock.setPosition(0.75);
+                    sleep(500);
+
+                    break;
+                }
+            }
+
+
+
         }
     }
 }
