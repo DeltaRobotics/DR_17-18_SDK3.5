@@ -229,7 +229,7 @@ public class AutoBlueLeft extends LinearOpModeCamera
             drive.encoderDrive(50, driveStyle.STRAFE_LEFT, 0.45, motors);
             sleep(250);
             //drive.timeDrive(800, 0.5, driveStyle.FORWARD, motors);
-            drive.encoderDrive(1150, driveStyle.FORWARD, 0.5, motors);
+            drive.encoderDrive(1250, driveStyle.FORWARD, 0.5, motors);
             sleep(250);
             //drive.timeDrive(750, 0.5, driveStyle.STRAFE_RIGHT, motors);
             switch(keyPosition)

@@ -23,7 +23,7 @@ public class DRTeleOp extends LinearOpMode
     double clawInit = 0.93;
     */
     double wristMaxChange = 0.005;
-    double knockMaxChange = 0.005;
+    double knockMaxChange = 0.0025;
     double clawMaxChange = 0.005;
     double zSclae = 0.75;
 
@@ -32,6 +32,7 @@ public class DRTeleOp extends LinearOpMode
     double joint2MaxSpeed = 0.50;
     double joint3MaxSpeed = 1.0;
 
+    boolean holdPowerJ3 = false;
     double j3Low = 0;
     double j3High = 0;
     double joint3Power = 0.0;
@@ -60,6 +61,9 @@ public class DRTeleOp extends LinearOpMode
     boolean dPadUpState = false;
     boolean dPadDownState = false;
 
+    double clawOpen = 0.85;
+    double knockSwitch;
+
 
     public void runOpMode()
     {
@@ -86,7 +90,7 @@ public class DRTeleOp extends LinearOpMode
             armServoAdjustment = Range.clip(armServoAdjustment, 0.2, 0.7);
             knockPos = Range.clip(knockPos, 0.01, 0.75);
             wristPos = Range.clip(wristPos, 0.01, 0.99);
-            clawPos = Range.clip(clawPos, 0.01, 0.99);
+            clawPos = Range.clip(clawPos, 0.79, 0.99);
 
 
             if(gamepad1.a)
@@ -148,7 +152,7 @@ public class DRTeleOp extends LinearOpMode
 
             //Setting Joint 3
             //Getting current encoder value for j3
-            j3EncoderLast = j3currentEncoder;
+            /*j3EncoderLast = j3currentEncoder;
             j3currentEncoder = curiosity.joint3.getCurrentPosition();
             armMotion = j3currentEncoder - j3EncoderLast;
             if(armMotion == 0)
@@ -188,7 +192,7 @@ public class DRTeleOp extends LinearOpMode
             //Or j3Hold = fancy formula for value
 
 
-            if(Math.abs(gamepad2.left_stick_y) < 0.1)
+            if(Math.abs(gamepad2.left_stick_y) < 0.1 && holdPowerJ3)
             {
 
                 //Hold Position
@@ -238,7 +242,7 @@ public class DRTeleOp extends LinearOpMode
             }
             curiosity.joint3.setPower(joint3Power);
             //Resetting Encoders for the next loop
-            j3MoveModeLast = j3MoveMode;
+            j3MoveModeLast = j3MoveMode;*/
 
 
 
@@ -283,40 +287,44 @@ public class DRTeleOp extends LinearOpMode
 
             if(gamepad2.right_stick_y > 0.2 || gamepad2.right_stick_y < -0.2)
             {
-                knockPos += gamepad2.right_stick_y * knockMaxChange;
-                curiosity.knock.setPosition(knockPos);
 
+                knockPos -= (gamepad2.right_stick_y * knockMaxChange);
+                curiosity.knock.setPosition(knockPos);
             }
 
+            //Setting the Claw
             if(gamepad2.right_bumper || gamepad2.right_trigger > 0.1)
             {
                 if(gamepad2.right_bumper)
                 {
-                    clawPos += clawMaxChange;
+                    clawPos += (clawMaxChange);
                 }
                 if(gamepad2.right_trigger > 0.1)
                 {
-                    clawPos -= gamepad2.right_trigger * clawMaxChange;
+                    clawPos -= (gamepad2.right_trigger * clawMaxChange);
                 }
 
                 curiosity.claw.setPosition(clawPos);
-
             }
-
+            if(gamepad1.left_bumper)
+            {
+                clawPos = clawOpen;
+                curiosity.claw.setPosition(clawPos);
+            }
             //Sending telemetry for arm data
             //telemetry.addData("armServoAdjustment", armServoAdjustment);
             //telemetry.addData("Joint 1", curiosity.joint1.getPower());
             //telemetry.addData("Joint 2", curiosity.joint2.getCurrentPosition());
-            telemetry.addData("Joint 3 Low", j3Low);
-            telemetry.addData("Joint 3 High", j3High);
-            telemetry.addData("Joint 3 Hold", j3Hold);
-            telemetry.addData("Joint 3 Encoder", curiosity.joint3.getCurrentPosition());
-            telemetry.addData("Joint 3 Actual Power", curiosity.joint3.getPower());
-            telemetry.addData("Joint 3 Target Encoder", j3EncoderTarget);
-            telemetry.addData("Joint 3 Adjust Hold", j3AdjHold);
-            telemetry.addData("j3EncoderChange", j3EncoderChange);
-            telemetry.addData("j3armMotion", armMotion);
-            telemetry.addData("Count", count);
+            //telemetry.addData("Joint 3 Low", j3Low);
+            //telemetry.addData("Joint 3 High", j3High);
+            //telemetry.addData("Joint 3 Hold", j3Hold);
+            //telemetry.addData("Joint 3 Encoder", curiosity.joint3.getCurrentPosition());
+            //telemetry.addData("Joint 3 Actual Power", curiosity.joint3.getPower());
+            //telemetry.addData("Joint 3 Target Encoder", j3EncoderTarget);
+            //telemetry.addData("Joint 3 Adjust Hold", j3AdjHold);
+            //telemetry.addData("j3EncoderChange", j3EncoderChange);
+            //telemetry.addData("j3armMotion", armMotion);
+            //telemetry.addData("Count", count);
             telemetry.addData("Wrist Pos", curiosity.wrist.getPosition());
             telemetry.addData("Knock Pos", curiosity.knock.getPosition());
             telemetry.addData("Claw Pos", curiosity.claw.getPosition());
