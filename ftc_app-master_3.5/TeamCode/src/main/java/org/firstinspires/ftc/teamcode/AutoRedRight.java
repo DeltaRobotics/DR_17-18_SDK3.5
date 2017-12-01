@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
@@ -36,11 +37,14 @@ public class AutoRedRight extends LinearOpModeCamera
 
     int jewelColorInt;
 
+    double timeout = 0;
+
     @Override
     public void runOpMode()
     {
 
         robot.init(hardwareMap);
+
 
         robot.motorRF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         robot.motorLF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -158,7 +162,9 @@ public class AutoRedRight extends LinearOpModeCamera
 
                 relicTrackables.activate();
 
-                while (opModeIsActive() && relicAnalysis)
+                timeout = System.currentTimeMillis() + 4000;
+                keyPosition = "UNKNOWN";
+                while (opModeIsActive() && relicAnalysis && System.currentTimeMillis() < timeout)
                 {
                     RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
                     if (vuMark != RelicRecoveryVuMark.UNKNOWN)

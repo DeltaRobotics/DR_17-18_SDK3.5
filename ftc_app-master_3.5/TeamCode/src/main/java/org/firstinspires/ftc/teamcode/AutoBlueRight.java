@@ -37,6 +37,7 @@ public class AutoBlueRight extends LinearOpModeCamera {
     boolean relicAnalysis = true;
 
     int jewelColorInt;
+    double timeout = 0;
 
     @Override
     public void runOpMode() {
@@ -159,7 +160,11 @@ public class AutoBlueRight extends LinearOpModeCamera {
 
                 relicTrackables.activate();
 
-                while (opModeIsActive() && relicAnalysis)
+                timeout = System.currentTimeMillis() + 4000;
+
+                keyPosition = "UNKNOWN";
+
+                while (opModeIsActive() && relicAnalysis && System.currentTimeMillis() < timeout)
                 {
                     RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
                     if (vuMark != RelicRecoveryVuMark.UNKNOWN)
