@@ -24,6 +24,8 @@ public class DRTeleOp extends LinearOpMode
     */
     double wristMaxChange = 0.005;
     double knockMaxChange = 0.0025;
+    double slapperMaxChange = 0.005;
+    double flapperMaxChange = 0.004;
     double clawMaxChange = 0.005;
     double zSclae = 0.75;
 
@@ -56,7 +58,7 @@ public class DRTeleOp extends LinearOpMode
     int j3currentEncoder = 0;
     boolean j3MoveModeLast = true;
     boolean j3MoveMode = true;
-    double speed = 1.0;
+    double speed = 0.5;
 
     boolean dPadUpState = false;
     boolean dPadDownState = false;
@@ -65,7 +67,7 @@ public class DRTeleOp extends LinearOpMode
     double knockSwitch;
 
 
-    public void runOpMode()
+    public void runOpMode() throws InterruptedException
     {
         // Sets initial servo positions, sets motor's mode to brake, and stops all the motors
         curiosity.init(hardwareMap);
@@ -111,20 +113,20 @@ public class DRTeleOp extends LinearOpMode
             //Driver - Flapper and Slapper manual controls
             if(gamepad1.right_trigger > 0.5)
             {
-                slapperPosition =+ 0.05;
+                slapperPosition += slapperMaxChange;
             }
             else if(gamepad1.right_bumper)
             {
-                slapperPosition  =- 0.05;
+                slapperPosition  -= slapperMaxChange;
             }
 
             if(gamepad1.y)
             {
-                flapperPosition =+ 0.05;
+                flapperPosition += flapperMaxChange;
             }
             else if(gamepad1.x)
             {
-                flapperPosition =- 0.05;
+                flapperPosition -= flapperMaxChange;
             }
 
             //Manipulator - Arm controls, Joints 1 and 2
@@ -288,7 +290,7 @@ public class DRTeleOp extends LinearOpMode
             if(gamepad2.right_stick_y > 0.2 || gamepad2.right_stick_y < -0.2)
             {
 
-                knockPos -= (gamepad2.right_stick_y * knockMaxChange);
+                knockPos += (gamepad2.right_stick_y * knockMaxChange);
                 curiosity.knock.setPosition(knockPos);
             }
 
@@ -311,6 +313,16 @@ public class DRTeleOp extends LinearOpMode
                 clawPos = clawOpen;
                 curiosity.claw.setPosition(clawPos);
             }
+
+            if(gamepad1.back)
+            {
+                curiosity.slapper.setPosition(0.8);
+                curiosity.flapper.setPosition(0.67);
+                curiosity.wrist.setPosition(0.375);
+                curiosity.knock.setPosition(0.75);
+                curiosity.claw.setPosition(0.94);
+            }
+
             //Sending telemetry for arm data
             //telemetry.addData("armServoAdjustment", armServoAdjustment);
             //telemetry.addData("Joint 1", curiosity.joint1.getPower());
@@ -328,6 +340,9 @@ public class DRTeleOp extends LinearOpMode
             telemetry.addData("Wrist Pos", curiosity.wrist.getPosition());
             telemetry.addData("Knock Pos", curiosity.knock.getPosition());
             telemetry.addData("Claw Pos", curiosity.claw.getPosition());
+            telemetry.addData("Flapper Pos", curiosity.flapper.getPosition());
+            telemetry.addData("Slapper Pos", curiosity.slapper.getPosition());
+            telemetry.addData("Robot Speed", speed);
 
             telemetry.update();
 
@@ -335,5 +350,7 @@ public class DRTeleOp extends LinearOpMode
             curiosity.slapper.setPosition(slapperPosition);
             curiosity.flapper.setPosition(flapperPosition);
         }
+
+
     }
 }
