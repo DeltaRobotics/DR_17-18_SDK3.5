@@ -52,6 +52,13 @@ public class AccelerometerTest extends LinearOpMode
 
     double temperature;
     boolean stopMotors = true;
+    double previousAccelX = 0;
+    double previousAccelY = 0;
+    double previousAccelZ = 0;
+
+    double totalAccelX = 0;
+    double totalAccelY = 0;
+    double totalAccelZ = 0;
 
     //----------------------------------------------------------------------------------------------
     // Main logic
@@ -65,7 +72,7 @@ public class AccelerometerTest extends LinearOpMode
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
         parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-        parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
+        parameters.calibrationDataFile = "AdafruitIMUCalibration.json."; // see the calibration sample opmode
         parameters.loggingEnabled      = true;
         parameters.loggingTag          = "IMU";
         parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
@@ -91,7 +98,7 @@ public class AccelerometerTest extends LinearOpMode
         waitForStart();
 
         // Start the logging of measured acceleration
-        imu.startAccelerationIntegration(new Position(), new Velocity(), 200);
+        imu.startAccelerationIntegration(new Position(), new Velocity(), 250);
 
         // Loop and update the dashboard
         while (opModeIsActive()) {
@@ -110,17 +117,37 @@ public class AccelerometerTest extends LinearOpMode
                 curiosity.motorLF.setPower(0.0);
                 stopMotors = true;
             }
+
+            while(!imu.isAccelerometerCalibrated())
+            {
+                telemetry.addData("Accel Calibrating...","");
+                telemetry.update();
+                sleep(1000);
+                //
+            }
             //acceleration = imu.getAcceleration();
             angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
             accel = imu.getAcceleration();
+
+
+            //totalAccelX += accel.xAccel;
+            totalAccelY += accel.yAccel;
+            //totalAccelZ += accel.zAccel;
+
             /*telemetry.addData("Heading Raw", AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle));
             telemetry.addData("Position Z", pos.z);
             telemetry.addData("Position X", pos.x);
             telemetry.addData("Position Y", pos.y);
             */
-            telemetry.addData("X Acceleration", (double)Math.round(accel.xAccel * 100d) / 100d);
+            /*telemetry.addData("X Acceleration", (double)Math.round(accel.xAccel * 100d) / 100d);
             telemetry.addData("Y Acceleration", (double)Math.round(accel.yAccel * 100d) / 100d);
             telemetry.addData("Z Acceleration", (double)Math.round(accel.zAccel * 100d) / 100d);
+            */
+
+            //telemetry.addData("Total Accel X", (double)Math.round(totalAccelX * 100d)/ 100d);
+            telemetry.addData("Total Accel Y", (double)Math.round(totalAccelY * 100d) / 100d);
+            telemetry.addData("Y Accel", (double)Math.round(accel.yAccel * 1000d) / 1000d);
+            //telemetry.addData("Total Accel Z", (double)Math.round(totalAccelZ * 100d)/ 100d);
 
             telemetry.update();
 
