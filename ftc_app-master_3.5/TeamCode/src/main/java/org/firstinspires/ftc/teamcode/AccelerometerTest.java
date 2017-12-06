@@ -47,9 +47,10 @@ public class AccelerometerTest extends LinearOpMode
     // State used for updating telemetry
     Orientation angles;
     Acceleration gravity;
-    Acceleration acceleration;
+    Acceleration accel;
+    Position pos = new Position(DistanceUnit.INCH, 0, 0, 0, 0);
+
     double temperature;
-    Position position;
     boolean stopMotors = true;
 
     //----------------------------------------------------------------------------------------------
@@ -90,7 +91,7 @@ public class AccelerometerTest extends LinearOpMode
         waitForStart();
 
         // Start the logging of measured acceleration
-        imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
+        imu.startAccelerationIntegration(new Position(), new Velocity(), 200);
 
         // Loop and update the dashboard
         while (opModeIsActive()) {
@@ -111,11 +112,16 @@ public class AccelerometerTest extends LinearOpMode
             }
             //acceleration = imu.getAcceleration();
             angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-            position = imu.getPosition();
-            telemetry.addData("Heading Raw", AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle));
-            telemetry.addData("Position Z", position.z);
-            telemetry.addData("Position X", position.x);
-            telemetry.addData("Position Y", position.y);
+            accel = imu.getAcceleration();
+            /*telemetry.addData("Heading Raw", AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle));
+            telemetry.addData("Position Z", pos.z);
+            telemetry.addData("Position X", pos.x);
+            telemetry.addData("Position Y", pos.y);
+            */
+            telemetry.addData("X Acceleration", (double)Math.round(accel.xAccel * 100d) / 100d);
+            telemetry.addData("Y Acceleration", (double)Math.round(accel.yAccel * 100d) / 100d);
+            telemetry.addData("Z Acceleration", (double)Math.round(accel.zAccel * 100d) / 100d);
+
             telemetry.update();
 
         }
