@@ -72,7 +72,7 @@ public class AccelerometerTest extends LinearOpMode
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
         parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-        parameters.calibrationDataFile = "AdafruitIMUCalibration.json."; // see the calibration sample opmode
+        parameters.calibrationDataFile = "AdafruitIMUCalibration.json"; // see the calibration sample opmode
         parameters.loggingEnabled      = true;
         parameters.loggingTag          = "IMU";
         parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
@@ -90,6 +90,8 @@ public class AccelerometerTest extends LinearOpMode
         motors[2] = curiosity.motorLB;
         motors[3] = curiosity.motorLF;
         imu.initialize(parameters);
+        //imu.readCalibrationData();
+        //
 
         // Set up our telemetry dashboard
         //composeTelemetry();
@@ -117,14 +119,6 @@ public class AccelerometerTest extends LinearOpMode
                 curiosity.motorLF.setPower(0.0);
                 stopMotors = true;
             }
-
-            while(!imu.isAccelerometerCalibrated())
-            {
-                telemetry.addData("Accel Calibrating...","");
-                telemetry.update();
-                sleep(1000);
-                //
-            }
             //acceleration = imu.getAcceleration();
             angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
             accel = imu.getAcceleration();
@@ -147,6 +141,8 @@ public class AccelerometerTest extends LinearOpMode
             //telemetry.addData("Total Accel X", (double)Math.round(totalAccelX * 100d)/ 100d);
             telemetry.addData("Total Accel Y", (double)Math.round(totalAccelY * 100d) / 100d);
             telemetry.addData("Y Accel", (double)Math.round(accel.yAccel * 1000d) / 1000d);
+            telemetry.addData("IMU Cal Status", imu.getCalibrationStatus());
+            telemetry.addData("Is Accel Calibrated", imu.isAccelerometerCalibrated());
             //telemetry.addData("Total Accel Z", (double)Math.round(totalAccelZ * 100d)/ 100d);
 
             telemetry.update();
