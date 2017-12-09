@@ -184,11 +184,11 @@ public class JustCameraJewel extends LinearOpModeCamera
 
 
                 vuforiaOn = false;
+                Vuforia.deinit();
 
             }
 
-            //if (cameraOnAgain)
-            if(false)
+            if (cameraOnAgain)
             {
                 if(firstTime)
                 {
@@ -274,10 +274,12 @@ public class JustCameraJewel extends LinearOpModeCamera
                         telemetry.addData("Jewel Color", "Something's Wrong");
                     }
                     telemetry.update();
+
                 }
 
 
             }
+
         }
 
 
