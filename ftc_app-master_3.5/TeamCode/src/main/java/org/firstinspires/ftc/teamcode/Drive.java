@@ -1,9 +1,15 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 import static java.lang.Math.abs;
 
@@ -324,6 +330,48 @@ public class Drive extends LinearOpMode
         motors[2].setPower(setPower(-motorPower, 0, 0)[2]);
         motors[3].setPower(setPower(-motorPower, 0, 0)[3]);
 
+    }
+    public void OrientationDrive(double orientationTargetDelta, driveStyle drive, double motorPower, DcMotor[] motors, BNO055IMU imu)
+    {
+        Orientation angles;
+        angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+
+        switch(drive) {
+            case PIVOT_LEFT: {
+                double target = 0;
+                target = orientationTargetDelta - AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle);
+                pivotLeft(motorPower, motors);
+
+                while(target > AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle))
+                {
+                    angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+                }
+                motors[0].setPower(setPower(0, 0, 0)[0]);
+                motors[1].setPower(setPower(0, 0, 0)[1]);
+                motors[2].setPower(setPower(0, 0, 0)[2]);
+                motors[3].setPower(setPower(0, 0, 0)[3]);
+                break;
+            }
+
+            case PIVOT_RIGHT: {
+                double target = 0;
+                target = orientationTargetDelta + AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle);
+                pivotRight(motorPower, motors);
+
+                while(target < Math.abs(AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle)))
+                {
+                    angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+                }
+
+                motors[0].setPower(setPower(0, 0, 0)[0]);
+                motors[1].setPower(setPower(0, 0, 0)[1]);
+                motors[2].setPower(setPower(0, 0, 0)[2]);
+                motors[3].setPower(setPower(0, 0, 0)[3]);
+                break;
+            }
+
+
+        }
     }
 
     public void forward(double motorPower, DcMotor[] motors)
