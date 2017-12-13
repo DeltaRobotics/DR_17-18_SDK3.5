@@ -267,7 +267,7 @@ public class JustCameraJewel extends LinearOpModeCamera
                         //telemetry.addData("greenValueLeft", greenValueLeft);
 
 
-                        //jewelColorInt = highestColor(redValueLeft, blueValueLeft, greenValueLeft);
+                        jewelColorInt = highestColor(redValueLeft, blueValueLeft, greenValueLeft);
 
                         telemetry.addData("Jewel Color", jewelColorInt);
                         if (jewelColorInt == 0)
