@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -26,6 +28,7 @@ public class AutoRedRight extends LinearOpModeCamera
 {
     RobotHardware robot = new RobotHardware();
     Drive drive = new Drive();
+    BNO055IMU imu;
 
     ServoMove servoMove = new ServoMove();
 
@@ -42,8 +45,19 @@ public class AutoRedRight extends LinearOpModeCamera
     @Override
     public void runOpMode()
     {
-
         robot.init(hardwareMap);
+        BNO055IMU.Parameters parametersIMU = new BNO055IMU.Parameters();
+        parametersIMU.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
+        parametersIMU.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parametersIMU.calibrationDataFile = "AdafruitIMUCalibration.json"; // see the calibration sample opmode
+        parametersIMU.loggingEnabled      = true;
+        parametersIMU.loggingTag          = "IMU";
+        parametersIMU.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
+        parametersIMU.temperatureUnit     = BNO055IMU.TempUnit.CELSIUS;
+        robot.init(hardwareMap);
+        imu = hardwareMap.get(BNO055IMU.class, "imu");
+        imu.initialize(parametersIMU);
+        //
 
 
         robot.motorRF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -57,9 +71,11 @@ public class AutoRedRight extends LinearOpModeCamera
         motors[2] = robot.motorLB;
         motors[3] = robot.motorLF;
 
-        Servo[] servos = new Servo[2];
+        Servo[] servos = new Servo[4];
         servos[0] = robot.flapper;
         servos[1] = robot.slapper;
+        servos[2] = robot.knock;
+        servos[3] = robot.claw;;
 
 
         if (isCameraAvailable()) {
@@ -233,49 +249,53 @@ public class AutoRedRight extends LinearOpModeCamera
             {
                 case "LEFT":
                 {
-                    drive.encoderDrive(1850, driveStyle.STRAFE_RIGHT, 0.45, motors);
+                    drive.encoderDrive(1700, driveStyle.STRAFE_RIGHT, 0.55, motors);
                     break;
                 }
 
                 case "CENTER":
                 {
-                    drive.encoderDrive(1150, driveStyle.STRAFE_RIGHT, 0.45, motors);
+                    drive.encoderDrive(1150, driveStyle.STRAFE_RIGHT, 0.55, motors);
 
                     break;
                 }
 
                 case "RIGHT":
                 {
-                    drive.encoderDrive(750, driveStyle.STRAFE_RIGHT, 0.45, motors);
+                    drive.encoderDrive(750, driveStyle.STRAFE_RIGHT, 0.55, motors);
 
                     break;
                 }
 
                 case "UNKNOWN":
                 {
-                    drive.encoderDrive(1150, driveStyle.STRAFE_RIGHT, 0.45, motors);
+                    drive.encoderDrive(1150, driveStyle.STRAFE_RIGHT, 0.55, motors);
 
                     break;
                 }
             }
-            drive.encoderDrive(2500, driveStyle.PIVOT_LEFT, 0.5, motors);
-            sleep(250);
+            //drive.encoderDrive(2500, driveStyle.PIVOT_LEFT, 0.5, motors);
+            drive.OrientationDrive(170, driveStyle.PIVOT_LEFT, 0.4, motors, imu);
+            /*sleep(250);
             drive.encoderDrive(50, driveStyle.BACKWARD, 0.5, motors);
-            sleep(500);
-            robot.knock.setPosition(0.15);
-            sleep(1000);
-            robot.claw.setPosition(0.85);
-            sleep(1000);
-            robot.knock.setPosition(0.395);
-            sleep(500);
-            robot.claw.setPosition(0.94);
-            sleep(500);
-            robot.knock.setPosition(0.75);
             sleep(250);
-            drive.encoderDrive(450, driveStyle.FORWARD, 0.5, motors);
+            robot.knock.setPosition(0.15);
+            sleep(750);
+            robot.claw.setPosition(0.85);
+            sleep(750);
+            drive.encoderDrive(100, driveStyle.BACKWARD, 0.5, motors);
+            sleep(250);
+            robot.knock.setPosition(0.395);
+            sleep(250);
+            robot.claw.setPosition(0.94);
+            robot.knock.setPosition(0.75);
+            drive.encoderDrive(550, driveStyle.FORWARD, 0.5, motors);
             sleep(250);
             drive.encoderDrive(200, driveStyle.BACKWARD, 0.5, motors);
-    }
+            */
+            servoMove.placeGlyph(servos, robot, drive);
+
+        }
 }
 }
 

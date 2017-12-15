@@ -358,7 +358,7 @@ public class Drive extends LinearOpMode
                 target = orientationTargetDelta + AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle);
                 pivotRight(motorPower, motors);
 
-                while(target < Math.abs(AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle)))
+                while(target < AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle))
                 {
                     angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
                 }
@@ -367,6 +367,7 @@ public class Drive extends LinearOpMode
                 motors[1].setPower(setPower(0, 0, 0)[1]);
                 motors[2].setPower(setPower(0, 0, 0)[2]);
                 motors[3].setPower(setPower(0, 0, 0)[3]);
+                //
                 break;
             }
 

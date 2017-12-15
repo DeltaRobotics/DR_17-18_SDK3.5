@@ -3,12 +3,18 @@ package org.firstinspires.ftc.teamcode;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
@@ -26,6 +32,8 @@ public class AutoBlueLeft extends LinearOpModeCamera
     RobotHardware robot = new RobotHardware();
     Drive drive = new Drive();
     ServoMove servoMove = new ServoMove();
+    BNO055IMU imu;
+    Orientation angles;
 
     VuforiaLocalizer vuforia;
     String keyPosition;
@@ -55,9 +63,24 @@ public class AutoBlueLeft extends LinearOpModeCamera
         motors[2] = robot.motorLB;
         motors[3] = robot.motorLF;
 
-        Servo[] servos = new Servo[2];
+        Servo[] servos = new Servo[4];
         servos[0] = robot.flapper;
         servos[1] = robot.slapper;
+        servos[2] = robot.knock;
+        servos[3] = robot.claw;
+
+        BNO055IMU.Parameters parametersIMU = new BNO055IMU.Parameters();
+        parametersIMU.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
+        parametersIMU.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parametersIMU.calibrationDataFile = "AdafruitIMUCalibration.json"; // see the calibration sample opmode
+        parametersIMU.loggingEnabled      = true;
+        parametersIMU.loggingTag          = "IMU";
+        parametersIMU.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
+        parametersIMU.temperatureUnit     = BNO055IMU.TempUnit.CELSIUS;
+        robot.init(hardwareMap);
+        imu = hardwareMap.get(BNO055IMU.class, "imu");
+        imu.initialize(parametersIMU);
+        angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
 
         if (isCameraAvailable())
@@ -230,86 +253,56 @@ public class AutoBlueLeft extends LinearOpModeCamera
             servoMove.knockOffJewel(servos, jewelColorInt, "blue");
             sleep(250);
             //drive.timeDrive(85, 0.4, driveStyle.STRAFE_LEFT, motors);
+            //
             drive.encoderDrive(50, driveStyle.STRAFE_LEFT, 0.45, motors);
             sleep(250);
             //drive.timeDrive(800, 0.5, driveStyle.FORWARD, motors);
             drive.encoderDrive(1250, driveStyle.FORWARD, 0.5, motors);
             sleep(250);
             //drive.timeDrive(750, 0.5, driveStyle.STRAFE_RIGHT, motors);
+            angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+            telemetry.addData("Pivot Delta", AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle));
+            telemetry.update();
+            if(AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle) > 0)
+            {
+                telemetry.addData("Pivot Delta > 0", Math.abs(AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle)));
+                telemetry.update();
+                drive.OrientationDrive(Math.abs(AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle)), driveStyle.PIVOT_LEFT, 0.4, motors, imu);
+            }
+            if(AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle) < 0)
+            {
+                telemetry.addData("Pivot Delta < 0", Math.abs(AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle)));
+                telemetry.update();
+                drive.OrientationDrive(Math.abs(AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle)), driveStyle.PIVOT_RIGHT, 0.4, motors, imu);
+            }
             switch(keyPosition)
             {
                 case "LEFT":
                 {
                     drive.encoderDrive(600, driveStyle.STRAFE_RIGHT, 0.45, motors);
-                    sleep(500);
-                    robot.knock.setPosition(0.15);
-                    sleep(1000);
-                    robot.claw.setPosition(0.85);
-                    sleep(1000);
-                    robot.knock.setPosition(0.395);
-                    sleep(500);
-                    robot.claw.setPosition(0.94);
-                    sleep(500);
-                    robot.knock.setPosition(0.75);
-                    sleep(500);
                     break;
                 }
 
                 case "CENTER":
                 {
-                    drive.encoderDrive(1000, driveStyle.STRAFE_RIGHT, 0.45, motors);
-                    sleep(500);
-                    robot.knock.setPosition(0.15);
-                    sleep(1000);
-                    robot.claw.setPosition(0.85);
-                    sleep(1000);
-                    robot.knock.setPosition(0.395);
-                    sleep(500);
-                    robot.claw.setPosition(0.94);
-                    sleep(500);
-                    robot.knock.setPosition(0.75);
-                    sleep(500);
-
+                    drive.encoderDrive(1000, driveStyle.STRAFE_RIGHT, 0.55, motors);
                     break;
                 }
 
                 case "RIGHT":
                 {
-                    drive.encoderDrive(1400, driveStyle.STRAFE_RIGHT, 0.45, motors);
-                    sleep(500);
-                    robot.knock.setPosition(0.15);
-                    sleep(1000);
-                    robot.claw.setPosition(0.85);
-                    sleep(1000);
-                    robot.knock.setPosition(0.395);
-                    sleep(500);
-                    robot.claw.setPosition(0.94);
-                    sleep(500);
-                    robot.knock.setPosition(0.75);
-                    sleep(500);
-
+                    drive.encoderDrive(1400, driveStyle.STRAFE_RIGHT, 0.55, motors);
                     break;
                 }
 
                 case "UNKNOWN":
                 {
-                    drive.encoderDrive(1000, driveStyle.STRAFE_RIGHT, 0.45, motors);
-                    sleep(500);
-                    robot.knock.setPosition(0.15);
-                    sleep(1000);
-                    robot.claw.setPosition(0.85);
-                    sleep(1000);
-                    robot.knock.setPosition(0.395);
-                    sleep(500);
-                    robot.claw.setPosition(0.94);
-                    sleep(500);
-                    robot.knock.setPosition(0.75);
-                    sleep(500);
-
+                    drive.encoderDrive(1000, driveStyle.STRAFE_RIGHT, 0.55, motors);
                     break;
                 }
             }
 
+            servoMove.placeGlyph(servos, robot, drive);
 
 
         }
