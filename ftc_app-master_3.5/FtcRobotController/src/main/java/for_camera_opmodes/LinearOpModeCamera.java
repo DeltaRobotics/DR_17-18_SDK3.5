@@ -230,15 +230,6 @@ public class LinearOpModeCamera extends LinearOpMode
         }
     }
 
-    public Bitmap screenShot(View view) {
-
-        Bitmap bitmap = Bitmap.createBitmap(view.getWidth(),
-                view.getHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        view.draw(canvas);
-        return bitmap;
-    }
-
     public void SaveRGB (Bitmap colorBitmap)
     {
         String pixelColorMap = "";
@@ -271,21 +262,28 @@ public class LinearOpModeCamera extends LinearOpMode
                 pixelColorMap = pixelColorMap + btemp + System.getProperty("line.separator");
             }
         }
-    /*String root = Environment.getExternalStorageDirectory().toString();
-    File myDir = new File(root);
-    myDir.mkdirs();
-    SimpleDateFormat s = new SimpleDateFormat("ddMMyyyyhhmmss");
-    String format = s.format(new Date());
-    String fname = format +".jpg";
-    File file = new File (myDir, fname);
-    if (file.exists ()) file.delete ();
-    try {
-      PrintStream out = new PrintStream(new FileOutputStream("filename.txt")))
-      {
-        out.print(pixelColorMap);}
-    } catch (Exception e) {
-      e.printStackTrace();
-    }*/
+    }
+    public int FindJewelsCenter (Bitmap cameraBitmap)
+    {
+        int width1 = cameraBitmap.getWidth();
+        int lineRightX = -1;
+        int tempPixel;
+        int white = 120;
+        int x = width1 - 1;
+        //Camera field of view should equal 960x1280 as long as downsampling is equal to 1
+
+        while(lineRightX == -1 && x > 0)
+        {
+            for(x = width1 - 1; x > 0; x--)
+            {
+                tempPixel = cameraBitmap.getPixel(x,100);
+                if(red(tempPixel) > white && blue(tempPixel) > white && green(tempPixel) > white)
+                {
+                    lineRightX = x;
+                }
+            }
+        }
+        return lineRightX;
     }
 
 }

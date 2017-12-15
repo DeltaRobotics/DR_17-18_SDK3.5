@@ -44,8 +44,9 @@ public class JustCameraJewel extends LinearOpModeCamera
 
     boolean vuforiaOn = true;
     boolean relicAnalysis = true;
-    boolean cameraOnAgain = true;
     boolean firstTime = true;
+    boolean cameraAgain = true;
+    int jewelRightX;
 
     public void runOpMode()
     {
@@ -65,9 +66,9 @@ public class JustCameraJewel extends LinearOpModeCamera
                 int blueValueLeft = -76800;
                 int greenValueLeft = -76800;
 
-                Bitmap rgbImage;
+                Bitmap rgbImage1;
                 //The last value must correspond to the downsampling value from above
-                rgbImage = convertYuvImageToRgb(yuvImage, width, height, 1);
+                rgbImage1 = convertYuvImageToRgb(yuvImage, width, height, 1);
 
                 //telemetry.addData("Width", rgbImage.getWidth());
                 //telemetry.addData("Height", rgbImage.getHeight());
@@ -81,31 +82,31 @@ public class JustCameraJewel extends LinearOpModeCamera
                     {
                         if (x == 679 && y >= 850)
                         {
-                            rgbImage.setPixel(x, y, Color.rgb(0, 255, 255));
+                            rgbImage1.setPixel(x, y, Color.rgb(0, 255, 255));
                         }
                         if (x >= 0 && y == 850)
                         {
-                            rgbImage.setPixel(x, y, Color.rgb(0, 255, 255));
+                            rgbImage1.setPixel(x, y, Color.rgb(0, 255, 255));
                         }
                         if (x == 480 && y >= 850)
                         {
-                            rgbImage.setPixel(x, y, Color.rgb(0, 255, 255));
+                            rgbImage1.setPixel(x, y, Color.rgb(0, 255, 255));
                         }
                         if (x >= 0 && y == 1279)
                         {
-                            rgbImage.setPixel(x, y, Color.rgb(0, 255, 255));
+                            rgbImage1.setPixel(x, y, Color.rgb(0, 255, 255));
                         }
                     }
                 }
 
-                SaveImage(rgbImage);
+                SaveImage(rgbImage1);
 
                 //Analyzing Jewel Color
                 for (int x = 480; x < 680; x++)
                 {
                     for (int y = 850; y < 1280; y++)
                     {
-                        int pixel = rgbImage.getPixel(x, y);
+                        int pixel = rgbImage1.getPixel(x, y);
                         redValueLeft += red(pixel);
                         blueValueLeft += blue(pixel);
                         greenValueLeft += green(pixel);
@@ -125,13 +126,16 @@ public class JustCameraJewel extends LinearOpModeCamera
                 if (jewelColorInt == 0)
                 {
                     telemetry.addData("Jewel Color", "0 : Red");
-                } else if (jewelColorInt == 1)
+                }
+                else if (jewelColorInt == 1)
                 {
                     telemetry.addData("Jewel Color", "1 : Blue");
-                } else if (jewelColorInt == 2)
+                }
+                else if (jewelColorInt == 2)
                 {
                     telemetry.addData("Jewel Color", "Green? What Did You Do? Green Shouldn't Even Be An Option!");
-                } else
+                }
+                else
                 {
                     telemetry.addData("Jewel Color", "Something's Wrong");
                 }
@@ -177,7 +181,8 @@ public class JustCameraJewel extends LinearOpModeCamera
                         {
                             keyPosition = "RIGHT";
                         }
-                    } else
+                    }
+                    else
                     {
                         telemetry.addData("VuMark", "UNKNOWN visible");
                         keyPosition = "UNKNOWN";
@@ -187,113 +192,45 @@ public class JustCameraJewel extends LinearOpModeCamera
 
 
                 vuforiaOn = false;
-                relicTrackables.deactivate();
+                //relicTrackables.deactivate();
                 CameraDevice.getInstance().stop();
                 CameraDevice.getInstance().deinit();
                 telemetry.addData("Camera Device", CameraDevice.getInstance());
-                Vuforia.deinit();
+                //Vuforia.deinit();
 
             }
-
-            if (cameraOnAgain)
+            if(firstTime)
             {
-                if(firstTime)
-                {
-                    startCamera();
+                startCamera();
+                CameraDevice.getInstance().init();
 
-                    firstTime = false;
-                }
-
-                while(opModeIsActive())
-                {
-
-                    if (imageReady())
-                    {
-
-                        int redValueLeft = -76800;
-                        int blueValueLeft = -76800;
-                        int greenValueLeft = -76800;
-
-                        Bitmap rgbImage;
-                        //The last value must correspond to the downsampling value from above
-                        rgbImage = convertYuvImageToRgb(yuvImage, width, height, 1);
-
-                        //telemetry.addData("Width", rgbImage.getWidth());
-                        //telemetry.addData("Height", rgbImage.getHeight());
-                        telemetry.update();
-
-                        //This is for only saving the color image if needed.
-
-                        for (int x = 480; x < 680; x++)
-                        {
-                            for (int y = 850; y < 1280; y++)
-                            {
-                                if (x == 679 && y >= 850)
-                                {
-                                    rgbImage.setPixel(x, y, Color.rgb(0, 255, 255));
-                                }
-                                if (x >= 0 && y == 850)
-                                {
-                                    rgbImage.setPixel(x, y, Color.rgb(0, 255, 255));
-                                }
-                                if (x == 480 && y >= 850)
-                                {
-                                    rgbImage.setPixel(x, y, Color.rgb(0, 255, 255));
-                                }
-                                if (x >= 0 && y == 1279)
-                                {
-                                    rgbImage.setPixel(x, y, Color.rgb(0, 255, 255));
-                                }
-                            }
-                        }
-                        SaveImage(rgbImage);
-
-                        //Analyzing Jewel Color
-                        for (int x = 480; x < 680; x++)
-                        {
-                            for (int y = 850; y < 1280; y++)
-                            {
-                                int pixel = rgbImage.getPixel(x, y);
-                                redValueLeft += red(pixel);
-                                blueValueLeft += blue(pixel);
-                                greenValueLeft += green(pixel);
-                            }
-                        }
-                        redValueLeft = normalizePixels(redValueLeft);
-                        blueValueLeft = normalizePixels(blueValueLeft);
-                        greenValueLeft = normalizePixels(greenValueLeft);
-                        //telemetry.addData("redValueLeft", redValueLeft);
-                        //telemetry.addData("blueValueLeft", blueValueLeft);
-                        //telemetry.addData("greenValueLeft", greenValueLeft);
-
-
-                        jewelColorInt = highestColor(redValueLeft, blueValueLeft, greenValueLeft);
-
-                        telemetry.addData("Jewel Color", jewelColorInt);
-                        if (jewelColorInt == 0)
-                        {
-                            telemetry.addData("Jewel Color", "0 : Red");
-                        } else if (jewelColorInt == 1)
-                        {
-                            telemetry.addData("Jewel Color", "1 : Blue");
-                        } else if (jewelColorInt == 2)
-                        {
-                            telemetry.addData("Jewel Color", "Green? What Did You Do? Green Shouldn't Even Be An Option!");
-                        } else
-                        {
-                            telemetry.addData("Jewel Color", "Something's Wrong");
-                        }
-                        telemetry.update();
-
-                    }
-                    cameraOnAgain = false;
-                    if(jewelColorInt == 2)
-                    {
-                        stopCamera();
-                    }
-
-                }
+                firstTime = false;
             }
+
+            while(opModeIsActive() && cameraAgain)
+            {
+
+                if (imageReady())
+                {
+
+                    int redValueLeft = -76800;
+                    int blueValueLeft = -76800;
+                    int greenValueLeft = -76800;
+
+                    Bitmap rgbImage2;
+                    //The last value must correspond to the downsampling value from above
+                    rgbImage2 = convertYuvImageToRgb(yuvImage, width, height, 1);
+
+                    //telemetry.addData("Width", rgbImage.getWidth());
+                    //telemetry.addData("Height", rgbImage.getHeight());
+                    telemetry.update();
+
+                    jewelRightX = FindJewelsCenter(rgbImage2);
+                    telemetry.addData("Jewel Right X", jewelRightX);
+                }
+                stopCamera();
+            }
+            stopCamera();
 
 
         }
