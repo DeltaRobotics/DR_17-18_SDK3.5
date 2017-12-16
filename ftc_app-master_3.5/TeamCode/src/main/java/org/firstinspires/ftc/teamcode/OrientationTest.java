@@ -6,6 +6,11 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+
 
 /**
  * Created by User on 12/9/2017.
@@ -14,6 +19,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 public class OrientationTest extends LinearOpMode
 {
     BNO055IMU imu;
+
+    Orientation angles;
 
 
     Drive drive = new Drive();
@@ -38,7 +45,17 @@ public class OrientationTest extends LinearOpMode
         motors[3] = robot.motorLF;
         waitForStart();
         drive.OrientationDrive(85, driveStyle.PIVOT_LEFT, 0.3, motors,imu);
-        sleep(2000);
-        drive.OrientationDrive(85, driveStyle.PIVOT_RIGHT, 0.3, motors,imu);
+        sleep(500);
+        drive.OrientationDrive(95, driveStyle.PIVOT_RIGHT, 0.3, motors,imu);
+        sleep(500);
+        drive.OrientationDrive(50, driveStyle.PIVOT_RIGHT, 0.3, motors,imu);
+        sleep(500);
+        drive.OrientationDrive(45, driveStyle.PIVOT_LEFT, 0.3, motors,imu);
+
+        while(opModeIsActive()) {
+            angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+            telemetry.addData("Orientation", AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle));
+            telemetry.update();
+        }
     }
 }

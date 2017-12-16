@@ -339,7 +339,14 @@ public class Drive extends LinearOpMode
         switch(drive) {
             case PIVOT_LEFT: {
                 double target = 0;
-                target = orientationTargetDelta - AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle);
+                if(AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle) > 0)
+                {
+                    target = orientationTargetDelta - AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle);
+                }
+                else
+                {
+                    target = orientationTargetDelta + AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle);
+                }
                 pivotLeft(motorPower, motors);
 
                 while(target > AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle))
@@ -355,7 +362,15 @@ public class Drive extends LinearOpMode
 
             case PIVOT_RIGHT: {
                 double target = 0;
-                target = orientationTargetDelta + AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle);
+                if(AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle) <= 0)
+                {
+                    target = -orientationTargetDelta - AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle);
+                }
+                else
+                {
+                    target = orientationTargetDelta - AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle);
+                }
+
                 pivotRight(motorPower, motors);
 
                 while(target < AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle))

@@ -81,6 +81,8 @@ public class AutoBlueLeft extends LinearOpModeCamera
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         imu.initialize(parametersIMU);
         angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        telemetry.addData("Init Orientation", AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle));
+        telemetry.update();
 
 
         if (isCameraAvailable())
@@ -109,25 +111,26 @@ public class AutoBlueLeft extends LinearOpModeCamera
 
                 //This is for only saving the color image if needed.
 
-                for (int x = 480; x < 680; x++)
+
+                for (int x = 600; x < 900; x++) //Sets x bounds for visual box on picture saved to the phone
                 {
-                    for (int y = 850; y < 1280; y++)
+                    for (int y = 950; y < 1280; y++) //Sets y bounds for visual box on picture saved to the phone
                     {
-                        if (x == 679 && y >= 850)
+                        if (x == 879 && y >= 950) //Bounds for the line below
                         {
-                            rgbImage.setPixel(x, y, Color.rgb(0, 255, 0));
+                            rgbImage.setPixel(x, y, Color.rgb(0, 255, 0)); //Draws line on picture saved to the phone
                         }
-                        if (x >= 0 && y == 850)
+                        if (x >= 0 && y == 950) //Bounds for the line below
                         {
-                            rgbImage.setPixel(x, y, Color.rgb(0, 255, 0));
+                            rgbImage.setPixel(x, y, Color.rgb(0, 255, 0)); //Draws line on picture saved to the phone
                         }
-                        if (x == 480 && y >= 850)
+                        if (x == 600 && y >= 950) //Bounds for the line below
                         {
-                            rgbImage.setPixel(x, y, Color.rgb(0, 255, 0));
+                            rgbImage.setPixel(x, y, Color.rgb(0, 255, 0)); //Draws line on picture saved to the phone
                         }
-                        if (x >= 480 && y == 1279)
+                        if (x >= 600 && y == 1279) //Bounds for the line below
                         {
-                            rgbImage.setPixel(x, y, Color.rgb(0, 255, 0));
+                            rgbImage.setPixel(x, y, Color.rgb(0, 255, 0)); //Draws line on picture saved to the phone
                         }
                     }
                 }
@@ -135,9 +138,9 @@ public class AutoBlueLeft extends LinearOpModeCamera
                 SaveImage(rgbImage);
 
                 //Analyzing Jewel Color
-                for (int x = 480; x < 680; x++)
+                for (int x = 600; x < 900; x++) //Sets x bounds for the box we will be analyzing
                 {
-                    for (int y = 850; y < 1280; y++)
+                    for (int y = 950; y < 1280; y++) //Sets y bounds for the box we will be analyzing
                     {
                         int pixel = rgbImage.getPixel(x, y);
                         redValueLeft += red(pixel);
@@ -260,21 +263,7 @@ public class AutoBlueLeft extends LinearOpModeCamera
             drive.encoderDrive(1250, driveStyle.FORWARD, 0.5, motors);
             sleep(250);
             //drive.timeDrive(750, 0.5, driveStyle.STRAFE_RIGHT, motors);
-            angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-            telemetry.addData("Pivot Delta", AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle));
-            telemetry.update();
-            if(AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle) > 0)
-            {
-                telemetry.addData("Pivot Delta > 0", Math.abs(AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle)));
-                telemetry.update();
-                drive.OrientationDrive(Math.abs(AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle)), driveStyle.PIVOT_LEFT, 0.4, motors, imu);
-            }
-            if(AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle) < 0)
-            {
-                telemetry.addData("Pivot Delta < 0", Math.abs(AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle)));
-                telemetry.update();
-                drive.OrientationDrive(Math.abs(AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle)), driveStyle.PIVOT_RIGHT, 0.4, motors, imu);
-            }
+
             switch(keyPosition)
             {
                 case "LEFT":
@@ -285,13 +274,14 @@ public class AutoBlueLeft extends LinearOpModeCamera
 
                 case "CENTER":
                 {
-                    drive.encoderDrive(1000, driveStyle.STRAFE_RIGHT, 0.55, motors);
+                    drive.encoderDrive(1050, driveStyle.STRAFE_RIGHT, 0.55, motors);
                     break;
                 }
 
                 case "RIGHT":
                 {
-                    drive.encoderDrive(1400, driveStyle.STRAFE_RIGHT, 0.55, motors);
+                    drive.encoderDrive(1550
+                            , driveStyle.STRAFE_RIGHT, 0.55, motors);
                     break;
                 }
 
@@ -301,7 +291,23 @@ public class AutoBlueLeft extends LinearOpModeCamera
                     break;
                 }
             }
-
+            sleep(500);
+            angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+            telemetry.addData("Before Move", AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle));
+            telemetry.update();
+            if(AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle) > 0)
+            {
+                telemetry.update();
+                drive.OrientationDrive((Math.abs(AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle)))/2, driveStyle.PIVOT_RIGHT, 0.4, motors, imu);
+            }
+            else
+            {
+                telemetry.update();
+                drive.OrientationDrive((Math.abs(AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle)))/2, driveStyle.PIVOT_LEFT, 0.4, motors, imu);
+            }
+            angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+            telemetry.addData("After Move", AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle));
+            telemetry.update();
             servoMove.placeGlyph(servos, robot, drive);
 
 

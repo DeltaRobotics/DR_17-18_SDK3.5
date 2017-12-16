@@ -12,6 +12,10 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
@@ -29,6 +33,7 @@ public class AutoRedRight extends LinearOpModeCamera
     RobotHardware robot = new RobotHardware();
     Drive drive = new Drive();
     BNO055IMU imu;
+    Orientation angles;
 
     ServoMove servoMove = new ServoMove();
 
@@ -57,6 +62,9 @@ public class AutoRedRight extends LinearOpModeCamera
         robot.init(hardwareMap);
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         imu.initialize(parametersIMU);
+        angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        telemetry.addData("Init Orientation", AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle));
+        telemetry.update();
         //
 
 
@@ -276,6 +284,23 @@ public class AutoRedRight extends LinearOpModeCamera
             }
             //drive.encoderDrive(2500, driveStyle.PIVOT_LEFT, 0.5, motors);
             drive.OrientationDrive(170, driveStyle.PIVOT_LEFT, 0.4, motors, imu);
+            sleep(500);
+            angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+            telemetry.addData("Before Move", AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle));
+            telemetry.update();
+            if(AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle) > 0)
+            {
+                telemetry.update();
+                drive.OrientationDrive((180 - AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle))/2, driveStyle.PIVOT_LEFT, 0.4, motors, imu);
+            }
+            else
+            {
+                telemetry.update();
+                drive.OrientationDrive((180 + AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle))/2, driveStyle.PIVOT_RIGHT, 0.4, motors, imu);
+            }
+            angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+            telemetry.addData("After Move", AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle));
+            telemetry.update();
             /*sleep(250);
             drive.encoderDrive(50, driveStyle.BACKWARD, 0.5, motors);
             sleep(250);

@@ -18,7 +18,7 @@ public class ServoMove extends LinearOpMode
         servos[1].setPosition(0.3);
         sleep(1000);
         servos[0].setPosition(0.30);
-        sleep(1000);
+        sleep(1500);
         if(color == 0 && alliance.equals("blue"))
         {
             servos[1].setPosition(0.1);
@@ -50,7 +50,7 @@ public class ServoMove extends LinearOpMode
         }
 
         sleep(1000);
-        servos[0].setPosition(0.7);
+        servos[0].setPosition(0.6);
         sleep(1000);
         servos[1].setPosition(0.8);
         sleep(1000);
@@ -65,9 +65,9 @@ public class ServoMove extends LinearOpMode
         motors[2] = curiosity.motorLB;
         motors[3] = curiosity.motorLF;
         sleep(250);
-        servos[2].setPosition(0.15);
+        servos[2].setPosition(0.1);
         sleep(750);
-        servos[3].setPosition(0.85);
+        servos[3].setPosition(0.80);
         sleep(750);
         drive.encoderDrive(100, driveStyle.BACKWARD, 0.5, motors);
         sleep(250);
