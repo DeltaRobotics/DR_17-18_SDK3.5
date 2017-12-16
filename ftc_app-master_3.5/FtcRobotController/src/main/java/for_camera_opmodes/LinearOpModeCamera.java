@@ -214,7 +214,7 @@ public class LinearOpModeCamera extends LinearOpMode
         String root = Environment.getExternalStorageDirectory().toString();
         File myDir = new File(root);
         myDir.mkdirs();
-        SimpleDateFormat s = new SimpleDateFormat("dd MM yyyy hhmmss");
+        SimpleDateFormat s = new SimpleDateFormat("ddhhmmss");
         String format = s.format(new Date());
         String fname = format +".jpg";
         File file = new File (myDir, fname);
@@ -263,8 +263,37 @@ public class LinearOpModeCamera extends LinearOpMode
             }
         }
     }
+    public void SaveColorLog (int[][] colorValues)
+    {
+        String text = "";
+        String root = Environment.getExternalStorageDirectory().toString();
+        File myDir = new File(root);
+        myDir.mkdirs();
+        SimpleDateFormat s = new SimpleDateFormat("ddhhmmss");
+        String format = s.format(new Date());
+        String fname = "ColorData" + format +".txt";
+        File file = new File (myDir, fname);
+        if (file.exists ()) file.delete ();
+        try {
+            FileOutputStream out = new FileOutputStream(file);
+
+            for(int x = 0; x < colorValues.length; x++)
+            {
+                text = text +  x + "->"  + "R" + colorValues[x][0] + "G" + colorValues[x][1] + "B" + colorValues[x][2] + "\n";
+            }
+            out.write(text.getBytes());
+
+            out.flush();
+            out.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public int FindJewelsCenter (Bitmap cameraBitmap)
     {
+        int[][] colorValues = new int[960][3];
         int width1 = cameraBitmap.getWidth();
         int lineRightX = -1;
         int tempPixel;
@@ -276,13 +305,17 @@ public class LinearOpModeCamera extends LinearOpMode
         {
             for(x = width1 - 1; x > 0; x--)
             {
-                tempPixel = cameraBitmap.getPixel(x,100);
+                tempPixel = cameraBitmap.getPixel(x,1230);
+                colorValues[x][0] = red(tempPixel);
+                colorValues[x][1] = blue(tempPixel);
+                colorValues[x][2] = green(tempPixel);
                 if(red(tempPixel) > white && blue(tempPixel) > white && green(tempPixel) > white)
                 {
                     lineRightX = x;
                 }
             }
         }
+        SaveColorLog(colorValues);
         return lineRightX;
     }
 

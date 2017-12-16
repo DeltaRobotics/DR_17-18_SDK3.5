@@ -46,7 +46,7 @@ public class JustCameraJewel extends LinearOpModeCamera
     boolean relicAnalysis = true;
     boolean firstTime = true;
     boolean cameraAgain = true;
-    int jewelRightX;
+    int jewelRightX = 1400;
 
     public void runOpMode()
     {
@@ -99,7 +99,7 @@ public class JustCameraJewel extends LinearOpModeCamera
                     }
                 }
 
-                SaveImage(rgbImage1);
+                //SaveImage(rgbImage1);
 
                 //Analyzing Jewel Color
                 for (int x = 480; x < 680; x++)
@@ -221,12 +221,31 @@ public class JustCameraJewel extends LinearOpModeCamera
                     //The last value must correspond to the downsampling value from above
                     rgbImage2 = convertYuvImageToRgb(yuvImage, width, height, 1);
 
+                    for (int x = 0; x < 960; x++)
+                    {
+                        for (int y = 800; y < 1280; y++)
+                        {
+                            if (y == 1229)
+                            {
+                                rgbImage2.setPixel(x, y, Color.rgb(0, 255, 0));
+                            }
+                            if (y == 1231)
+                            {
+                                rgbImage2.setPixel(x, y, Color.rgb(0, 255, 0));
+                            }
+                        }
+                    }
+                    SaveImage(rgbImage2);
                     //telemetry.addData("Width", rgbImage.getWidth());
                     //telemetry.addData("Height", rgbImage.getHeight());
                     telemetry.update();
 
-                    jewelRightX = FindJewelsCenter(rgbImage2);
-                    telemetry.addData("Jewel Right X", jewelRightX);
+                    while (jewelRightX > 100)
+                    {
+                        jewelRightX = FindJewelsCenter(rgbImage2);
+                        telemetry.addData("Jewel Right X", jewelRightX);
+                        telemetry.update();
+                    }
                 }
                 stopCamera();
             }

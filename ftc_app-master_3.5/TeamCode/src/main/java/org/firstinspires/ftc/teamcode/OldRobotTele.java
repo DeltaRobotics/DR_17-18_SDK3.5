@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -23,6 +24,7 @@ public class OldRobotTele extends OpMode
     Servo popper;
     //Servo bBP;
     //Servo boot;
+    Servo dingaling;
 
 
     float throttleLeft = 0;
@@ -33,6 +35,11 @@ public class OldRobotTele extends OpMode
     double popperUp = 0.69;
     double popperDown = 0.94;
     double popperPosition = 0.94;
+    double dingalingPosition = 0.5;
+    boolean dingalingGo = false;
+    boolean odd = false;
+    long timeInit = 0;
+    long timeChange = 0;
 
     //boolean bBpStop = false;
     boolean drive = true;
@@ -59,6 +66,7 @@ public class OldRobotTele extends OpMode
     boolean popperTime;
     boolean autoAdjust = true;
     long popperStart;
+    double waitT = 1000;
 
     //double bootUp = .80;
     //double bootDown = .1;
@@ -89,9 +97,11 @@ public class OldRobotTele extends OpMode
         launcherWheel = hardwareMap.dcMotor.get("launcherWheel");
         collector = hardwareMap.dcMotor.get("collector");
         popper = hardwareMap.servo.get("popper");
+        dingaling = hardwareMap.servo.get("dingaling");
         //boot = hardwareMap.servo.get("boot");
         //capLift = hardwareMap.dcMotor.get("capLift");
         popper.setPosition(popperDown);
+        dingaling.setPosition(.5);
         //boot.setPosition(bootDown);
 
         //bBP.setPosition(bBPvalue);
@@ -105,8 +115,10 @@ public class OldRobotTele extends OpMode
         {
             timeTestConstant = System.currentTimeMillis();
             firstTime = false;
+            timeInit = System.currentTimeMillis();
             //bootPosition = bootDown;
         }
+        timeChange = System.currentTimeMillis() - timeInit;
         loopTime = timeTest - previousLoop;
         previousLoop = timeTest;
         telemetry.addData("Loop Time", loopTime);
@@ -195,6 +207,15 @@ public class OldRobotTele extends OpMode
             bootOut = false;
         }
 */
+
+        if(gamepad1.a)
+        {
+            dingalingGo = true;
+        }
+        if(gamepad1.b)
+        {
+            dingalingGo = false;
+        }
 
         //Adjusting the Launcher Power - incrementing by 5%
         if (gamepad2.dpad_left && !dPadLeftState)
@@ -436,16 +457,54 @@ public class OldRobotTele extends OpMode
             leftStickButtonState = false;
         }
 
+        if(dingalingGo && odd && timeChange > waitT)
+        {
+            dingalingPosition = (0.4);
+            sleep(50);
+            timeInit = System.currentTimeMillis();
+        }
+        if(dingalingGo && !odd && timeChange > waitT)
+        {
+            dingalingPosition = (0.6);
+            sleep(50);
+            timeInit = System.currentTimeMillis();
+        }
+
+        if(dingalingGo && timeChange > waitT)
+        {
+            odd = !odd;
+        }
+        if((System.currentTimeMillis() - timeInit) > 50)
+        {
+            dingalingPosition = (0.5);
+        }
+
+        if(gamepad1.dpad_up)
+        {
+            waitT -= 50;
+            sleep(100);
+        }
+        if(gamepad1.dpad_down)
+        {
+            waitT += 50;
+            sleep(100);
+        }
+
         //capLift.setPower(capLiftPower);
         //bBP.setPosition(bBPvalue);
         //boot.setPosition(bootPosition);
 
         //telemetry.addData("bBP Position", bBPvalue);
-        telemetry.addData("Popper Position", popperPosition);
+        //telemetry.addData("Popper Position", popperPosition);
         //telemetry.addData("Collector Power", collector.getPower());
-        telemetry.addData("Launcher Wheel (the motor)", launcherWheel.getPower());
-        telemetry.addData("Launcher Power (the variable)", launcherPower);
+        //telemetry.addData("Launcher Wheel (the motor)", launcherWheel.getPower());
+        //telemetry.addData("Launcher Power (the variable)", launcherPower);
         telemetry.addData("Drive", drive);
+        dingaling.setPosition(dingalingPosition);
+        telemetry.addData("ssDingaling Position", dingaling.getPosition());
+        telemetry.addData("Odd", odd);
+        telemetry.addData("Time Change", timeChange);
+        telemetry.addData("BellWait", waitT);
 
         //telemetry.addData("Boot Position", bootPosition);
         //telemetry.addData("Lift Power", motorLift.getPower());
