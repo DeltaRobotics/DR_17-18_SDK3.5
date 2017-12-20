@@ -43,6 +43,7 @@ public class AutoBlueRight extends LinearOpModeCamera {
     public void runOpMode() {
 
         robot.init(hardwareMap);
+        robot.slapper.setPosition(0.3);
 
         robot.motorRF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         robot.motorLF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);

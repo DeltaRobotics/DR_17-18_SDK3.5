@@ -71,6 +71,7 @@ public class DRTeleOp extends LinearOpMode
     {
         // Sets initial servo positions, sets motor's mode to brake, and stops all the motors
         curiosity.init(hardwareMap);
+        curiosity.slapper.setPosition(0.8);
 
         curiosity.joint3.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         curiosity.joint3.setMode(DcMotor.RunMode.RUN_USING_ENCODER);

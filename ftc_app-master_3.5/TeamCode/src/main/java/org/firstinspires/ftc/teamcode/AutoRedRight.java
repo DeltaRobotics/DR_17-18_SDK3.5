@@ -51,6 +51,7 @@ public class AutoRedRight extends LinearOpModeCamera
     public void runOpMode()
     {
         robot.init(hardwareMap);
+        robot.slapper.setPosition(0.3);
         BNO055IMU.Parameters parametersIMU = new BNO055IMU.Parameters();
         parametersIMU.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
         parametersIMU.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
