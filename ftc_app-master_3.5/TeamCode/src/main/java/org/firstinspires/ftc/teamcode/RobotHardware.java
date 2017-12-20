@@ -55,7 +55,7 @@ public class RobotHardware
         flapper = ahwMap.servo.get("flapper");
         slapper = ahwMap.servo.get("slapper");
 
-        slapper.setPosition(0.8);
+        slapper.setPosition(0.3); // was 0.8 for sideways
         flapper.setPosition(0.67);
         wrist.setPosition(0.375);
         knock.setPosition(0.75);

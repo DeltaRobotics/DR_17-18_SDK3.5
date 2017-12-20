@@ -249,7 +249,7 @@ public class AutoRedRight extends LinearOpModeCamera
             drive.encoderDrive(100, driveStyle.STRAFE_LEFT, 0.45, motors);
             sleep(250);
         //drive.timeDrive(800, 0.5, driveStyle.BACKWARD, motors);
-            drive.encoderDrive(1500, driveStyle.BACKWARD, 0.5, motors);
+            drive.encoderDrive(1325, driveStyle.BACKWARD, 0.5, motors);
         sleep(250);
         //drive.timeDrive(750, 0.5, driveStyle.STRAFE_RIGHT, motors);
             //drive.encoderDrive(775, driveStyle.STRAFE_RIGHT, 0.5, motors);

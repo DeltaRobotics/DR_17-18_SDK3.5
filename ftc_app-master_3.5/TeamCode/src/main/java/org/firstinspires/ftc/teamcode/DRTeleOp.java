@@ -92,7 +92,7 @@ public class DRTeleOp extends LinearOpMode
             armServoAdjustment = Range.clip(armServoAdjustment, 0.2, 0.7);
             knockPos = Range.clip(knockPos, 0.01, 0.75);
             wristPos = Range.clip(wristPos, 0.01, 0.99);
-            clawPos = Range.clip(clawPos, 0.79, 0.99);
+            clawPos = Range.clip(clawPos, 0.70, 0.99);
 
 
             if(gamepad1.a)
@@ -105,10 +105,16 @@ public class DRTeleOp extends LinearOpMode
             }
 
             //Setting drive motors for mecanum - gamepad 1 - driver
-            curiosity.motorRF.setPower(speed*((-gamepad1.left_stick_y - gamepad1.left_stick_x) - (zSclae * gamepad1.right_stick_x)));
+            curiosity.motorRF.setPower(speed*((-gamepad1.right_stick_y - gamepad1.right_stick_x) - (zSclae * gamepad1.left_stick_x)));
+            curiosity.motorLB.setPower(speed*(-(-gamepad1.right_stick_y - gamepad1.right_stick_x) - (zSclae * gamepad1.left_stick_x)));
+            curiosity.motorRB.setPower(speed*(-(-gamepad1.right_stick_x + gamepad1.right_stick_y) - (zSclae * gamepad1.left_stick_x)));
+            curiosity.motorLF.setPower(speed*(-gamepad1.right_stick_x + gamepad1.right_stick_y) - (zSclae * gamepad1.left_stick_x));
+
+            /*curiosity.motorRF.setPower(speed*((-gamepad1.left_stick_y - gamepad1.left_stick_x) - (zSclae * gamepad1.right_stick_x)));
             curiosity.motorLB.setPower(speed*(-(-gamepad1.left_stick_y - gamepad1.left_stick_x) - (zSclae * gamepad1.right_stick_x)));
             curiosity.motorRB.setPower(speed*(-(-gamepad1.left_stick_x + gamepad1.left_stick_y) - (zSclae * gamepad1.right_stick_x)));
             curiosity.motorLF.setPower(speed*(-gamepad1.left_stick_x + gamepad1.left_stick_y) - (zSclae * gamepad1.right_stick_x));
+            */
 
             //Driver - Flapper and Slapper manual controls
             if(gamepad1.right_trigger > 0.5)
@@ -316,11 +322,19 @@ public class DRTeleOp extends LinearOpMode
 
             if(gamepad1.back)
             {
-                curiosity.slapper.setPosition(0.8);
-                curiosity.flapper.setPosition(0.67);
-                curiosity.wrist.setPosition(0.375);
-                curiosity.knock.setPosition(0.75);
-                curiosity.claw.setPosition(0.94);
+                slapperPosition = 0.8;
+                curiosity.slapper.setPosition(slapperPosition);
+                sleep(500);
+                flapperPosition = 0.67;
+                curiosity.flapper.setPosition(flapperPosition);
+                knockPos = 0.395;
+                curiosity.knock.setPosition(knockPos);
+                sleep(500);
+                clawPos = 0.94;
+                curiosity.claw.setPosition(clawPos);
+                sleep(2000);
+                knockPos = 0.75;
+                curiosity.knock.setPosition(knockPos);
             }
 
             //Sending telemetry for arm data
@@ -343,6 +357,8 @@ public class DRTeleOp extends LinearOpMode
             telemetry.addData("Flapper Pos", curiosity.flapper.getPosition());
             telemetry.addData("Slapper Pos", curiosity.slapper.getPosition());
             telemetry.addData("Robot Speed", speed);
+            telemetry.addData("Guide Button Status", gamepad1.guide);
+            telemetry.addData("Back Button Status", gamepad1.back);
 
             telemetry.update();
 

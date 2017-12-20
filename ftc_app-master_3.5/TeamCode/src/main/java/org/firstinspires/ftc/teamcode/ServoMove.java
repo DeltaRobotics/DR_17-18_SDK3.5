@@ -14,33 +14,32 @@ public class ServoMove extends LinearOpMode
 
     public void knockOffJewel(Servo[] servos, int color, String alliance)
     {
-        sleep(2000);
-        servos[1].setPosition(0.3);
-        sleep(1000);
-        servos[0].setPosition(0.30);
+        /*servos[1].setPosition(0.3); // rotates slapper
+        sleep(500);*/
+        servos[0].setPosition(0.30); //arm down
         sleep(1500);
         if(color == 0 && alliance.equals("blue"))
         {
             servos[1].setPosition(0.1);
-            sleep(1000);
+            sleep(500);
             servos[1].setPosition(0.20);
         }
         if(color == 0 && alliance.equals("red"))
         {
             servos[1].setPosition(0.50);
-            sleep(1000);
+            sleep(500);
             servos[1].setPosition(0.40);
         }
         if(color == 1 && alliance.equals("blue"))
         {
             servos[1].setPosition(0.50);
-            sleep(1000);
+            sleep(500);
             servos[1].setPosition(0.40);
         }
         if(color == 1 && alliance.equals("red"))
         {
             servos[1].setPosition(0.10);
-            sleep(1000);
+            sleep(500);
             servos[1].setPosition(0.20);
         }
 
@@ -49,11 +48,11 @@ public class ServoMove extends LinearOpMode
             servos[1].setPosition(0.20);
         }
 
-        sleep(1000);
+        sleep(500);
         servos[0].setPosition(0.6);
-        sleep(1000);
+        sleep(500);
         servos[1].setPosition(0.8);
-        sleep(1000);
+        sleep(500);
         return ;
     }
 
@@ -75,7 +74,7 @@ public class ServoMove extends LinearOpMode
         sleep(250);
         servos[3].setPosition(0.94);
         servos[2].setPosition(0.75);
-        drive.encoderDrive(550, driveStyle.FORWARD, 0.5, motors);
+        drive.encoderDrive(650, driveStyle.FORWARD, 0.5, motors);
         sleep(250);
         drive.encoderDrive(200, driveStyle.BACKWARD, 0.5, motors);
         //
