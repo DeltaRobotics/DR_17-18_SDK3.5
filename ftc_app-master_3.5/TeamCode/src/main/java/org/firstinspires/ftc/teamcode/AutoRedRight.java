@@ -219,10 +219,10 @@ public class AutoRedRight extends LinearOpModeCamera
             }
 
         //drive.timeDrive(750, 0.4, driveStyle.STRAFE_LEFT, motors);
-            drive.encoderDrive(600, driveStyle.STRAFE_LEFT, 0.45, motors);
+            drive.encoderDrive(450, driveStyle.STRAFE_LEFT, 0.45, motors);
             sleep(250);
             //drive.timeDrive(800, 0.5, driveStyle.STRAFE_RIGHT, motors);
-            drive.encoderDrive(400, driveStyle.STRAFE_RIGHT, 0.45, motors);
+            drive.encoderDrive(200, driveStyle.STRAFE_RIGHT, 0.45, motors);
         /*
         robot.slapper.setPosition(0.5);
         sleep(1000);

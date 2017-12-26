@@ -192,9 +192,9 @@ public class AutoRedLeft extends LinearOpModeCamera {
             }
 
             //drive.timeDrive(750, 0.4, driveStyle.STRAFE_LEFT, motors);
-            drive.encoderDrive(600, driveStyle.STRAFE_LEFT, 0.45, motors);
+            drive.encoderDrive(450, driveStyle.STRAFE_LEFT, 0.45, motors);
             sleep(1000);
-            drive.encoderDrive(475, driveStyle.STRAFE_RIGHT, 0.45, motors);
+            drive.encoderDrive(200, driveStyle.STRAFE_RIGHT, 0.45, motors);
             //drive.timeDrive(800, 0.5, driveStyle.STRAFE_RIGHT, motors);
             servoMove.knockOffJewel(servos, jewelColorInt, "red");
         /*
