@@ -1,9 +1,12 @@
 package org.firstinspires.ftc.teamcode;
 
+import android.app.ApplicationErrorReport;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.BatteryChecker;
 import com.qualcomm.robotcore.util.Range;
 
 /**
@@ -66,6 +69,9 @@ public class DRTeleOp extends LinearOpMode
     double clawOpen = 0.85;
     double knockSwitch;
 
+    double brakeOn = 0.0;
+    double brakeOff = 0.10;
+    double brakePosition;
 
     public void runOpMode() throws InterruptedException
     {
@@ -73,9 +79,9 @@ public class DRTeleOp extends LinearOpMode
         curiosity.init(hardwareMap);
         curiosity.slapper.setPosition(0.8);
 
-        curiosity.joint3.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        curiosity.joint3.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        j3currentEncoder = curiosity.joint3.getCurrentPosition();
+        //curiosity.joint3.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        //curiosity.joint3.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //j3currentEncoder = curiosity.joint3.getCurrentPosition();
 
         double flapperPosition = curiosity.flapper.getPosition();
         double slapperPosition = curiosity.slapper.getPosition();
@@ -94,6 +100,7 @@ public class DRTeleOp extends LinearOpMode
             knockPos = Range.clip(knockPos, 0.01, 0.75);
             wristPos = Range.clip(wristPos, 0.01, 0.99);
             clawPos = Range.clip(clawPos, 0.70, 0.99);
+
 
 
             if(gamepad1.a)
@@ -254,6 +261,19 @@ public class DRTeleOp extends LinearOpMode
             j3MoveModeLast = j3MoveMode;*/
 
 
+            if(gamepad2.left_stick_y > 0.1 || gamepad2.left_stick_y < -0.1)
+            {
+                brakePosition = brakeOff;
+                curiosity.joint3.setPower(gamepad2.left_stick_y * .50);
+            }
+
+            if(Math.abs(gamepad2.left_stick_y) < 0.1)
+            {
+                brakePosition = brakeOn;
+                curiosity.joint3.setPower(0.0);
+            }
+
+
 
             //Setting Joint 2
             if(gamepad2.left_bumper)
@@ -338,6 +358,15 @@ public class DRTeleOp extends LinearOpMode
                 curiosity.knock.setPosition(knockPos);
             }
 
+            if(gamepad2.dpad_left)
+            {
+                brakePosition += 0.01;
+            }
+            if(gamepad2.dpad_right)
+            {
+                brakePosition -= 0.01;
+            }
+
             //Sending telemetry for arm data
             //telemetry.addData("armServoAdjustment", armServoAdjustment);
             //telemetry.addData("Joint 1", curiosity.joint1.getPower());
@@ -346,28 +375,28 @@ public class DRTeleOp extends LinearOpMode
             //telemetry.addData("Joint 3 High", j3High);
             //telemetry.addData("Joint 3 Hold", j3Hold);
             //telemetry.addData("Joint 3 Encoder", curiosity.joint3.getCurrentPosition());
-            //telemetry.addData("Joint 3 Actual Power", curiosity.joint3.getPower());
+            telemetry.addData("Joint 3 Actual Power", curiosity.joint3.getPower());
             //telemetry.addData("Joint 3 Target Encoder", j3EncoderTarget);
             //telemetry.addData("Joint 3 Adjust Hold", j3AdjHold);
             //telemetry.addData("j3EncoderChange", j3EncoderChange);
             //telemetry.addData("j3armMotion", armMotion);
             //telemetry.addData("Count", count);
-            telemetry.addData("Wrist Pos", curiosity.wrist.getPosition());
-            telemetry.addData("Knock Pos", curiosity.knock.getPosition());
-            telemetry.addData("Claw Pos", curiosity.claw.getPosition());
-            telemetry.addData("Flapper Pos", curiosity.flapper.getPosition());
-            telemetry.addData("Slapper Pos", curiosity.slapper.getPosition());
-            telemetry.addData("Robot Speed", speed);
-            telemetry.addData("Guide Button Status", gamepad1.guide);
-            telemetry.addData("Back Button Status", gamepad1.back);
+            //telemetry.addData("Wrist Pos", curiosity.wrist.getPosition());
+            //telemetry.addData("Knock Pos", curiosity.knock.getPosition());
+            //telemetry.addData("Claw Pos", curiosity.claw.getPosition());
+            //telemetry.addData("Flapper Pos", curiosity.flapper.getPosition());
+            //telemetry.addData("Slapper Pos", curiosity.slapper.getPosition());
+            //telemetry.addData("Robot Speed", speed);
+            //telemetry.addData("Guide Button Status", gamepad1.guide);
+            //telemetry.addData("Back Button Status", gamepad1.back);
+            telemetry.addData("Brake Position", curiosity.brake.getPosition());
 
             telemetry.update();
 
             //Actually setting the positions of the servos
             curiosity.slapper.setPosition(slapperPosition);
             curiosity.flapper.setPosition(flapperPosition);
+            curiosity.brake.setPosition(brakePosition);
         }
-
-
     }
 }

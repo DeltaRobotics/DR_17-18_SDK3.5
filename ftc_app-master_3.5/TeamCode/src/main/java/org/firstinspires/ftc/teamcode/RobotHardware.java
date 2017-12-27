@@ -23,6 +23,7 @@ public class RobotHardware
     public Servo wrist = null;
     public Servo knock = null;
     public Servo claw = null;
+    public Servo brake = null;
 
     public Servo flapper = null;
     public Servo slapper = null;
@@ -51,6 +52,7 @@ public class RobotHardware
         wrist = ahwMap.servo.get("wrist");
         knock = ahwMap.servo.get("knock");
         claw = ahwMap.servo.get("claw");
+        brake = ahwMap.servo.get("brake");
 
         flapper = ahwMap.servo.get("flapper");
         slapper = ahwMap.servo.get("slapper");
@@ -60,6 +62,7 @@ public class RobotHardware
         wrist.setPosition(0.375);
         knock.setPosition(0.75);
         claw.setPosition(0.94);
+        brake.setPosition(0.10);
 
         motorRF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorLF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);

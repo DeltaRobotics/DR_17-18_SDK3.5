@@ -47,6 +47,8 @@ public class JustCameraJewel extends LinearOpModeCamera
     boolean firstTime = true;
     boolean cameraAgain = true;
     int jewelRightX = 1400;
+    long timeStart;
+    long timeElapsed;
 
     public void runOpMode()
     {
@@ -235,17 +237,19 @@ public class JustCameraJewel extends LinearOpModeCamera
                             }
                         }
                     }
-                    SaveImage(rgbImage2);
                     //telemetry.addData("Width", rgbImage.getWidth());
                     //telemetry.addData("Height", rgbImage.getHeight());
                     telemetry.update();
-
-                    while (jewelRightX > 100)
+                    timeStart = System.currentTimeMillis();
+                    while (timeElapsed < 8000)
                     {
+                        SaveImage(rgbImage2);
+                        timeElapsed = System.currentTimeMillis() - timeStart;
                         jewelRightX = FindJewelsCenter(rgbImage2);
                         telemetry.addData("Jewel Right X", jewelRightX);
                         telemetry.update();
                     }
+                    telemetry.addData("Out of", "loop");
                 }
                 stopCamera();
             }
