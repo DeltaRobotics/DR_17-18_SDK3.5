@@ -64,7 +64,7 @@ public class ServoMove extends LinearOpMode
         motors[2] = curiosity.motorLB;
         motors[3] = curiosity.motorLF;
         sleep(250);
-        servos[2].setPosition(0.1);
+        servos[2].setPosition(0.05);
         sleep(750);
         servos[3].setPosition(0.80);
         sleep(750);

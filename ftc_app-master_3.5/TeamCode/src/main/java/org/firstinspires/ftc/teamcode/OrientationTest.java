@@ -44,13 +44,14 @@ public class OrientationTest extends LinearOpMode
         motors[2] = robot.motorLB;
         motors[3] = robot.motorLF;
         waitForStart();
-        drive.OrientationDrive(85, driveStyle.PIVOT_LEFT, 0.3, motors,imu);
+        /*drive.OrientationDrive(85, driveStyle.PIVOT_LEFT, 0.3, motors,imu);
         sleep(500);
         drive.OrientationDrive(95, driveStyle.PIVOT_RIGHT, 0.3, motors,imu);
         sleep(500);
         drive.OrientationDrive(50, driveStyle.PIVOT_RIGHT, 0.3, motors,imu);
         sleep(500);
         drive.OrientationDrive(45, driveStyle.PIVOT_LEFT, 0.3, motors,imu);
+        */
 
         while(opModeIsActive()) {
             angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
