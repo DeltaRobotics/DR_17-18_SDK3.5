@@ -255,8 +255,6 @@ public class JustCameraJewel extends LinearOpModeCamera
                             }
                         }
                     }
-                    //telemetry.addData("Width", rgbImage.getWidth());
-                    //telemetry.addData("Height", rgbImage.getHeight());
                     telemetry.update();
                     timeStart = System.currentTimeMillis();
                     while (timeElapsed < 8000)
