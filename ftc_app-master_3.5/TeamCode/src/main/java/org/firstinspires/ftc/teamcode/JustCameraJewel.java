@@ -72,28 +72,35 @@ public class JustCameraJewel extends LinearOpModeCamera
                 //The last value must correspond to the downsampling value from above
                 rgbImage1 = convertYuvImageToRgb(yuvImage, width, height, 1);
 
+                //Looks at the size of the rgbImage for troubleshooting
                 //telemetry.addData("Width", rgbImage.getWidth());
                 //telemetry.addData("Height", rgbImage.getHeight());
                 telemetry.update();
 
                 //This is for only saving the color image if needed.
 
+                //Sets the vertical boundaries of the camera image
                 for (int x = 480; x < 680; x++)
                 {
+                    //Sets the horizontal boundaries of the camera image
                     for (int y = 850; y < 1280; y++)
                     {
+                        //Sets the right boundary of the image to a certain color
                         if (x == 679 && y >= 850)
                         {
                             rgbImage1.setPixel(x, y, Color.rgb(0, 255, 255));
                         }
+                        //Sets the upper boundary of the image to a certain color
                         if (x >= 0 && y == 850)
                         {
                             rgbImage1.setPixel(x, y, Color.rgb(0, 255, 255));
                         }
+                        //Sets the left boundary of the image to a certain color
                         if (x == 480 && y >= 850)
                         {
                             rgbImage1.setPixel(x, y, Color.rgb(0, 255, 255));
                         }
+                        //Sets the lower boundary of the image to a certain color
                         if (x >= 0 && y == 1279)
                         {
                             rgbImage1.setPixel(x, y, Color.rgb(0, 255, 255));
@@ -104,16 +111,21 @@ public class JustCameraJewel extends LinearOpModeCamera
                 //SaveImage(rgbImage1);
 
                 //Analyzing Jewel Color
+
+                //Sets the vertical boundaries of the camera image analysis
                 for (int x = 480; x < 680; x++)
                 {
+                    //Sets the horizontal boundaries of the camera image analysis
                     for (int y = 850; y < 1280; y++)
                     {
+                        //Adds the value of each pixel to the aggregate color value (red/blue/green)
                         int pixel = rgbImage1.getPixel(x, y);
                         redValueLeft += red(pixel);
                         blueValueLeft += blue(pixel);
                         greenValueLeft += green(pixel);
                     }
                 }
+                //Divides each aggregate color by a large number to make the values easier to understand and compare
                 redValueLeft = normalizePixels(redValueLeft);
                 blueValueLeft = normalizePixels(blueValueLeft);
                 greenValueLeft = normalizePixels(greenValueLeft);
@@ -122,8 +134,10 @@ public class JustCameraJewel extends LinearOpModeCamera
                 //telemetry.addData("greenValueLeft", greenValueLeft);
 
 
+                //Determines the highest color to determine jewel color
                 jewelColorInt = highestColor(redValueLeft, blueValueLeft, greenValueLeft);
 
+                //Prints the jewelColorInt variable to a string based on the color of the jewel
                 telemetry.addData("Jewel Color", jewelColorInt);
                 if (jewelColorInt == 0)
                 {
@@ -147,25 +161,32 @@ public class JustCameraJewel extends LinearOpModeCamera
 
             if (vuforiaOn)
             {
+                //Initializing the Vuforia camera parameters
                 //int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
                 VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
 
+                //The license key of Vuforia (specific to 9925)
                 parameters.vuforiaLicenseKey = "ARab//j/////AAAAGa3dGFLc9ECfpTtxg0azy4sjU1xxnDSHmo2gKPM2BecEH5y5QNOI7fiEsflqB1" +
                         "9dYDi655Mj6avzS4Vru7PegjjQCH1YVLwUZ4iX80Q02P0S+cA9Vw71hoZoI8nMdLgvgplYFv/M3ofqFezhHE7Afc9fq/ixLzl4P5d" +
                         "z61T+SR43HzNb7At7XC3z9cSLqHD2ba+WWbKUPf6bcivgqimS8ekVeZHubkwfIqFVxXGZEfSScTfGa0/3l5/TaBpaUoUkz+JhAULt" +
                         "pt2PwYdpCfhdCP3eo+2a8DJjP3eSXlCkuEoAUtUCUzCXWxS+pHDHCyUtEAxf8LaKvSh3aYoO7dNzmh4TspC3mFVrLbyZMzii8GgC";
 
+                //Initialization of Vuforia camera and localizer (more background init)
                 parameters.cameraDirection = VuforiaLocalizer.CameraDirection.FRONT;
                 this.vuforia = ClassFactory.createVuforiaLocalizer(parameters);
 
+                //Retrieves the VuMark files that we are looking for
                 VuforiaTrackables relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
                 VuforiaTrackable relicTemplate = relicTrackables.get(0);
 
 
+                //Activates the VuMarks we want (The pictographs)
                 relicTrackables.activate();
 
+                //This loop only runs while a relic VuMark has not been found and the OpMode is running
                 while (opModeIsActive() && relicAnalysis)
                 {
+                    //Sets the keyPosition variable to whichever picture is seen by Vuforia
                     RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
                     if (vuMark != RelicRecoveryVuMark.UNKNOWN)
                     {
@@ -193,12 +214,14 @@ public class JustCameraJewel extends LinearOpModeCamera
                 }
 
 
+                //Our own variable for Vuforia - whether it's used or not
                 vuforiaOn = false;
-                //relicTrackables.deactivate();
+                //Deactivates the camera that is currently being used
                 CameraDevice.getInstance().stop();
                 CameraDevice.getInstance().deinit();
                 telemetry.addData("Camera Device", CameraDevice.getInstance());
-                //Vuforia.deinit();
+                //Deinitializes Vuforia itself (not needed? May avoid having to deal with unclosed data sets?)
+                // Vuforia.deinit();
 
             }
             if(firstTime)
@@ -214,11 +237,6 @@ public class JustCameraJewel extends LinearOpModeCamera
 
                 if (imageReady())
                 {
-
-                    int redValueLeft = -76800;
-                    int blueValueLeft = -76800;
-                    int greenValueLeft = -76800;
-
                     Bitmap rgbImage2;
                     //The last value must correspond to the downsampling value from above
                     rgbImage2 = convertYuvImageToRgb(yuvImage, width, height, 1);
