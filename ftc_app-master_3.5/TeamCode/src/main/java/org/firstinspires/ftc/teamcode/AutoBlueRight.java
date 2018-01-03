@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -10,6 +12,10 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
@@ -26,6 +32,10 @@ public class AutoBlueRight extends LinearOpModeCamera {
     RobotHardware robot = new RobotHardware();
     Drive drive = new Drive();
 
+    BNO055IMU imu; //BNO055IMU sensor in Rev Module
+
+    Orientation angles; //Special object
+
     ElapsedTime runtime = new ElapsedTime();
 
     ServoMove servoMove = new ServoMove();
@@ -38,6 +48,8 @@ public class AutoBlueRight extends LinearOpModeCamera {
 
     int jewelColorInt;
     double timeout = 0;
+
+    double targetError = 0;
 
     @Override
     public void runOpMode() {
@@ -56,9 +68,26 @@ public class AutoBlueRight extends LinearOpModeCamera {
         motors[2] = robot.motorLB;
         motors[3] = robot.motorLF;
 
-        Servo[] servos = new Servo[2];
+        Servo[] servos = new Servo[4];
         servos[0] = robot.flapper;
         servos[1] = robot.slapper;
+        servos[2] = robot.knock;
+        servos[3] = robot.claw;
+
+        BNO055IMU.Parameters parametersIMU = new BNO055IMU.Parameters();
+        parametersIMU.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
+        parametersIMU.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parametersIMU.calibrationDataFile = "AdafruitIMUCalibration.json"; // see the calibration sample opmode
+        parametersIMU.loggingEnabled      = true;
+        parametersIMU.loggingTag          = "IMU";
+        parametersIMU.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
+        parametersIMU.temperatureUnit     = BNO055IMU.TempUnit.CELSIUS;
+        robot.init(hardwareMap);
+        imu = hardwareMap.get(BNO055IMU.class, "imu");
+        imu.initialize(parametersIMU);
+        angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        telemetry.addData("Init Orientation", AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle));
+        telemetry.update();
 
 
         if (isCameraAvailable()) {
@@ -195,13 +224,13 @@ public class AutoBlueRight extends LinearOpModeCamera {
             }
 
             //drive.timeDrive(750, 0.4, driveStyle.STRAFE_LEFT, motors);
-            sleep(1000);
+            sleep(250);
             drive.encoderDrive(450, driveStyle.STRAFE_LEFT, 0.45, motors);
-            sleep(1000);
+            sleep(250);
             drive.encoderDrive(200, driveStyle.STRAFE_RIGHT, 0.45, motors);
             //drive.timeDrive(800, 0.5, driveStyle.STRAFE_RIGHT, motors);
             servoMove.knockOffJewel(servos, jewelColorInt, "blue");
-            sleep(1000);
+            sleep(250);
         /*
         robot.slapper.setPosition(0.5);
         sleep(1000);
@@ -224,12 +253,66 @@ public class AutoBlueRight extends LinearOpModeCamera {
         robot.slapper.setPosition(1.0);
         sleep(1000);
         */
+
+        //
             //drive.timeDrive(85, 0.4, driveStyle.STRAFE_LEFT, motors);
             drive.encoderDrive(50, driveStyle.STRAFE_LEFT, 0.45, motors);
             sleep(1000);
-            drive.encoderDrive(2000, driveStyle.FORWARD, 0.5, motors);
+            switch (keyPosition) {
+                case "RIGHT": {
+                    drive.encoderDrive(2525, driveStyle.FORWARD, 0.5, motors);
+                    break;
+                }
+
+                case "CENTER": {
+                    drive.encoderDrive(2100, driveStyle.FORWARD, 0.5, motors);
+                    break;
+                }
+
+                case "LEFT": {
+                    drive.encoderDrive(1625, driveStyle.FORWARD, 0.5, motors);
+                    break;
+                }
+
+                case "UNKNOWN": {
+                    drive.encoderDrive(1900, driveStyle.FORWARD, 0.5, motors);
+                    break;
+                }
+            }
+
+            sleep(250);
+
+            drive.encoderDrive(200, driveStyle.STRAFE_RIGHT, 0.45, motors);
+
+            sleep(250);
+
+            angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+            drive.OrientationDrive(80 + AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle), driveStyle.PIVOT_LEFT, 0.4, motors, imu);
+
+            angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+            telemetry.addData("Before Move", AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle));
+            telemetry.update();
+            if(AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle) < 87 || AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle) > 93)
+            {
+                targetError = (90 - AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle)) / 2;
+                if (targetError > 0)//corrects orientation
+                {
+                    telemetry.update();
+                    drive.OrientationDrive(Math.abs(targetError), driveStyle.PIVOT_LEFT, 0.4, motors, imu);
+                } else {
+                    telemetry.update();
+                    drive.OrientationDrive(Math.abs(targetError), driveStyle.PIVOT_RIGHT, 0.4, motors, imu);
+                }
+            }
+            angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+            telemetry.addData("After Move", AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle));
+            sleep(250);
+
+            drive.encoderDrive(300, driveStyle.BACKWARD, 0.5, motors);
+            sleep(250);
+            servoMove.placeGlyph(servos, robot, drive);
+            //drive.encoderDrive(2000, driveStyle.FORWARD, 0.5, motors);
             //drive.timeDrive(1000, 0.5, driveStyle.FORWARD, motors);
-            sleep(1000);
         }
     }
 }

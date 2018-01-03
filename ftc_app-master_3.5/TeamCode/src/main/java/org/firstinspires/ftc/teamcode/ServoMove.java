@@ -76,7 +76,7 @@ public class ServoMove extends LinearOpMode
         servos[2].setPosition(0.75);
         drive.encoderDrive(650, driveStyle.FORWARD, 0.5, motors);
         sleep(250);
-        drive.encoderDrive(200, driveStyle.BACKWARD, 0.5, motors);
+        drive.encoderDrive(100, driveStyle.BACKWARD, 0.5, motors);
         //
     }
 

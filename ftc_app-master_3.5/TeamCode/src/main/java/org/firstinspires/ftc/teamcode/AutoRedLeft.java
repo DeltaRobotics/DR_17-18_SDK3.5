@@ -264,23 +264,23 @@ public class AutoRedLeft extends LinearOpModeCamera {
             {
                 case "LEFT":
                 {
-                    drive.encoderDrive(1800, driveStyle.BACKWARD, 0.5, motors);
+                    drive.encoderDrive(2425, driveStyle.BACKWARD, 0.5, motors);
                     break;
                 }
 
                 case "CENTER":
                 {
-                    drive.encoderDrive(1600, driveStyle.BACKWARD, 0.5, motors);
+                    drive.encoderDrive(1900, driveStyle.BACKWARD, 0.5, motors);
                     break;
                 }
                 case "RIGHT":
                 {
-                    drive.encoderDrive(1300, driveStyle.BACKWARD, 0.5, motors);
+                    drive.encoderDrive(1525, driveStyle.BACKWARD, 0.5, motors);
                     break;
                 }
                 case "UNKNOWN":
                 {
-                    drive.encoderDrive(1600, driveStyle.BACKWARD, 0.5, motors);
+                    drive.encoderDrive(1900, driveStyle.BACKWARD, 0.5, motors);
                     break;
                 }
             }
@@ -289,21 +289,22 @@ public class AutoRedLeft extends LinearOpModeCamera {
             sleep(250);
             //True 90 degree turn
             angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-            drive.OrientationDrive(80 - AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle), driveStyle.PIVOT_LEFT, 0.4, motors, imu);
-            sleep(250);
-            angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-            telemetry.addData("Before Move", AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle));
-            telemetry.update();
-            targetError = 90 - AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle);
-            if(targetError > 0)//corrects orientation
-            {
+                drive.OrientationDrive(80 - AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle), driveStyle.PIVOT_LEFT, 0.4, motors, imu);
+                sleep(250);
+                angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+                telemetry.addData("Before Move", AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle));
                 telemetry.update();
-                drive.OrientationDrive(Math.abs(targetError), driveStyle.PIVOT_LEFT, 0.4, motors, imu);
-            }
-            else
-            {
-                telemetry.update();
-                drive.OrientationDrive(Math.abs(targetError), driveStyle.PIVOT_RIGHT, 0.4, motors, imu);
+                if(AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle) < 87 || AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle) > 93)
+                {
+                    targetError = (90 - AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle)) / 2;
+                    if (targetError > 0)//corrects orientation
+                    {
+                        telemetry.update();
+                        drive.OrientationDrive(Math.abs(targetError), driveStyle.PIVOT_LEFT, 0.4, motors, imu);
+                    } else {
+                        telemetry.update();
+                        drive.OrientationDrive(Math.abs(targetError), driveStyle.PIVOT_RIGHT, 0.4, motors, imu);
+                    }
             }
             angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
             telemetry.addData("After Move", AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle));
