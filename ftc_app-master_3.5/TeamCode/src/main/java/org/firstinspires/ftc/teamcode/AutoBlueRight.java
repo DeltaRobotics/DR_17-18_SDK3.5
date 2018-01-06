@@ -260,7 +260,7 @@ public class AutoBlueRight extends LinearOpModeCamera {
             sleep(1000);
             switch (keyPosition) {
                 case "RIGHT": {
-                    drive.encoderDrive(2525, driveStyle.FORWARD, 0.5, motors);
+                    drive.encoderDrive(2625, driveStyle.FORWARD, 0.5, motors);
                     break;
                 }
 
@@ -275,7 +275,7 @@ public class AutoBlueRight extends LinearOpModeCamera {
                 }
 
                 case "UNKNOWN": {
-                    drive.encoderDrive(1900, driveStyle.FORWARD, 0.5, motors);
+                    drive.encoderDrive(2200, driveStyle.FORWARD, 0.5, motors);
                     break;
                 }
             }
