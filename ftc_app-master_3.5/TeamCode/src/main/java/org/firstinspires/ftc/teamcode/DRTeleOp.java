@@ -69,8 +69,8 @@ public class DRTeleOp extends LinearOpMode
     double clawOpen = 0.85;
     double knockSwitch;
 
-    double brakeOn = 0.0;
-    double brakeOff = 0.10;
+    double brakeOn = 0.10;
+    double brakeOff = 0.20;
     double brakePosition;
 
     public void runOpMode() throws InterruptedException
@@ -341,7 +341,7 @@ public class DRTeleOp extends LinearOpMode
                 curiosity.claw.setPosition(clawPos);
             }
 
-            if(gamepad1.back)
+            /*if(gamepad1.back)
             {
                 slapperPosition = 0.8;
                 curiosity.slapper.setPosition(slapperPosition);
@@ -357,6 +357,7 @@ public class DRTeleOp extends LinearOpMode
                 knockPos = 0.75;
                 curiosity.knock.setPosition(knockPos);
             }
+            */
 
             if(gamepad2.dpad_left)
             {

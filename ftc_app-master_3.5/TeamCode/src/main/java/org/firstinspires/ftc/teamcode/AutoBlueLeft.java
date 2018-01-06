@@ -29,20 +29,20 @@ import for_camera_opmodes.LinearOpModeCamera;
 @Autonomous (name = "AutoBlueLeft", group = "Auto")
 public class AutoBlueLeft extends LinearOpModeCamera
 {
-    RobotHardware robot = new RobotHardware();
-    Drive drive = new Drive();
-    ServoMove servoMove = new ServoMove();
-    BNO055IMU imu;
-    Orientation angles;
+    RobotHardware robot = new RobotHardware(); //Object of RobotHardware class
+    Drive drive = new Drive(); //Object of Drive class
+    ServoMove servoMove = new ServoMove(); //Object of ServoMove class
+    BNO055IMU imu; //Rev IMU sensor
+    Orientation angles; //Object for the robots orientation
 
-    VuforiaLocalizer vuforia;
-    String keyPosition;
-    boolean vuforiaOn = true;
-    boolean relicAnalysis = true;
+    VuforiaLocalizer vuforia; //Vuforia object
+    String keyPosition; //String for where the key is in the cryptobox
+    boolean vuforiaOn = true; //Sets wether vuforia is on ??
+    boolean relicAnalysis = true; //Sets wether we should analyzie the relic ??
 
-    String color = "undecided";
+    String color = "undecided"; //String that tells us which color the jewel under the pictogram is
 
-    int jewelColorInt;
+    int jewelColorInt; //Integer variable for the jewel color so the code can use it
 
     double timeout = 0;
 
@@ -50,40 +50,34 @@ public class AutoBlueLeft extends LinearOpModeCamera
     public void runOpMode()
     {
 
-        robot.init(hardwareMap);
-        robot.slapper.setPosition(0.3);
+        robot.init(hardwareMap); //Inits hardware map
+        robot.slapper.setPosition(0.3); //Sets slapper to the special home position for auto
 
-        robot.motorRF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        robot.motorLF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        robot.motorRB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        robot.motorLB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        DcMotor[] motors = new DcMotor[4];//]
+        motors[0] = robot.motorRF;//]
+        motors[1] = robot.motorRB;//] Array to hold all of the drive motors
+        motors[2] = robot.motorLB;//]
+        motors[3] = robot.motorLF;//]
 
-        DcMotor[] motors = new DcMotor[4];
-        motors[0] = robot.motorRF;
-        motors[1] = robot.motorRB;
-        motors[2] = robot.motorLB;
-        motors[3] = robot.motorLF;
+        Servo[] servos = new Servo[4];//]
+        servos[0] = robot.flapper;//]
+        servos[1] = robot.slapper;//] Array to hold some servos we use in auto
+        servos[2] = robot.knock;//]
+        servos[3] = robot.claw;//]
 
-        Servo[] servos = new Servo[4];
-        servos[0] = robot.flapper;
-        servos[1] = robot.slapper;
-        servos[2] = robot.knock;
-        servos[3] = robot.claw;
-
-        BNO055IMU.Parameters parametersIMU = new BNO055IMU.Parameters();
-        parametersIMU.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
-        parametersIMU.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-        parametersIMU.calibrationDataFile = "AdafruitIMUCalibration.json"; // see the calibration sample opmode
-        parametersIMU.loggingEnabled      = true;
-        parametersIMU.loggingTag          = "IMU";
-        parametersIMU.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
-        parametersIMU.temperatureUnit     = BNO055IMU.TempUnit.CELSIUS;
-        robot.init(hardwareMap);
-        imu = hardwareMap.get(BNO055IMU.class, "imu");
-        imu.initialize(parametersIMU);
-        angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-        telemetry.addData("Init Orientation", AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle));
-        telemetry.update();
+        BNO055IMU.Parameters parametersIMU = new BNO055IMU.Parameters(); //Declares parameters object forIMU
+        parametersIMU.angleUnit           = BNO055IMU.AngleUnit.DEGREES; //Sets the unit in which we measure orientation in degrees
+        parametersIMU.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC; //Sets acceleration unit in meters per second ??
+        parametersIMU.calibrationDataFile = "AdafruitIMUCalibration.json"; // see the calibration sample opmode, sets what file the IMU ueses
+        parametersIMU.loggingEnabled      = true; //Sets wether logging in enable
+        parametersIMU.loggingTag          = "IMU"; //Sets logging tag
+        parametersIMU.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator(); //Sets acceleration integration algorithm
+        parametersIMU.temperatureUnit     = BNO055IMU.TempUnit.CELSIUS; //Sets units for temperature readings
+        imu = hardwareMap.get(BNO055IMU.class, "imu"); //Inits IMU
+        imu.initialize(parametersIMU); //Init IMU parameters (set above)
+        angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES); //Gets current orientation of robot
+        telemetry.addData("Init Orientation", AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle)); //Displays initial orientation
+        telemetry.update(); //Updates telemetry
 
 
         if (isCameraAvailable())
@@ -227,89 +221,61 @@ public class AutoBlueLeft extends LinearOpModeCamera
                     telemetry.update();
                 }
             }
-            //drive.timeDrive(750, 0.4, driveStyle.STRAFE_LEFT, motors);
-            drive.encoderDrive(450, driveStyle.STRAFE_LEFT, 0.45, motors);
+            drive.encoderDrive(450, driveStyle.STRAFE_LEFT, 0.45, motors); //Strafes off stone
             sleep(250);
-            //drive.timeDrive(800, 0.5, driveStyle.STRAFE_RIGHT, motors);
-            drive.encoderDrive(200, driveStyle.STRAFE_RIGHT, 0.45, motors);
-        /*sleep(2000);
-        robot.slapper.setPosition(0.3);
-        sleep(1000);
-        robot.flapper.setPosition(0.68);
-        sleep(1000);
-        color = "blue";
-        if(color == "blue")
-        {
-            robot.slapper.setPosition(0.10);
-        }
-        if(color == "red")
-        {
-            robot.slapper.setPosition(0.50);
-        }
-        sleep(1000);
-        robot.slapper.setPosition(0.3);
-        sleep(1000);
-        robot.flapper.setPosition(1.0);
-        sleep(1000);
-        robot.slapper.setPosition(0.8);
-        sleep(1000);
-        */
-            servoMove.knockOffJewel(servos, jewelColorInt, "blue");
+            drive.encoderDrive(200, driveStyle.STRAFE_RIGHT, 0.45, motors); //Strafes back to hit stone
+            servoMove.knockOffJewel(servos, jewelColorInt, "blue"); //Knocks off correct jewel
             sleep(250);
-            //drive.timeDrive(85, 0.4, driveStyle.STRAFE_LEFT, motors);
-            //
-            drive.encoderDrive(50, driveStyle.STRAFE_LEFT, 0.45, motors);
+            drive.encoderDrive(50, driveStyle.STRAFE_LEFT, 0.45, motors); //Strafes so the robot isn't right against the stone
             sleep(250);
-            //drive.timeDrive(800, 0.5, driveStyle.FORWARD, motors);
-            drive.encoderDrive(1250, driveStyle.FORWARD, 0.5, motors);
+            drive.encoderDrive(1250, driveStyle.FORWARD, 0.5, motors); //Drives forward towards the cryptobox
             sleep(250);
-            //drive.timeDrive(750, 0.5, driveStyle.STRAFE_RIGHT, motors);
 
-            switch(keyPosition)
+            switch(keyPosition) //Handles where the robot should move depending on key
             {
-                case "LEFT":
+                case "LEFT": //If key is LEFT
                 {
-                    drive.encoderDrive(600, driveStyle.STRAFE_RIGHT, 0.45, motors);
+                    drive.encoderDrive(600, driveStyle.STRAFE_RIGHT, 0.45, motors); //Strafes to left column of cryptobox
                     break;
                 }
 
-                case "CENTER":
+                case "CENTER": //If key is CENTER
                 {
-                    drive.encoderDrive(1050, driveStyle.STRAFE_RIGHT, 0.55, motors);
+                    drive.encoderDrive(1050, driveStyle.STRAFE_RIGHT, 0.55, motors); //Strafes to center column of cryptobox
                     break;
                 }
 
-                case "RIGHT":
+                case "RIGHT": //If key is RIGHT
                 {
-                    drive.encoderDrive(1550
-                            , driveStyle.STRAFE_RIGHT, 0.55, motors);
+                    drive.encoderDrive(1550, driveStyle.STRAFE_RIGHT, 0.55, motors); //Strafes to right column of cryptobox
                     break;
                 }
 
-                case "UNKNOWN":
+                case "UNKNOWN": //If phone couldn't sense a pictogram
                 {
-                    drive.encoderDrive(1000, driveStyle.STRAFE_RIGHT, 0.55, motors);
+                    drive.encoderDrive(1050, driveStyle.STRAFE_RIGHT, 0.55, motors); //Strafes to center column
                     break;
                 }
             }
             sleep(500);
-            angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-            telemetry.addData("Before Move", AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle));
-            telemetry.update();
-            if(AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle) > 0)
+            angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES); //Gets current orientation of robot
+            telemetry.addData("Before Move", AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle)); //Displays current orientation before the robot pivots
+            telemetry.update(); //Updates telemetry
+            //Chunk of code below corrects the robot's orientation
+            if(AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle) > 0) //If the robot's current orientation is greater than 0
             {
-                telemetry.update();
-                drive.OrientationDrive((Math.abs(AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle)))/2, driveStyle.PIVOT_RIGHT, 0.4, motors, imu);
+                telemetry.update(); //Updates telemetry
+                drive.OrientationDrive((Math.abs(AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle)))/2, driveStyle.PIVOT_RIGHT, 0.4, motors, imu); //Moves robot to correct orientation
             }
-            else
+            else //If the robot's current orientation isn't greater than 0
             {
-                telemetry.update();
-                drive.OrientationDrive((Math.abs(AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle)))/2, driveStyle.PIVOT_LEFT, 0.4, motors, imu);
+                telemetry.update(); //Updates telemetry
+                drive.OrientationDrive((Math.abs(AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle)))/2, driveStyle.PIVOT_LEFT, 0.4, motors, imu); //Moves robot to correct orientation
             }
-            angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-            telemetry.addData("After Move", AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle));
-            telemetry.update();
-            servoMove.placeGlyph(servos, robot, drive);
+            angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES); //Gets current orientation of robot
+            telemetry.addData("After Move", AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle)); //Displays robot's orientation after the orientation correction
+            telemetry.update(); //Updates telemetry
+            servoMove.placeGlyph(servos, robot, drive); //Places and pushes in the glyph into the correct cryptobox column
 
 
         }
