@@ -3407,7 +3407,14 @@
       <option name="project" value="LOCAL" />
       <updated>1515552878710</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="-Wrote code for the joint3 arm that is no longer being used. But I commented on it really well.">
+      <created>1515552907174</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1515552907174</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="ToolWindowManager">
