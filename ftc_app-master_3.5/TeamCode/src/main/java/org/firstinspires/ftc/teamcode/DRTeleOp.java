@@ -72,6 +72,7 @@ public class DRTeleOp extends LinearOpMode
     double brakeOn = 0.10;
     double brakeOff = 0.20;
     double brakePosition;
+    long ESCTimeStart = 0;
 
     public void runOpMode() throws InterruptedException
     {
@@ -261,11 +262,36 @@ public class DRTeleOp extends LinearOpMode
             j3MoveModeLast = j3MoveMode;*/
 
 
+            j3currentEncoder = curiosity.joint3.getCurrentPosition();
+            //If controller is not in deadband
             if(gamepad2.left_stick_y > 0.1 || gamepad2.left_stick_y < -0.1)
             {
-                brakePosition = brakeOff;
-                curiosity.joint3.setPower(gamepad2.left_stick_y * .50);
+                //If joint3 is on the lower side and the arm is being moved down
+                if(j3currentEncoder < 400 && gamepad2.left_stick_y > 0.1)
+                {
+                    //Sets the start time to current to begin the designated timer
+                    //ESC stands for Encoder Speed Correction for the joint3 usage
+                    ESCTimeStart = System.currentTimeMillis();
+                    //Timer system for waiting 1/2 second for brake (time may change later)
+                    if((System.currentTimeMillis() - ESCTimeStart) < 500)
+                    {
+                        //Removes the brake
+                        brakePosition = brakeOff;
+                        //Setting joint3power variable to a hold power so brake can come off
+                        joint3Power = 0.4;
+                    }
+                    else
+                    {
+                        //Removes the brake
+                        brakePosition = brakeOff;
+                        joint3Power = gamepad2.left_stick_y * .50;
+                    }
+
+                }
+                //Officially sets the joint3 to a power
+                curiosity.joint3.setPower(joint3Power);
             }
+
 
             if(Math.abs(gamepad2.left_stick_y) < 0.1)
             {
