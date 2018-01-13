@@ -279,7 +279,7 @@ public class LinearOpModeCamera extends LinearOpMode
 
             for(int x = 0; x < colorValues.length; x++)
             {
-                text = text +  x + "->"  + "R" + colorValues[x][0] + "G" + colorValues[x][1] + "B" + colorValues[x][2] + "\n";
+                text = text +  x + "->"  + "R" + colorValues[x][0] + "B" + colorValues[x][1] + "G" + colorValues[x][2] + " - " + colorValues[x][3] + "\n";
             }
             out.write(text.getBytes());
 
@@ -291,32 +291,42 @@ public class LinearOpModeCamera extends LinearOpMode
         }
     }
 
-    public int FindJewelsCenter (Bitmap cameraBitmap)
+    public int[] FindJewelsCenter (Bitmap cameraBitmap)
     {
-        int[][] colorValues = new int[960][3];
+        int[][] colorValues = new int[960][4];
+        int[] returnValues = new int[960];
         int width1 = cameraBitmap.getWidth();
         int lineRightX = -1;
         int tempPixel;
-        int white = 120;
+        int white = 140; //To be used with greater than
+        int black = 100; //To be used with less than
         int x = width1 - 1;
-        //Camera field of view should equal 960x1280 as long as downsampling is equal to 1
 
-        while(lineRightX == -1 && x > 0)
-        {
-            for(x = width1 - 1; x > 0; x--)
+        //Camera field of view should equal 960x1280 as long as downsampling is equal to 1
+            for(x = 0; x < width1 - 1; x++)
             {
-                tempPixel = cameraBitmap.getPixel(x,1230);
+                tempPixel = cameraBitmap.getPixel(x,850);
                 colorValues[x][0] = red(tempPixel);
                 colorValues[x][1] = blue(tempPixel);
                 colorValues[x][2] = green(tempPixel);
                 if(red(tempPixel) > white && blue(tempPixel) > white && green(tempPixel) > white)
                 {
-                    lineRightX = x;
+                    colorValues[x][3] = 0;
+                    returnValues[x] = 0;
+                }
+                else if(red(tempPixel) < black && blue(tempPixel) < black && green(tempPixel) < black)
+                {
+                    colorValues[x][3] = 1;
+                    returnValues[x] = 1;
+                }
+                else if((red(tempPixel) > 150) && (green(tempPixel) < 120) && (green(tempPixel) > 70) && (blue(tempPixel) < 80))
+                {
+                    colorValues[x][3] = 2;
+                    returnValues[x] = 2;
                 }
             }
-        }
         SaveColorLog(colorValues);
-        return lineRightX;
+        return returnValues;
     }
 
 }

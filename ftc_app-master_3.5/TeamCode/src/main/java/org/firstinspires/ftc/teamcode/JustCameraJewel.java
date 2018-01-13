@@ -47,6 +47,7 @@ public class JustCameraJewel extends LinearOpModeCamera
     boolean firstTime = true;
     boolean cameraAgain = true;
     int jewelRightX = 1400;
+    int[]jewelColor;
     long timeStart;
     long timeElapsed;
 
@@ -237,31 +238,58 @@ public class JustCameraJewel extends LinearOpModeCamera
 
                 if (imageReady())
                 {
-                    Bitmap rgbImage2;
-                    //The last value must correspond to the downsampling value from above
-                    rgbImage2 = convertYuvImageToRgb(yuvImage, width, height, 1);
 
-                    for (int x = 0; x < 960; x++)
+                    timeStart = System.currentTimeMillis();
+                    while (timeElapsed < 15000)
                     {
-                        for (int y = 800; y < 1280; y++)
+                        Bitmap rgbImage2;
+                        //The last value must correspond to the downsampling value from above
+                        rgbImage2 = convertYuvImageToRgb(yuvImage, width, height, 1);
+                        jewelColor = FindJewelsCenter(rgbImage2);
+
+                        for (int x = 0; x < 960; x++)
                         {
-                            if (y == 1229)
+                            for (int y = 0; y < 1280; y++)
                             {
-                                rgbImage2.setPixel(x, y, Color.rgb(0, 255, 0));
-                            }
-                            if (y == 1231)
-                            {
-                                rgbImage2.setPixel(x, y, Color.rgb(0, 255, 0));
+                                if (y % 100 == 0)
+                                {
+                                    rgbImage2.setPixel(x, y, Color.rgb(120, 255, 255));
+                                }
+                                if (x % 100 == 0)
+                                {
+                                    rgbImage2.setPixel(x, y, Color.rgb(120, 255, 255));
+                                }
+                                if (y == 848)
+                                {
+                                    rgbImage2.setPixel(x, y, Color.rgb(255, 0, 0));
+                                }
+                                if (y == 852)
+                                {
+                                    rgbImage2.setPixel(x, y, Color.rgb(255, 0, 0));
+                                }
+                                if(jewelColor[x] == 0)
+                                {
+                                    rgbImage2.setPixel(x, 850, Color.rgb(255,255,255));
+                                    rgbImage2.setPixel(x, 851, Color.rgb(255,255,255));
+                                    rgbImage2.setPixel(x, 849, Color.rgb(255,255,255));
+                                }
+                                if(jewelColor[x] == 1)
+                                {
+                                    rgbImage2.setPixel(x, 850, Color.rgb(10,10,10));
+                                    rgbImage2.setPixel(x, 851, Color.rgb(10,10,10));
+                                    rgbImage2.setPixel(x, 849, Color.rgb(10,10,10));
+                                }
+                                if(jewelColor[x] == 2)
+                                {
+                                    rgbImage2.setPixel(x, 850, Color.rgb(255,127,40));
+                                    rgbImage2.setPixel(x, 851, Color.rgb(255,127,40));
+                                    rgbImage2.setPixel(x, 849, Color.rgb(255,127,40));
+                                }
                             }
                         }
-                    }
-                    telemetry.update();
-                    timeStart = System.currentTimeMillis();
-                    while (timeElapsed < 8000)
-                    {
+                        telemetry.update();
                         SaveImage(rgbImage2);
                         timeElapsed = System.currentTimeMillis() - timeStart;
-                        jewelRightX = FindJewelsCenter(rgbImage2);
                         telemetry.addData("Jewel Right X", jewelRightX);
                         telemetry.update();
                     }
