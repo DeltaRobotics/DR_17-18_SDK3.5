@@ -46,7 +46,7 @@ public class JustCameraJewel extends LinearOpModeCamera
     boolean relicAnalysis = true;
     boolean firstTime = true;
     boolean cameraAgain = true;
-    int jewelRightX = 1400;
+    int jewelLeftX = 1400;
     int[]jewelColor;
     long timeStart;
     long timeElapsed;
@@ -222,7 +222,7 @@ public class JustCameraJewel extends LinearOpModeCamera
                 CameraDevice.getInstance().deinit();
                 telemetry.addData("Camera Device", CameraDevice.getInstance());
                 //Deinitializes Vuforia itself (not needed? May avoid having to deal with unclosed data sets?)
-                // Vuforia.deinit();
+                //Vuforia.deinit();
 
             }
             if(firstTime)
@@ -240,8 +240,9 @@ public class JustCameraJewel extends LinearOpModeCamera
                 {
 
                     timeStart = System.currentTimeMillis();
-                    while (timeElapsed < 15000)
+                    while (jewelLeftX == 1400)
                     {
+
                         Bitmap rgbImage2;
                         //The last value must correspond to the downsampling value from above
                         rgbImage2 = convertYuvImageToRgb(yuvImage, width, height, 1);
@@ -281,6 +282,10 @@ public class JustCameraJewel extends LinearOpModeCamera
                                 }
                                 if(jewelColor[x] == 2)
                                 {
+                                    if(jewelLeftX == 1400)
+                                    {
+                                        jewelLeftX = x;
+                                    };
                                     rgbImage2.setPixel(x, 850, Color.rgb(255,127,40));
                                     rgbImage2.setPixel(x, 851, Color.rgb(255,127,40));
                                     rgbImage2.setPixel(x, 849, Color.rgb(255,127,40));
@@ -290,14 +295,14 @@ public class JustCameraJewel extends LinearOpModeCamera
                         telemetry.update();
                         SaveImage(rgbImage2);
                         timeElapsed = System.currentTimeMillis() - timeStart;
-                        telemetry.addData("Jewel Right X", jewelRightX);
+                        telemetry.addData("Jewel Left X", jewelLeftX);
+
                         telemetry.update();
                     }
                     telemetry.addData("Out of", "loop");
+                    stopCamera();
                 }
-                stopCamera();
             }
-            stopCamera();
 
 
         }

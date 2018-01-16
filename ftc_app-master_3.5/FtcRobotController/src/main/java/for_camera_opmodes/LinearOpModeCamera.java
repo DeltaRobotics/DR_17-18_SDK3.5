@@ -277,9 +277,9 @@ public class LinearOpModeCamera extends LinearOpMode
         try {
             FileOutputStream out = new FileOutputStream(file);
 
-            for(int x = 0; x < colorValues.length; x++)
+            for(int x = 300; x < 500; x++)
             {
-                text = text +  x + "->"  + "R" + colorValues[x][0] + "B" + colorValues[x][1] + "G" + colorValues[x][2] + " - " + colorValues[x][3] + "\n";
+                text = text +  x + "->"  + "R" + colorValues[x][0] + "  G" + colorValues[x][2] + "  B" + colorValues[x][1] + " - " + colorValues[x][3] + "\n";
             }
             out.write(text.getBytes());
 
@@ -305,7 +305,7 @@ public class LinearOpModeCamera extends LinearOpMode
         //Camera field of view should equal 960x1280 as long as downsampling is equal to 1
             for(x = 0; x < width1 - 1; x++)
             {
-                tempPixel = cameraBitmap.getPixel(x,850);
+                tempPixel = cameraBitmap.getPixel(x,(850));
                 colorValues[x][0] = red(tempPixel);
                 colorValues[x][1] = blue(tempPixel);
                 colorValues[x][2] = green(tempPixel);
@@ -319,7 +319,7 @@ public class LinearOpModeCamera extends LinearOpMode
                     colorValues[x][3] = 1;
                     returnValues[x] = 1;
                 }
-                else if((red(tempPixel) > 150) && (green(tempPixel) < 120) && (green(tempPixel) > 70) && (blue(tempPixel) < 80))
+                else if((red(tempPixel) > 120) && (green(tempPixel) < 120) && (green(tempPixel) > 70) && (blue(tempPixel) < 90))
                 {
                     colorValues[x][3] = 2;
                     returnValues[x] = 2;
