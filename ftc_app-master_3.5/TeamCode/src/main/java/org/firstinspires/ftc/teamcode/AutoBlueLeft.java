@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.vuforia.CameraDevice;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -43,6 +44,13 @@ public class AutoBlueLeft extends LinearOpModeCamera
     String color = "undecided"; //String that tells us which color the jewel under the pictogram is
 
     int jewelColorInt; //Integer variable for the jewel color so the code can use it
+    boolean firstTime = true;
+    boolean cameraAgain = true;
+    int jewelLeftX = 380;
+    int[]jewelCentering;
+    boolean pictureFound = false;
+    int jewelAdjust = 1400;
+
 
     double timeout = 0;
 
@@ -200,26 +208,118 @@ public class AutoBlueLeft extends LinearOpModeCamera
                     {
                         telemetry.addData("VuMark", "%s visible", vuMark);
                         relicAnalysis = false;
-                        if(vuMark == RelicRecoveryVuMark.CENTER)
+                        if (vuMark == RelicRecoveryVuMark.CENTER)
                         {
                             keyPosition = "CENTER";
                         }
-                        if(vuMark == RelicRecoveryVuMark.LEFT)
+                        if (vuMark == RelicRecoveryVuMark.LEFT)
                         {
                             keyPosition = "LEFT";
                         }
-                        if(vuMark == RelicRecoveryVuMark.RIGHT)
+                        if (vuMark == RelicRecoveryVuMark.RIGHT)
                         {
                             keyPosition = "RIGHT";
                         }
-                    }
-                    else
+                    } else
                     {
                         telemetry.addData("VuMark", "UNKNOWN visible");
                         keyPosition = "UNKNOWN";
                     }
                     telemetry.update();
                 }
+                CameraDevice.getInstance().stop();
+                CameraDevice.getInstance().deinit();
+            }
+            if (firstTime)
+            {
+                startCamera();
+                CameraDevice.getInstance().init();
+                firstTime = false;
+            }
+            while (opModeIsActive() && cameraAgain)
+            {
+                if (imageReady() && !pictureFound)
+                {
+                    Bitmap rgbImage2;
+                    //The last value must correspond to the downsampling value from above
+                    rgbImage2 = convertYuvImageToRgb(yuvImage, width, height, 1);
+                    jewelCentering = FindJewelsCenter(rgbImage2);
+                    for (int x = 0; x < 960; x++)
+                    {
+                        for (int y = 0; y < 1280; y++)
+                        {
+                            if (y % 100 == 0)
+                            {
+                                rgbImage2.setPixel(x, y, Color.rgb(120, 255, 255));
+                            }
+                            if (x % 100 == 0)
+                            {
+                                rgbImage2.setPixel(x, y, Color.rgb(120, 255, 255));
+                            }
+                            if(x == 319)
+                            {
+                                rgbImage2.setPixel(x, y, Color.rgb(255, 0, 0));
+                            }
+                            if(x == 413)
+                            {
+                                rgbImage2.setPixel(x, y, Color.rgb(255, 0, 0));
+                            }
+                            if (y == 848)
+                            {
+                                rgbImage2.setPixel(x, y, Color.rgb(255, 0, 0));
+                            }
+                            if (y == 852)
+                            {
+                                rgbImage2.setPixel(x, y, Color.rgb(255, 0, 0));
+                            }
+                            if(jewelCentering[x] == 0)
+                            {
+                                rgbImage2.setPixel(x, 850, Color.rgb(255,255,255));
+                                rgbImage2.setPixel(x, 851, Color.rgb(255,255,255));
+                                rgbImage2.setPixel(x, 849, Color.rgb(255,255,255));
+                            }
+                            if(jewelCentering[x] == 1)
+                            {
+                                rgbImage2.setPixel(x, 850, Color.rgb(10,10,10));
+                                rgbImage2.setPixel(x, 851, Color.rgb(10,10,10));
+                                rgbImage2.setPixel(x, 849, Color.rgb(10,10,10));
+                            }
+                            if(jewelCentering[x] == 2)
+                            {
+                                jewelLeftX = x;
+                                pictureFound = true;
+                                rgbImage2.setPixel(x, 850, Color.rgb(255,127,40));
+                                rgbImage2.setPixel(x, 851, Color.rgb(255,127,40));
+                                rgbImage2.setPixel(x, 849, Color.rgb(255,127,40));
+                            }
+                        }
+                    }
+                    telemetry.update();
+                    SaveImage(rgbImage2);
+                    telemetry.addData("Jewel Left X", jewelLeftX);
+                    if(jewelLeftX > 413)
+                    {
+                        jewelAdjust = jewelLeftX - 413;
+
+                    }
+                    if(jewelLeftX < 319)
+                    {
+                        jewelAdjust = jewelLeftX - 319;
+                    }
+                    telemetry.addData("Adjust", jewelAdjust);
+
+                    telemetry.update();
+                }
+                stopCamera();
+                cameraAgain = false;
+            }
+            if(jewelAdjust < 0)
+            {
+                drive.encoderDrive(75, driveStyle.FORWARD, 0.30, motors);
+            }
+            if(jewelAdjust > 0)
+            {
+                drive.encoderDrive(75, driveStyle.BACKWARD, 0.30, motors);
             }
             drive.encoderDrive(450, driveStyle.STRAFE_LEFT, 0.45, motors); //Strafes off stone
             sleep(250);

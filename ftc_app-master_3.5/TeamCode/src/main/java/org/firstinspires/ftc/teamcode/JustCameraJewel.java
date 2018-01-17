@@ -50,6 +50,7 @@ public class JustCameraJewel extends LinearOpModeCamera
     int[]jewelColor;
     long timeStart;
     long timeElapsed;
+    int jewelAdjust = 1400;
 
     public void runOpMode()
     {
@@ -296,6 +297,16 @@ public class JustCameraJewel extends LinearOpModeCamera
                         SaveImage(rgbImage2);
                         timeElapsed = System.currentTimeMillis() - timeStart;
                         telemetry.addData("Jewel Left X", jewelLeftX);
+                        if(jewelLeftX > 413)
+                        {
+                            jewelAdjust = jewelLeftX - 413;
+
+                        }
+                        if(jewelLeftX < 319)
+                        {
+                            jewelAdjust = jewelLeftX - 319;
+                        }
+                        telemetry.addData("Adjust", jewelAdjust);
 
                         telemetry.update();
                     }
