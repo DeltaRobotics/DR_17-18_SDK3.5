@@ -227,9 +227,17 @@ public class AutoBlueLeft extends LinearOpModeCamera
                     }
                     telemetry.update();
                 }
+                /*
                 CameraDevice.getInstance().stop();
                 CameraDevice.getInstance().deinit();
+                */
             }
+
+            drive.encoderDrive(450, driveStyle.STRAFE_LEFT, 0.45, motors); //Strafes off stone
+            sleep(250);
+            drive.encoderDrive(200, driveStyle.STRAFE_RIGHT, 0.45, motors); //Strafes back to hit stone
+            sleep(250);
+            /*
             if (firstTime)
             {
                 startCamera();
@@ -313,17 +321,23 @@ public class AutoBlueLeft extends LinearOpModeCamera
                 stopCamera();
                 cameraAgain = false;
             }
-            if(jewelAdjust < 0)
-            {
-                drive.encoderDrive(75, driveStyle.FORWARD, 0.30, motors);
-            }
-            if(jewelAdjust > 0)
+            if(jewelAdjust < 0 && jewelAdjust > -100)
             {
                 drive.encoderDrive(75, driveStyle.BACKWARD, 0.30, motors);
             }
-            drive.encoderDrive(450, driveStyle.STRAFE_LEFT, 0.45, motors); //Strafes off stone
-            sleep(250);
-            drive.encoderDrive(200, driveStyle.STRAFE_RIGHT, 0.45, motors); //Strafes back to hit stone
+            else if(jewelAdjust < 0)
+            {
+                drive.encoderDrive(150, driveStyle.BACKWARD, 0.30, motors);
+            }
+            if(jewelAdjust > 0 && jewelAdjust < 100)
+            {
+                drive.encoderDrive(75, driveStyle.FORWARD, 0.30, motors);
+            }
+            else if(jewelAdjust > 0 && jewelAdjust != 1400)
+            {
+                drive.encoderDrive(150, driveStyle.FORWARD, 0.30, motors);
+            }
+            */
             servoMove.knockOffJewel(servos, jewelColorInt, "blue"); //Knocks off correct jewel
             sleep(250);
             drive.encoderDrive(50, driveStyle.STRAFE_LEFT, 0.45, motors); //Strafes so the robot isn't right against the stone
