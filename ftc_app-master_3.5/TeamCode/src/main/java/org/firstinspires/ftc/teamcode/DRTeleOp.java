@@ -40,7 +40,7 @@ public class DRTeleOp extends LinearOpMode
     boolean holdPowerJ3 = false;
     double j3Low = 0;
     double j3High = 0;
-    double joint3Power = 0.0;
+    //double joint3Power = 0.0;
     double j3Hold = 0.0;
     double j3AdjHold = 0.0;
     boolean j3HoldON = false;
@@ -69,9 +69,9 @@ public class DRTeleOp extends LinearOpMode
     double clawOpen = 0.85;
     double knockSwitch;
 
-    double brakeOn = 0.10;
-    double brakeOff = 0.20;
-    double brakePosition;
+    //double brakeOn = 0.10;
+    //double brakeOff = 0.20;
+    //double brakePosition;
     long ESCTimeStart = 0;
 
     public void runOpMode() throws InterruptedException
@@ -100,7 +100,7 @@ public class DRTeleOp extends LinearOpMode
             armServoAdjustment = Range.clip(armServoAdjustment, 0.2, 0.7);
             knockPos = Range.clip(knockPos, 0.01, 0.75);
             wristPos = Range.clip(wristPos, 0.01, 0.99);
-            clawPos = Range.clip(clawPos, 0.70, 0.99);
+            clawPos = Range.clip(clawPos, 0, 0.25);
 
 
 
@@ -262,7 +262,7 @@ public class DRTeleOp extends LinearOpMode
             j3MoveModeLast = j3MoveMode;*/
 
 
-            j3currentEncoder = curiosity.joint3.getCurrentPosition();
+            /*j3currentEncoder = curiosity.joint3.getCurrentPosition();
             //If controller is not in deadband
             if(gamepad2.left_stick_y > 0.1 || gamepad2.left_stick_y < -0.1)
             {
@@ -298,6 +298,7 @@ public class DRTeleOp extends LinearOpMode
                 brakePosition = brakeOn;
                 curiosity.joint3.setPower(0.0);
             }
+            */
 
 
 
@@ -385,7 +386,7 @@ public class DRTeleOp extends LinearOpMode
             }
             */
 
-            if(gamepad2.dpad_left)
+            /*if(gamepad2.dpad_left)
             {
                 brakePosition += 0.01;
             }
@@ -393,6 +394,7 @@ public class DRTeleOp extends LinearOpMode
             {
                 brakePosition -= 0.01;
             }
+            */
 
             //Sending telemetry for arm data
             //telemetry.addData("armServoAdjustment", armServoAdjustment);
@@ -402,7 +404,7 @@ public class DRTeleOp extends LinearOpMode
             //telemetry.addData("Joint 3 High", j3High);
             //telemetry.addData("Joint 3 Hold", j3Hold);
             //telemetry.addData("Joint 3 Encoder", curiosity.joint3.getCurrentPosition());
-            telemetry.addData("Joint 3 Actual Power", curiosity.joint3.getPower());
+            //telemetry.addData("Joint 3 Actual Power", curiosity.joint3.getPower());
             //telemetry.addData("Joint 3 Target Encoder", j3EncoderTarget);
             //telemetry.addData("Joint 3 Adjust Hold", j3AdjHold);
             //telemetry.addData("j3EncoderChange", j3EncoderChange);
@@ -416,14 +418,14 @@ public class DRTeleOp extends LinearOpMode
             //telemetry.addData("Robot Speed", speed);
             //telemetry.addData("Guide Button Status", gamepad1.guide);
             //telemetry.addData("Back Button Status", gamepad1.back);
-            telemetry.addData("Brake Position", curiosity.brake.getPosition());
+            //telemetry.addData("Brake Position", curiosity.brake.getPosition());
 
             telemetry.update();
 
             //Actually setting the positions of the servos
             curiosity.slapper.setPosition(slapperPosition);
             curiosity.flapper.setPosition(flapperPosition);
-            curiosity.brake.setPosition(brakePosition);
+            //curiosity.brake.setPosition(brakePosition);
         }
     }
 }

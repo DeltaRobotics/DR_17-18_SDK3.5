@@ -56,7 +56,7 @@ public class RobotHardware
         flapper.setPosition(0.67);//]
         wrist.setPosition(0.375);//]
         knock.setPosition(0.75);//] Sets servos to their home positions
-        claw.setPosition(0.94);//]
+        claw.setPosition(0.25);//]
         brake.setPosition(0.10);//]
 
         motorRF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);//]

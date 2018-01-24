@@ -20,25 +20,25 @@ public class ServoMove extends LinearOpMode
         sleep(1500);
         if(color == 0 && alliance.equals("blue"))
         {
-            servos[1].setPosition(0.1); //Knocks off jewl
+            servos[1].setPosition(0); //Knocks off jewel
             sleep(750);
             servos[1].setPosition(0.20); //Moves slapper back
         }
         if(color == 0 && alliance.equals("red"))
         {
-            servos[1].setPosition(0.50); //Knocks off jewl
+            servos[1].setPosition(0.50); //Knocks off jewel
             sleep(750);
             servos[1].setPosition(0.40); //Moves slapper back
         }
         if(color == 1 && alliance.equals("blue"))
         {
-            servos[1].setPosition(0.50); //Knocks off jewl
+            servos[1].setPosition(0.70); //Knocks off jewel
             sleep(750);
             servos[1].setPosition(0.40); //Moves slapper back
         }
         if(color == 1 && alliance.equals("red"))
         {
-            servos[1].setPosition(0.10); //Knocks off jewl
+            servos[1].setPosition(0.); //Knocks off jewl
             sleep(750);
             servos[1].setPosition(0.20); //Moves slapper back
         }
@@ -66,13 +66,13 @@ public class ServoMove extends LinearOpMode
         sleep(250);
         servos[2].setPosition(0.05); //Moves knock out
         sleep(750);
-        servos[3].setPosition(0.80); //Opens claw
+        servos[3].setPosition(0.05); //Opens claw
         sleep(750);
         drive.encoderDrive(100, driveStyle.BACKWARD, 0.5, motors); //Moves robot back
         sleep(250);
-        servos[2].setPosition(0.395); //Moves knock to a mid position
+        servos[2].setPosition(0.15); //Moves knock to a mid position
         sleep(250);
-        servos[3].setPosition(0.94); //Closes claw
+        servos[3].setPosition(0.25); //Closes claw
         servos[2].setPosition(0.75); //Moves knock to home position
         drive.encoderDrive(650, driveStyle.FORWARD, 0.5, motors); //Moves robot forward to push in glyph
         sleep(250);
