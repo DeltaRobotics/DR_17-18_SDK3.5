@@ -35,7 +35,7 @@ public class DRTeleOp extends LinearOpMode
     double armServoAdjustment = 0.2;
     double joint1MaxSpeed = 0.70;
     double joint2MaxSpeed = 0.50;
-    double joint3MaxSpeed = 1.0;
+    //double joint3MaxSpeed = 1.0;
 
     boolean holdPowerJ3 = false;
     double j3Low = 0;
@@ -264,7 +264,7 @@ public class DRTeleOp extends LinearOpMode
 
             /*j3currentEncoder = curiosity.joint3.getCurrentPosition();
             //If controller is not in deadband
-            if(gamepad2.left_stick_y > 0.1 || gamepad2.left_stick_y < -0.1)
+            /*if(gamepad2.left_stick_y > 0.1 || gamepad2.left_stick_y < -0.1)
             {
                 //If joint3 is on the lower side and the arm is being moved down
                 if(j3currentEncoder < 400 && gamepad2.left_stick_y > 0.1)
@@ -293,6 +293,7 @@ public class DRTeleOp extends LinearOpMode
             }
 
 
+
             if(Math.abs(gamepad2.left_stick_y) < 0.1)
             {
                 brakePosition = brakeOn;
@@ -317,7 +318,7 @@ public class DRTeleOp extends LinearOpMode
             }
 
             //Setting Joint 1
-            if(gamepad2.dpad_up)
+            /*if(gamepad2.dpad_up)
             {
                 curiosity.joint1.setPower(joint3MaxSpeed);
             }
@@ -329,6 +330,7 @@ public class DRTeleOp extends LinearOpMode
             {
                 curiosity.joint1.setPower(0.0);
             }
+            */
 
             //Removed capability of wrist for easier glyph control at first meet.
             /*
