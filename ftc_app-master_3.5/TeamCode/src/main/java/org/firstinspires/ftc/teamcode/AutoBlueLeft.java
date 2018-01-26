@@ -373,24 +373,28 @@ public class AutoBlueLeft extends LinearOpModeCamera
                 }
             }
             sleep(500);
-            /*angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES); //Gets current orientation of robot
+            angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES); //Gets current orientation of robot
             telemetry.addData("Before Move", AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle)); //Displays current orientation before the robot pivots
             telemetry.update(); //Updates telemetry
             //Chunk of code below corrects the robot's orientation
-            if(AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle) > 0) //If the robot's current orientation is greater than 0
+            if(AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle) > 3 || AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle) < -3)
             {
+                if (AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle) > 0) //If the robot's current orientation is greater than 0
+                {
+                    telemetry.addData("Expected Change 1", AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle) / 2);
+                    telemetry.update(); //Updates telemetry
+                    drive.OrientationDrive(Math.abs((AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle)) / 2), driveStyle.PIVOT_RIGHT, 0.4, motors, imu); //Moves robot to correct orientation
+                } else //If the robot's current orientation isn't greater than 0
+                {
+                    telemetry.addData("Expected Change 2", AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle) / 2);
+                    telemetry.update(); //Updates telemetry
+                    drive.OrientationDrive(Math.abs((AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle)) / 2), driveStyle.PIVOT_LEFT, 0.4, motors, imu); //Moves robot to correct orientation
+                }
+                angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES); //Gets current orientation of robot
+                telemetry.addData("After Move", AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle)); //Displays robot's orientation after the orientation correction
                 telemetry.update(); //Updates telemetry
-                drive.OrientationDrive((AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle))/2, driveStyle.PIVOT_RIGHT, 0.4, motors, imu); //Moves robot to correct orientation
             }
-            else //If the robot's current orientation isn't greater than 0
-            {
-                telemetry.update(); //Updates telemetry
-                drive.OrientationDrive((AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle))/2, driveStyle.PIVOT_LEFT, 0.4, motors, imu); //Moves robot to correct orientation
-            }
-            angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES); //Gets current orientation of robot
-            telemetry.addData("After Move", AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle)); //Displays robot's orientation after the orientation correction
-            telemetry.update(); //Updates telemetry
-            */
+
             servoMove.placeGlyph(servos, robot, drive); //Places and pushes in the glyph into the correct cryptobox column
 
 

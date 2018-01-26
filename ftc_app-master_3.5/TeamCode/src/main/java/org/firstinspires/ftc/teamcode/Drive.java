@@ -341,11 +341,11 @@ public class Drive extends LinearOpMode
                 double target = 0;
                 if(AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle) > 0)
                 {
-                    target = orientationTargetDelta + AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle);
+                    target = orientationTargetDelta - AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle);
                 }
                 else
                 {
-                    target = orientationTargetDelta - AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle);
+                    target = orientationTargetDelta + AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle);
                 }
                 pivotLeft(motorPower, motors);
 

@@ -254,7 +254,7 @@ public class AutoBlueRight extends LinearOpModeCamera {
             drive.encoderDrive(200, driveStyle.STRAFE_RIGHT, 0.45, motors); //Moves robot away from the cryptobox so it can rotate without hitting it
             sleep(250);
             angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES); //Gets the robot's current orientation
-            drive.OrientationDrive(80 + AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle), driveStyle.PIVOT_LEFT, 0.4, motors, imu); //Pivots robot 90 degrees right
+            drive.OrientationDrive(85 + AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle), driveStyle.PIVOT_LEFT, 0.4, motors, imu); //Pivots robot 90 degrees right
 
             angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES); //Gets the robot's current orientation
             telemetry.addData("Before Move", AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle)); //Displays the robots orientation before it trys to correct its orientation
