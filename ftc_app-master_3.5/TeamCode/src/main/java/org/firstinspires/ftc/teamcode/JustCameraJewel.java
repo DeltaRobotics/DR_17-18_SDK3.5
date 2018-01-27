@@ -43,7 +43,7 @@ public class JustCameraJewel extends LinearOpModeCamera
     String keyPosition;
 
     boolean vuforiaOn = true;
-    boolean relicAnalysis = true;
+    boolean relicAnalysis = false;
     boolean firstTime = true;
     boolean cameraAgain = true;
     int jewelLeftX = 1400;
@@ -57,7 +57,7 @@ public class JustCameraJewel extends LinearOpModeCamera
         if (isCameraAvailable())
         {
             //Resolution of image, currently set to 1 (higher number means less resolution but faster speed)
-            setCameraDownsampling(1);
+            setCameraDownsampling(2);
             //Takes some time, is initializing all of the camera's internal workings
             startCamera();
             //Stays Initialized, waits for the Driver's Station Button to be pressed
@@ -72,7 +72,7 @@ public class JustCameraJewel extends LinearOpModeCamera
 
                 Bitmap rgbImage1;
                 //The last value must correspond to the downsampling value from above
-                rgbImage1 = convertYuvImageToRgb(yuvImage, width, height, 1);
+                rgbImage1 = convertYuvImageToRgb(yuvImage, width, height, 2);
 
                 //Looks at the size of the rgbImage for troubleshooting
                 //telemetry.addData("Width", rgbImage.getWidth());
@@ -241,7 +241,7 @@ public class JustCameraJewel extends LinearOpModeCamera
                 {
 
                     timeStart = System.currentTimeMillis();
-                    while (jewelLeftX == 1400)
+                    if (jewelLeftX == 1400)
                     {
 
                         Bitmap rgbImage2;
@@ -269,50 +269,56 @@ public class JustCameraJewel extends LinearOpModeCamera
                                 {
                                     rgbImage2.setPixel(x, y, Color.rgb(255, 0, 0));
                                 }
-                                if(jewelColor[x] == 0)
+                                if (jewelColor[x] == 0)
                                 {
-                                    rgbImage2.setPixel(x, 850, Color.rgb(255,255,255));
-                                    rgbImage2.setPixel(x, 851, Color.rgb(255,255,255));
-                                    rgbImage2.setPixel(x, 849, Color.rgb(255,255,255));
+                                    rgbImage2.setPixel(x, 850, Color.rgb(255, 255, 255));
+                                    rgbImage2.setPixel(x, 851, Color.rgb(255, 255, 255));
+                                    rgbImage2.setPixel(x, 849, Color.rgb(255, 255, 255));
                                 }
-                                if(jewelColor[x] == 1)
+                                if (jewelColor[x] == 1)
                                 {
-                                    rgbImage2.setPixel(x, 850, Color.rgb(10,10,10));
-                                    rgbImage2.setPixel(x, 851, Color.rgb(10,10,10));
-                                    rgbImage2.setPixel(x, 849, Color.rgb(10,10,10));
+                                    rgbImage2.setPixel(x, 850, Color.rgb(10, 10, 10));
+                                    rgbImage2.setPixel(x, 851, Color.rgb(10, 10, 10));
+                                    rgbImage2.setPixel(x, 849, Color.rgb(10, 10, 10));
                                 }
-                                if(jewelColor[x] == 2)
+                                if (jewelColor[x] == 2)
                                 {
-                                    if(jewelLeftX == 1400)
+                                    if (jewelLeftX == 1400)
                                     {
                                         jewelLeftX = x;
-                                    };
-                                    rgbImage2.setPixel(x, 850, Color.rgb(255,127,40));
-                                    rgbImage2.setPixel(x, 851, Color.rgb(255,127,40));
-                                    rgbImage2.setPixel(x, 849, Color.rgb(255,127,40));
+                                    }
+                                    ;
+                                    rgbImage2.setPixel(x, 850, Color.rgb(255, 127, 40));
+                                    rgbImage2.setPixel(x, 851, Color.rgb(255, 127, 40));
+                                    rgbImage2.setPixel(x, 849, Color.rgb(255, 127, 40));
                                 }
                             }
                         }
                         telemetry.update();
                         SaveImage(rgbImage2);
                         timeElapsed = System.currentTimeMillis() - timeStart;
+                    }
+                    else
+                    {
                         telemetry.addData("Jewel Left X", jewelLeftX);
-                        if(jewelLeftX > 413)
+                        if (jewelLeftX > 413)
                         {
                             jewelAdjust = jewelLeftX - 413;
 
                         }
-                        if(jewelLeftX < 319)
+                        if (jewelLeftX < 319)
                         {
                             jewelAdjust = jewelLeftX - 319;
                         }
                         telemetry.addData("Adjust", jewelAdjust);
-
+                        telemetry.addData("Time Elapsed", timeElapsed);
+                        telemetry.addData("Out of", "loop");
                         telemetry.update();
+                        stopCamera();
+                        cameraAgain = false;
                     }
-                    telemetry.addData("Out of", "loop");
-                    stopCamera();
                 }
+
             }
 
 
