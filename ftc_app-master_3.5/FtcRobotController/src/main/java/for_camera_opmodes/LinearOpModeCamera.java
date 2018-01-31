@@ -263,7 +263,7 @@ public class LinearOpModeCamera extends LinearOpMode
             }
         }
     }
-    public void SaveColorLog (int[][] colorValues)
+    public void SaveJewelColorLog (int[][] colorValues)
     {
         String text = "";
         String root = Environment.getExternalStorageDirectory().toString();
@@ -291,6 +291,35 @@ public class LinearOpModeCamera extends LinearOpMode
         }
     }
 
+    public void SaveCryptoboxColorLog (int[][] colorValues)
+    {
+        String text = "";
+        String root = Environment.getExternalStorageDirectory().toString();
+        File myDir = new File(root);
+        myDir.mkdirs();
+        SimpleDateFormat s = new SimpleDateFormat("ddhhmmss");
+        String format = s.format(new Date());
+        String fname = "CryptoboxData " + format +".txt";
+        File file = new File (myDir, fname);
+        if (file.exists ()) file.delete ();
+        try {
+            FileOutputStream out = new FileOutputStream(file);
+
+            for(int x = 0; x < 960; x++)
+            {
+                text = text + "Line " + x + ":  " + colorValues[x][0] + " " + colorValues[x][1] + " " + colorValues[x][2] + "         "
+                        + colorValues[x][4] + " " + colorValues[x][5] + " " + colorValues[x][6] + "          " + colorValues[x][8] + " " + colorValues[x][9] + " " + colorValues[x][10] + '\n';
+            }
+            out.write(text.getBytes());
+
+            out.flush();
+            out.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public int[] FindJewelsCenter (Bitmap cameraBitmap)
     {
         int[][] colorValues = new int[960][4];
@@ -307,8 +336,8 @@ public class LinearOpModeCamera extends LinearOpMode
             {
                 tempPixel = cameraBitmap.getPixel(x,(850));
                 colorValues[x][0] = red(tempPixel);
-                colorValues[x][1] = blue(tempPixel);
-                colorValues[x][2] = green(tempPixel);
+                colorValues[x][1] = green(tempPixel);
+                colorValues[x][2] = blue(tempPixel);
                 if(red(tempPixel) > white && blue(tempPixel) > white && green(tempPixel) > white)
                 {
                     colorValues[x][3] = 0;
@@ -325,8 +354,63 @@ public class LinearOpModeCamera extends LinearOpMode
                     returnValues[x] = 2;
                 }
             }
-        SaveColorLog(colorValues);
+        SaveJewelColorLog(colorValues);
         return returnValues;
+    }
+
+    public int[] FindCryptoboxSides (Bitmap cameraBitmap, String allianceColor)
+    {
+        int[] sideColor = new int[3];
+        int[][] colorValues = new int[960][12];
+        int[] resultingMovement = new int[5];
+        int tempPixel1;
+        int tempPixel2;
+        int tempPixel3;
+        int cryptoboxHeight = cameraBitmap.getHeight();
+        int y1 = cryptoboxHeight - (int)(cryptoboxHeight *.25);
+        //y1 is located 1/4 of the way down the screen
+        int y2 = cryptoboxHeight - (int)(cryptoboxHeight *.5);
+        //y2 is located 1/2 of the way down the screen
+        int y3 = cryptoboxHeight - (int)(cryptoboxHeight *.75);
+        //y3 is located 3/4 of the way down the screen
+
+        if(allianceColor.equals("RED"))
+        {
+            sideColor[0] = 255;
+            //Red Value
+            sideColor[1] = 50;
+            //Green Value
+            sideColor[2] = 50;
+            //Blue Value
+        }
+        if(allianceColor.equals("BLUE"))
+        {
+            sideColor[0] = 50;
+            //Red Value
+            sideColor[1] = 50;
+            //Green Value
+            sideColor[2] = 255;
+            //Blue Value
+        }
+
+        for(int x = 0; x < 960; x++)
+        {
+            tempPixel1 = cameraBitmap.getPixel(x, y1);
+            tempPixel2 = cameraBitmap.getPixel(x, y2);
+            tempPixel3 = cameraBitmap.getPixel(x, y3);
+            colorValues[x][0] = red(tempPixel1);
+            colorValues[x][1] = blue(tempPixel1);
+            colorValues[x][2] = green(tempPixel1);
+            colorValues[x][4] = red(tempPixel2);
+            colorValues[x][5] = blue(tempPixel2);
+            colorValues[x][6] = green(tempPixel2);
+            colorValues[x][8] = red(tempPixel3);
+            colorValues[x][9] = blue(tempPixel3);
+            colorValues[x][10] = green(tempPixel3);
+        }
+        SaveCryptoboxColorLog(colorValues);
+
+        return resultingMovement;
     }
 
 }
