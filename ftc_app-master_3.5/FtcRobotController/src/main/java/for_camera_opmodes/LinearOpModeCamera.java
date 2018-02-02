@@ -291,7 +291,7 @@ public class LinearOpModeCamera extends LinearOpMode
         }
     }
 
-    public void SaveCryptoboxColorLog (int[][] colorValues)
+    public void SaveCryptoboxColorLog (int[][] colorValues, int width)
     {
         String text = "";
         String root = Environment.getExternalStorageDirectory().toString();
@@ -305,7 +305,7 @@ public class LinearOpModeCamera extends LinearOpMode
         try {
             FileOutputStream out = new FileOutputStream(file);
 
-            for(int x = 0; x < 960; x++)
+            for(int x = 0; x < width; x++)
             {
                 text = text + "Line " + x + ":  " + colorValues[x][0] + " " + colorValues[x][1] + " " + colorValues[x][2] + "         "
                         + colorValues[x][4] + " " + colorValues[x][5] + " " + colorValues[x][6] + "          " + colorValues[x][8] + " " + colorValues[x][9] + " " + colorValues[x][10] + '\n';
@@ -360,13 +360,14 @@ public class LinearOpModeCamera extends LinearOpMode
 
     public int[] FindCryptoboxSides (Bitmap cameraBitmap, String allianceColor)
     {
+        int cryptoboxWidth = cameraBitmap.getWidth();
+        int cryptoboxHeight = cameraBitmap.getHeight();
         int[] sideColor = new int[3];
-        int[][] colorValues = new int[960][12];
+        int[][] colorValues = new int[width][12];
         int[] resultingMovement = new int[5];
         int tempPixel1;
         int tempPixel2;
         int tempPixel3;
-        int cryptoboxHeight = cameraBitmap.getHeight();
         int y1 = cryptoboxHeight - (int)(cryptoboxHeight *.25);
         //y1 is located 1/4 of the way down the screen
         int y2 = cryptoboxHeight - (int)(cryptoboxHeight *.5);
@@ -393,22 +394,25 @@ public class LinearOpModeCamera extends LinearOpMode
             //Blue Value
         }
 
-        for(int x = 0; x < 960; x++)
+        for(int x = 0; x < cryptoboxWidth; x++)
         {
             tempPixel1 = cameraBitmap.getPixel(x, y1);
             tempPixel2 = cameraBitmap.getPixel(x, y2);
             tempPixel3 = cameraBitmap.getPixel(x, y3);
             colorValues[x][0] = red(tempPixel1);
-            colorValues[x][1] = blue(tempPixel1);
-            colorValues[x][2] = green(tempPixel1);
+            colorValues[x][1] = green(tempPixel1);
+            colorValues[x][2] = blue(tempPixel1);
             colorValues[x][4] = red(tempPixel2);
-            colorValues[x][5] = blue(tempPixel2);
-            colorValues[x][6] = green(tempPixel2);
+            colorValues[x][5] = green(tempPixel2);
+            colorValues[x][6] = blue(tempPixel2);
             colorValues[x][8] = red(tempPixel3);
-            colorValues[x][9] = blue(tempPixel3);
-            colorValues[x][10] = green(tempPixel3);
+            colorValues[x][9] = green(tempPixel3);
+            colorValues[x][10] = blue(tempPixel3);
         }
-        SaveCryptoboxColorLog(colorValues);
+        resultingMovement[0] = cryptoboxHeight - (int)(cryptoboxHeight *.25);
+        resultingMovement[1] = cryptoboxHeight - (int)(cryptoboxHeight *.5);
+        resultingMovement[2] = cryptoboxHeight - (int)(cryptoboxHeight *.75);
+        SaveCryptoboxColorLog(colorValues, cryptoboxWidth);
 
         return resultingMovement;
     }
