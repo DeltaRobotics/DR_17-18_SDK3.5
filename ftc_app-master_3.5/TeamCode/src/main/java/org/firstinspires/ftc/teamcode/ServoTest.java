@@ -13,7 +13,6 @@ public class ServoTest extends LinearOpMode
 {
 
     Servo servo;
-    Servo servo2;
 
     boolean leftDPadState = false;
     boolean rightDPadState = false;
@@ -25,11 +24,8 @@ public class ServoTest extends LinearOpMode
     {
         servo = hardwareMap.servo.get("servo");
 
-        servo2 = hardwareMap.servo.get("servo2");
 
         servo.setPosition(servoPosition);
-        servo2.setPosition(servoPosition);
-
 
         waitForStart();
 
@@ -68,11 +64,9 @@ public class ServoTest extends LinearOpMode
             }
 
             servo.setPosition(servoPosition);
-            servo2.setPosition(servoPosition);
 
             telemetry.addData("servo Pos", servo.getPosition());
             telemetry.addData("servoPosition Var", servoPosition);
-            telemetry.addData("servo2 Pos", servo2.getPosition());
             telemetry.update();
 
         }
