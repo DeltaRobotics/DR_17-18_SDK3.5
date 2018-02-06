@@ -6,10 +6,8 @@ import android.graphics.Color;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.vuforia.CameraDevice;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -27,8 +25,8 @@ import for_camera_opmodes.LinearOpModeCamera;
  * Created by User on 10/14/2017.
  */
 
-//@Autonomous (name = "AutoBlueLeft", group = "Auto")
-public class AutoBlueLeft extends LinearOpModeCamera
+@Autonomous (name = "AutoBlueLeftStaay", group = "Auto Stay")
+public class AutoBlueLeftStay extends LinearOpModeCamera
 {
     RobotHardware robot = new RobotHardware(); //Object of RobotHardware class
     Drive drive = new Drive(); //Object of Drive class
@@ -234,9 +232,9 @@ public class AutoBlueLeft extends LinearOpModeCamera
                 */
             }
 
-            drive.encoderDrive(450, driveStyle.STRAFE_LEFT, 0.45, motors); //Strafes off stone
+            //drive.encoderDrive(450, driveStyle.STRAFE_LEFT, 0.45, motors); //Strafes off stone
             sleep(250);
-            drive.encoderDrive(200, driveStyle.STRAFE_RIGHT, 0.45, motors); //Strafes back to hit stone
+            //drive.encoderDrive(200, driveStyle.STRAFE_RIGHT, 0.45, motors); //Strafes back to hit stone
             sleep(250);
             /*
             if (firstTime)
@@ -340,35 +338,40 @@ public class AutoBlueLeft extends LinearOpModeCamera
             }
             */
             servoMove.knockOffJewel(servos, jewelColorInt, "blue"); //Knocks off correct jewel
-            sleep(250);
-            drive.encoderDrive(50, driveStyle.STRAFE_LEFT, 0.45, motors); //Strafes so the robot isn't right against the stone
+            //sleep(250);
+            //drive.encoderDrive(50, driveStyle.STRAFE_LEFT, 0.45, motors); //Strafes so the robot isn't right against the stone
             sleep(250);
             drive.encoderDrive(1250, driveStyle.FORWARD, 0.5, motors); //Drives forward towards the cryptobox
             sleep(250);
 
             switch(keyPosition) //Handles where the robot should move depending on key
             {
+                //Subtracted 350 from each to compensate
                 case "LEFT": //If key is LEFT
                 {
-                    drive.encoderDrive(600, driveStyle.STRAFE_RIGHT, 0.45, motors); //Strafes to left column of cryptobox
+                    //Was 600
+                    drive.encoderDrive(250, driveStyle.STRAFE_RIGHT, 0.45, motors); //Strafes to left column of cryptobox
                     break;
                 }
 
                 case "CENTER": //If key is CENTER
                 {
-                    drive.encoderDrive(1050, driveStyle.STRAFE_RIGHT, 0.55, motors); //Strafes to center column of cryptobox
+                    //Was 1050
+                    drive.encoderDrive(700, driveStyle.STRAFE_RIGHT, 0.55, motors); //Strafes to center column of cryptobox
                     break;
                 }
 
                 case "RIGHT": //If key is RIGHT
                 {
-                    drive.encoderDrive(1550, driveStyle.STRAFE_RIGHT, 0.55, motors); //Strafes to right column of cryptobox
+                    //Was 1550
+                    drive.encoderDrive(1200, driveStyle.STRAFE_RIGHT, 0.55, motors); //Strafes to right column of cryptobox
                     break;
                 }
 
                 case "UNKNOWN": //If phone couldn't sense a pictogram
                 {
-                    drive.encoderDrive(1050, driveStyle.STRAFE_RIGHT, 0.55, motors); //Strafes to center column
+                    //Was 1050
+                    drive.encoderDrive(700, driveStyle.STRAFE_RIGHT, 0.55, motors); //Strafes to center column
                     break;
                 }
             }

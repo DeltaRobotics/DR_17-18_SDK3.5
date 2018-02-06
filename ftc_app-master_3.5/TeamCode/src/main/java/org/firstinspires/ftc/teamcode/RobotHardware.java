@@ -28,6 +28,10 @@ public class RobotHardware
     public Servo flapper = null; //Flapper
     public Servo slapper = null; //Slapper
 
+    public DcMotor slides = null; //Slides/Winch for Relic Arm
+    public Servo pincher = null; //Pincher for grabbing the relic (on end of relic arm slides)
+    public Servo pincherLift = null; //Raises and lowers the pincher for placing the relic
+
     public RobotHardware() //Constructor
     {
 
@@ -52,12 +56,18 @@ public class RobotHardware
         flapper = ahwMap.servo.get("flapper"); //What to look for in the config for flapper
         slapper = ahwMap.servo.get("slapper"); //What to look for in the config for slapper
 
+        slides = ahwMap.dcMotor.get("slides"); //Slides/Winch for relic arm - in configuration
+        pincher = ahwMap.servo.get("pincher"); //Pincher for grabbing relic - in configuration
+        pincherLift = ahwMap.servo.get("pincherLift"); //Lift for raising pincher - in configuration
+
          // was 0.8 for sideways
         flapper.setPosition(0.67);//]
         wrist.setPosition(0.375);//]
         knock.setPosition(0.75);//] Sets servos to their home positions
         claw.setPosition(0.2);//]
         brake.setPosition(0.10);//]
+        //pincher.setPosition(xPosition);//]
+        //pincherLift.setPosition(xPosition);//]
 
         motorRF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);//]
         motorLF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);//]
@@ -66,6 +76,7 @@ public class RobotHardware
         joint1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);//]
         joint2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);//]
         joint3.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);//]
+        slides.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);//]
 
         motorRF.setPower(0);//]
         motorLF.setPower(0);//] Stops the drive motors

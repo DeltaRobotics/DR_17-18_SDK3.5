@@ -37,30 +37,6 @@ public class DRTeleOp extends LinearOpMode
     double joint2MaxSpeed = 0.50;
     //double joint3MaxSpeed = 1.0;
 
-    boolean holdPowerJ3 = false;
-    double j3Low = 0;
-    double j3High = 0;
-    //double joint3Power = 0.0;
-    double j3Hold = 0.0;
-    double j3AdjHold = 0.0;
-    boolean j3HoldON = false;
-    int j3EncoderLast = 0;
-    double j3ChangeAmount = 0.0075;
-
-    double adjClipLow = 0.05;
-    double adjClipHigh = 0.50;
-    double adjClipValue = 0.0;
-
-    int armMotion = 0;
-    int armMotionLast = 0;
-
-    int count = 0;
-
-    int j3EncoderChange = 0;
-    int j3EncoderTarget = 0;
-    int j3currentEncoder = 0;
-    boolean j3MoveModeLast = true;
-    boolean j3MoveMode = true;
     double speed = 0.5;
 
     boolean dPadUpState = false;
@@ -72,7 +48,6 @@ public class DRTeleOp extends LinearOpMode
     //double brakeOn = 0.10;
     //double brakeOff = 0.20;
     //double brakePosition;
-    long ESCTimeStart = 0;
 
     public void runOpMode() throws InterruptedException
     {
@@ -167,139 +142,7 @@ public class DRTeleOp extends LinearOpMode
                 dPadDownState = false;
             }
 
-            //Setting Joint 3
-            //Getting current encoder value for j3
-            /*j3EncoderLast = j3currentEncoder;
-            j3currentEncoder = curiosity.joint3.getCurrentPosition();
-            armMotion = j3currentEncoder - j3EncoderLast;
-            if(armMotion == 0)
-            {
-                armMotion = armMotionLast;
-            }
-            if(armMotion != 0)
-            {
-                armMotionLast = armMotion;
-            }
-            j3EncoderChange = j3EncoderTarget - j3currentEncoder;
-            //Setting Power Ranges
-            if((j3currentEncoder >= -1000) && (j3currentEncoder <= 120))
-            {
-                j3High = .75;
-                j3Low = .35;
-                j3Hold = .02;
-            }
-            else if((j3currentEncoder >= 120) && (j3currentEncoder <= 680))
-            {
-                j3High = .40;
-                j3Low = .20;
-                j3Hold = .02;
-            }
-            else if((j3currentEncoder >= 680) && (j3currentEncoder <= 712))
-            {
-                j3High = -.75;
-                j3Low = -.35;
-                j3Hold = -.02;
-            }
-            else
-            {
-                j3High = 0.0;
-                j3Low = 0.0;
-                j3Hold = 0.0;
-            }
-            //Or j3Hold = fancy formula for value
 
-
-            if(Math.abs(gamepad2.left_stick_y) < 0.1 && holdPowerJ3)
-            {
-
-                //Hold Position
-                j3MoveMode = false;
-                if (!j3MoveMode && j3MoveModeLast) //Transition from joystick movement to holding
-                {
-                    count++;
-                    j3EncoderTarget = j3currentEncoder;
-                    j3AdjHold = j3Hold;
-                    joint3Power = j3AdjHold;
-                }
-
-                j3EncoderChange = j3EncoderTarget - j3currentEncoder; //Finding change in encoder values
-
-                if (j3EncoderTarget > 40)
-                {
-                    if (Math.abs(j3EncoderChange) >= 10)
-                    {
-                        if(j3EncoderChange > 0 && armMotion < 0)
-                        {
-                            j3AdjHold += j3ChangeAmount;
-                            joint3Power = j3AdjHold;
-                        }
-                        else if(j3EncoderChange < 0 && armMotion > 0)
-                        {
-                            j3AdjHold -= j3ChangeAmount;
-                            joint3Power = j3AdjHold;
-                        }
-                    }
-                }
-                else
-                {
-                    telemetry.addData("Under 40 Encoder Counts", "Not Holding Power");
-                    joint3Power = 0.0;
-                }
-                adjClipValue = ((adjClipHigh - adjClipLow) / 400);
-                j3AdjHold = Range.clip(j3AdjHold,(-Math.abs(j3currentEncoder - 400) * adjClipValue), (Math.abs(j3currentEncoder - 400) * adjClipValue));
-                telemetry.addData("Hold Variable - Based on power range", adjClipValue);
-                telemetry.addData("Clipped Current Value", Math.abs(j3currentEncoder - 400) * adjClipValue);
-
-            }
-            else
-            {
-                //Not-Hold Position
-                j3MoveMode = true;
-                joint3Power = ((gamepad2.left_stick_y * 0.2) + j3Low);
-            }
-            curiosity.joint3.setPower(joint3Power);
-            //Resetting Encoders for the next loop
-            j3MoveModeLast = j3MoveMode;*/
-
-
-            /*j3currentEncoder = curiosity.joint3.getCurrentPosition();
-            //If controller is not in deadband
-            /*if(gamepad2.left_stick_y > 0.1 || gamepad2.left_stick_y < -0.1)
-            {
-                //If joint3 is on the lower side and the arm is being moved down
-                if(j3currentEncoder < 400 && gamepad2.left_stick_y > 0.1)
-                {
-                    //Sets the start time to current to begin the designated timer
-                    //ESC stands for Encoder Speed Correction for the joint3 usage
-                    ESCTimeStart = System.currentTimeMillis();
-                    //Timer system for waiting 1/2 second for brake (time may change later)
-                    if((System.currentTimeMillis() - ESCTimeStart) < 500)
-                    {
-                        //Removes the brake
-                        brakePosition = brakeOff;
-                        //Setting joint3power variable to a hold power so brake can come off
-                        joint3Power = 0.4;
-                    }
-                    else
-                    {
-                        //Removes the brake
-                        brakePosition = brakeOff;
-                        joint3Power = gamepad2.left_stick_y * .50;
-                    }
-
-                }
-                //Officially sets the joint3 to a power
-                curiosity.joint3.setPower(joint3Power);
-            }
-
-
-
-            if(Math.abs(gamepad2.left_stick_y) < 0.1)
-            {
-                brakePosition = brakeOn;
-                curiosity.joint3.setPower(0.0);
-            }
-            */
 
 
 
@@ -316,21 +159,6 @@ public class DRTeleOp extends LinearOpMode
             {
                 curiosity.joint2.setPower(0.0);
             }
-
-            //Setting Joint 1
-            /*if(gamepad2.dpad_up)
-            {
-                curiosity.joint1.setPower(joint3MaxSpeed);
-            }
-            else if(gamepad2.dpad_down)
-            {
-                curiosity.joint1.setPower(-joint3MaxSpeed);
-            }
-            else
-            {
-                curiosity.joint1.setPower(0.0);
-            }
-            */
 
             //Removed capability of wrist for easier glyph control at first meet.
             /*

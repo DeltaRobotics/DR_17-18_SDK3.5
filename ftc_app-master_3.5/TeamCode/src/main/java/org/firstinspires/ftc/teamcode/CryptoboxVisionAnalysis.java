@@ -54,22 +54,27 @@ public class CryptoboxVisionAnalysis extends LinearOpModeCamera
                 {
                     for (int y = 0; y < cryptoboxHeight; y++)
                     {
+                        //Adds an orange line at 1/4 down the image's height
                         if (y == cryptoboxHeight - (int) (cryptoboxHeight * .25))
                         {
                             rgbImage2.setPixel(x, y, Color.rgb(204, 102, 0));
                         }
+                        //Adds an orange line at 1/2 down the image's height
                         if (y == cryptoboxHeight - (int) (cryptoboxHeight * .5))
                         {
                             rgbImage2.setPixel(x, y, Color.rgb(204, 102, 0));
                         }
+                        //Adds an orange line at 3/4 down the cryptobox's height
                         if (y == cryptoboxHeight - (int) (cryptoboxHeight * .75))
                         {
                             rgbImage2.setPixel(x, y, Color.rgb(204, 102, 0));
                         }
+                        //Adds horizontal cyan lines at every 100 pixels
                         if (y % 100 == 0)
                         {
                             rgbImage2.setPixel(x, y, Color.rgb(200, 255, 255));
                         }
+                        //Adds vertical cyan lines at every 100 pixels
                         if (x % 100 == 0)
                         {
                             rgbImage2.setPixel(x, y, Color.rgb(200, 255, 255));
@@ -78,12 +83,9 @@ public class CryptoboxVisionAnalysis extends LinearOpModeCamera
                     }
                 }
                 count++;
-                telemetry.addData("LinearValue 0", resultingMovement[0]);
-                telemetry.addData("VisionAnalysisValue 0", cryptoboxHeight - (int) (cryptoboxHeight * .25));
-                telemetry.addData("LinearValue 1", resultingMovement[1]);
-                telemetry.addData("VisionAnalysisValue 1", cryptoboxHeight - (int) (cryptoboxHeight * .5));
-                telemetry.addData("LinearValue 2", resultingMovement[2]);
-                telemetry.addData("VisionAnalysisValue 2", cryptoboxHeight - (int) (cryptoboxHeight * .75));
+                telemetry.addData("Orange Line 1", resultingMovement[0]);
+                telemetry.addData("Orange Line 2", resultingMovement[1]);
+                telemetry.addData("Orange Line 3", resultingMovement[2]);
                 telemetry.addData("Count", count);
                 telemetry.update();
                 SaveImage(rgbImage2);

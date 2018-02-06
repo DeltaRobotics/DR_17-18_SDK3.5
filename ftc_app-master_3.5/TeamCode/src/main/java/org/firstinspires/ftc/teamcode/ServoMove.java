@@ -16,7 +16,15 @@ public class ServoMove extends LinearOpMode
     {
         /*servos[1].setPosition(0.3); // rotates slapper
         sleep(500);*/
-        servos[0].setPosition(0.30); //arm down
+        double servo0PositionDown = 0.61;
+        double servo0PositionUp = 0.27;
+        for(int x = 0; x < 38; x++)
+        {
+            servos[0].setPosition(servo0PositionDown);
+            servo0PositionDown -= .01;
+            sleep(10);
+        }
+        //arm down
         sleep(1500);
         if(color == 0 && alliance.equals("blue"))
         {
@@ -49,7 +57,12 @@ public class ServoMove extends LinearOpMode
         }
 
         sleep(750);
-        servos[0].setPosition(0.6); //Raises flapper up
+        for(int y = 0; y < 38; y++)
+        {
+            servos[0].setPosition(servo0PositionUp);
+            servo0PositionUp += .01;
+            sleep(10);
+        } //Raises flapper up
         sleep(750);
         servos[1].setPosition(0.8); //Moves slapper to home position
         sleep(750);
@@ -74,7 +87,7 @@ public class ServoMove extends LinearOpMode
         sleep(250);
         servos[3].setPosition(0.25); //Closes claw
         servos[2].setPosition(0.75); //Moves knock to home position
-        drive.encoderDrive(650, driveStyle.FORWARD, 0.5, motors); //Moves robot forward to push in glyph
+        drive.encoderDrive(500, driveStyle.FORWARD, 0.5, motors); //Moves robot forward to push in glyph
         sleep(250);
         drive.encoderDrive(100, driveStyle.BACKWARD, 0.5, motors); //Moves robot backward
         //

@@ -6,7 +6,6 @@ import android.graphics.Color;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -21,12 +20,13 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
 import for_camera_opmodes.LinearOpModeCamera;
+
 /**
  * Created by User on 10/14/2017.
  */
 
-//@Autonomous (name = "AutoRedLeft", group = "Auto")
-public class AutoRedLeft extends LinearOpModeCamera {
+@Autonomous (name = "AutoRedLeftStay", group = "Auto Stay")
+public class AutoRedLeftStay extends LinearOpModeCamera {
     RobotHardware robot = new RobotHardware(); //Object of RobotHardware class
     Drive drive = new Drive(); //Object of Drive class
 
@@ -222,9 +222,9 @@ public class AutoRedLeft extends LinearOpModeCamera {
 
             //drive.timeDrive(750, 0.4, driveStyle.STRAFE_LEFT, motors);
 
-            drive.encoderDrive(450, driveStyle.STRAFE_LEFT, 0.45, motors);
+            //drive.encoderDrive(450, driveStyle.STRAFE_LEFT, 0.45, motors);
             sleep(250);
-            drive.encoderDrive(200, driveStyle.STRAFE_RIGHT, 0.45, motors);
+            //drive.encoderDrive(200, driveStyle.STRAFE_RIGHT, 0.45, motors);
 
             //Stashed changes in merge conflict
             /*drive.encoderDrive(600, driveStyle.STRAFE_LEFT, 0.45, motors);
@@ -258,7 +258,7 @@ public class AutoRedLeft extends LinearOpModeCamera {
         */
             //drive.timeDrive(85, 0.4, driveStyle.STRAFE_LEFT, motors);
 
-            drive.encoderDrive(50, driveStyle.STRAFE_LEFT, 0.45, motors);
+            //drive.encoderDrive(50, driveStyle.STRAFE_LEFT, 0.45, motors);
             sleep(250);
             switch(keyPosition)
             {
@@ -285,7 +285,7 @@ public class AutoRedLeft extends LinearOpModeCamera {
                 }
             }
             sleep(250);
-            drive.encoderDrive(200, driveStyle.STRAFE_RIGHT, 0.45, motors);
+            //drive.encoderDrive(200, driveStyle.STRAFE_RIGHT, 0.45, motors);
             sleep(250);
             //True 90 degree turn
             angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);

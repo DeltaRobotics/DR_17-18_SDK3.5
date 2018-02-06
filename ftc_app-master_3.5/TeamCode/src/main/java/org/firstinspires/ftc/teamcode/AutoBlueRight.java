@@ -27,7 +27,7 @@ import for_camera_opmodes.LinearOpModeCamera;
  * Created by User on 10/14/2017.
  */
 
-@Autonomous (name = "AutoBlueRight", group = "Auto")
+//@Autonomous (name = "AutoBlueRight", group = "Auto")
 public class AutoBlueRight extends LinearOpModeCamera {
     RobotHardware robot = new RobotHardware(); //Object of RobotHardware class
     Drive drive = new Drive(); //Object of Drive class
