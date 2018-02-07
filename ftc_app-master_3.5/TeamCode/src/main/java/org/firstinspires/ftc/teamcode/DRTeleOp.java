@@ -30,12 +30,19 @@ public class DRTeleOp extends LinearOpMode
     double slapperMaxChange = 0.005;
     double flapperMaxChange = 0.004;
     double clawMaxChange = 0.005;
+    double grabberMaxChange = 0.005;
     double zSclae = 0.75;
 
     double armServoAdjustment = 0.2;
     double joint1MaxSpeed = 0.70;
     double joint2MaxSpeed = 0.50;
     //double joint3MaxSpeed = 1.0;
+
+    double slidesPower = 0.0;
+    double grabberLiftPosition;
+    double grabberPosition;
+
+    boolean slidesEncoderCheck = true;
 
     double speed = 0.5;
 
@@ -59,9 +66,11 @@ public class DRTeleOp extends LinearOpMode
         //curiosity.joint3.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         //j3currentEncoder = curiosity.joint3.getCurrentPosition();
 
+        grabberLiftPosition = curiosity.grabberLift.getPosition();
+        grabberPosition = curiosity.grabber.getPosition();
         double flapperPosition = curiosity.flapper.getPosition();
         double slapperPosition = curiosity.slapper.getPosition();
-        double wristPos = curiosity.wrist.getPosition();
+        //double wristPos = curiosity.wrist.getPosition();
         double knockPos = curiosity.knock.getPosition();
         double clawPos = curiosity.claw.getPosition();
 
@@ -74,9 +83,10 @@ public class DRTeleOp extends LinearOpMode
             flapperPosition = Range.clip(flapperPosition, 0.30, 0.70);
             armServoAdjustment = Range.clip(armServoAdjustment, 0.2, 0.7);
             knockPos = Range.clip(knockPos, 0.06, 0.75);
-            wristPos = Range.clip(wristPos, 0.01, 0.99);
+            //wristPos = Range.clip(wristPos, 0.01, 0.99);
             clawPos = Range.clip(clawPos, 0.01, 0.25);
-
+            grabberLiftPosition = Range.clip(grabberLiftPosition, 0.18, 0.95);
+            grabberPosition = Range.clip(grabberPosition, 0.05, 0.95);
 
 
             if(gamepad1.a)
@@ -121,11 +131,11 @@ public class DRTeleOp extends LinearOpMode
 
             //Manipulator - Arm controls, Joints 1 and 2
 
-            //Setting Arm Adjustment Speed
+            //Controlling GrabberLift Movement
             if(gamepad2.dpad_up && !dPadUpState)
             {
                 dPadUpState = true;
-                armServoAdjustment += 0.02;
+                grabberLiftPosition += 0.05;
             }
             else if(!gamepad2.dpad_up)
             {
@@ -135,30 +145,50 @@ public class DRTeleOp extends LinearOpMode
             if(gamepad2.dpad_down && !dPadDownState)
             {
                 dPadDownState  = true;
-                armServoAdjustment -= 0.02;
+                grabberLiftPosition -= 0.05;
             }
             else if(!gamepad2.dpad_down)
             {
                 dPadDownState = false;
             }
 
-
-
-
-
-            //Setting Joint 2
-            if(gamepad2.left_bumper)
+            //Controlling Grabber Open/Close
+            if(gamepad2.left_bumper || gamepad2.left_trigger > 0.1)
             {
-                curiosity.joint2.setPower(joint2MaxSpeed);
+                //Opening the Grabber
+                if(gamepad2.left_bumper)
+                {
+                    grabberPosition += (grabberMaxChange);
+                }
+                //Closing the Grabber
+                if(gamepad2.left_trigger > 0.1)
+                {
+                    grabberPosition -= (gamepad2.left_trigger * grabberMaxChange);
+                }
+
+                curiosity.grabber.setPosition(grabberPosition);
             }
-            else if(gamepad2.left_trigger > 0.4)
+
+            //Controlling the Slides (Relic Arm Movement)
+            if(gamepad2.left_stick_y > 0.1 || gamepad2.left_stick_y < 0.1)
             {
-                curiosity.joint2.setPower(-joint2MaxSpeed);
+                slidesPower = gamepad2.left_stick_y;
+            }
+            if(slidesEncoderCheck)
+            {
+                if(curiosity.slides.getCurrentPosition() < 1000)
+                {
+                    curiosity.slides.setPower(slidesPower);
+                }
             }
             else
             {
-                curiosity.joint2.setPower(0.0);
+                curiosity.slides.setPower(slidesPower);
             }
+
+
+
+
 
             //Removed capability of wrist for easier glyph control at first meet.
             /*
@@ -243,6 +273,9 @@ public class DRTeleOp extends LinearOpMode
             //telemetry.addData("Wrist Pos", curiosity.wrist.getPosition());
             telemetry.addData("Knock Pos", curiosity.knock.getPosition());
             telemetry.addData("Claw Pos", curiosity.claw.getPosition());
+            telemetry.addData("Slides Power", slidesPower);
+            telemetry.addData("Slides Encoder", curiosity.slides.getCurrentPosition());
+
             //telemetry.addData("Flapper Pos", curiosity.flapper.getPosition());
             //telemetry.addData("Slapper Pos", curiosity.slapper.getPosition());
             //telemetry.addData("Robot Speed", speed);

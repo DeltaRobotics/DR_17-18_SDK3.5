@@ -20,17 +20,17 @@ public class RobotHardware
     public DcMotor joint2 = null; //Joint 2 on arm
     public DcMotor joint3 = null; //Joint 3 on arm
 
-    public Servo wrist = null; //Wrist on arm
+    //public Servo wrist = null; //Wrist on arm
     public Servo knock = null; //Knock on arm
     public Servo claw = null; //Claw on arm
-    public Servo brake = null; //Servo brake on arm
+    //public Servo brake = null; //Servo brake on arm
 
     public Servo flapper = null; //Flapper
     public Servo slapper = null; //Slapper
 
     public DcMotor slides = null; //Slides/Winch for Relic Arm
-    public Servo pincher = null; //Pincher for grabbing the relic (on end of relic arm slides)
-    public Servo pincherLift = null; //Raises and lowers the pincher for placing the relic
+    public Servo grabber = null; //Grabber for grabbing the relic (on end of relic arm slides)
+    public Servo grabberLift = null; //Raises and lowers the grabber for placing the relic
 
     public RobotHardware() //Constructor
     {
@@ -48,26 +48,26 @@ public class RobotHardware
         joint2 = ahwMap.dcMotor.get("joint2"); //What to look for in the config for joint2
         joint3 = ahwMap.dcMotor.get("joint3"); //What to look for in the config for joint3
 
-        wrist = ahwMap.servo.get("wrist"); //What to look for in the config for wrist
+        //wrist = ahwMap.servo.get("wrist"); //What to look for in the config for wrist
         knock = ahwMap.servo.get("knock"); //What to look for in the config for knock
         claw = ahwMap.servo.get("claw"); //What to look for in the config for claw
-        brake = ahwMap.servo.get("brake"); //What to look for in the config for brake
+        //brake = ahwMap.servo.get("brake"); //What to look for in the config for brake
 
         flapper = ahwMap.servo.get("flapper"); //What to look for in the config for flapper
         slapper = ahwMap.servo.get("slapper"); //What to look for in the config for slapper
 
         slides = ahwMap.dcMotor.get("slides"); //Slides/Winch for relic arm - in configuration
-        pincher = ahwMap.servo.get("pincher"); //Pincher for grabbing relic - in configuration
-        pincherLift = ahwMap.servo.get("pincherLift"); //Lift for raising pincher - in configuration
+        grabber = ahwMap.servo.get("grabber"); //Grabber for grabbing relic - in configuration
+        grabberLift = ahwMap.servo.get("grabberLift"); //Lift for raising grabber - in configuration
 
          // was 0.8 for sideways
         flapper.setPosition(0.67);//]
-        wrist.setPosition(0.375);//]
+        //wrist.setPosition(0.375);//]
         knock.setPosition(0.75);//] Sets servos to their home positions
         claw.setPosition(0.2);//]
-        brake.setPosition(0.10);//]
-        //pincher.setPosition(xPosition);//]
-        //pincherLift.setPosition(xPosition);//]
+        //brake.setPosition(0.10);//]
+        //grabber.setPosition(xPosition);//]
+        //grabberLift.setPosition(xPosition);//]
 
         motorRF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);//]
         motorLF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);//]
