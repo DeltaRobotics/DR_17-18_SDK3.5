@@ -86,7 +86,7 @@ public class DRTeleOp extends LinearOpMode
             //wristPos = Range.clip(wristPos, 0.01, 0.99);
             clawPos = Range.clip(clawPos, 0.01, 0.25);
             grabberLiftPosition = Range.clip(grabberLiftPosition, 0.18, 0.95);
-            grabberPosition = Range.clip(grabberPosition, 0.05, 0.95);
+            grabberPosition = Range.clip(grabberPosition, 0.35, 0.7);
 
 
             if(gamepad1.a)
@@ -151,6 +151,7 @@ public class DRTeleOp extends LinearOpMode
             {
                 dPadDownState = false;
             }
+            curiosity.grabberLift.setPosition(grabberLiftPosition);
 
             //Controlling Grabber Open/Close
             if(gamepad2.left_bumper || gamepad2.left_trigger > 0.1)
@@ -170,15 +171,23 @@ public class DRTeleOp extends LinearOpMode
             }
 
             //Controlling the Slides (Relic Arm Movement)
-            if(gamepad2.left_stick_y > 0.1 || gamepad2.left_stick_y < 0.1)
+            if(gamepad2.left_stick_y > 0.1)
             {
-                slidesPower = gamepad2.left_stick_y;
+                slidesPower = -gamepad2.left_stick_y * .40;
+            }
+            if(gamepad2.left_stick_y < 0.1)
+            {
+                slidesPower = -gamepad2.left_stick_y;
             }
             if(slidesEncoderCheck)
             {
-                if(curiosity.slides.getCurrentPosition() < 1000)
+                if(curiosity.slides.getCurrentPosition() < 9300 || gamepad2.left_stick_y > 0.1)
                 {
                     curiosity.slides.setPower(slidesPower);
+                }
+                else
+                {
+                    curiosity.slides.setPower(0.0);
                 }
             }
             else
@@ -274,7 +283,9 @@ public class DRTeleOp extends LinearOpMode
             telemetry.addData("Knock Pos", curiosity.knock.getPosition());
             telemetry.addData("Claw Pos", curiosity.claw.getPosition());
             telemetry.addData("Slides Power", slidesPower);
+            telemetry.addData("Slides Actual Motor Power", curiosity.slides.getPower());
             telemetry.addData("Slides Encoder", curiosity.slides.getCurrentPosition());
+            telemetry.addData("Encoder Check?", slidesEncoderCheck);
 
             //telemetry.addData("Flapper Pos", curiosity.flapper.getPosition());
             //telemetry.addData("Slapper Pos", curiosity.slapper.getPosition());
