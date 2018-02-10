@@ -31,6 +31,7 @@ public class DRTeleOp extends LinearOpMode
     double flapperMaxChange = 0.004;
     double clawMaxChange = 0.005;
     double grabberMaxChange = 0.005;
+    double grabberLiftMaxChange = 0.005;
     double zSclae = 0.75;
 
     double armServoAdjustment = 0.2;
@@ -45,9 +46,6 @@ public class DRTeleOp extends LinearOpMode
     boolean slidesEncoderCheck = true;
 
     double speed = 0.5;
-
-    boolean dPadUpState = false;
-    boolean dPadDownState = false;
 
     double clawOpen = 0.0;
     double knockSwitch;
@@ -132,7 +130,7 @@ public class DRTeleOp extends LinearOpMode
             //Manipulator - Arm controls, Joints 1 and 2
 
             //Controlling GrabberLift Movement
-            if(gamepad2.dpad_up && !dPadUpState)
+            /*if(gamepad2.dpad_up && !dPadUpState)
             {
                 dPadUpState = true;
                 grabberLiftPosition += 0.05;
@@ -150,38 +148,47 @@ public class DRTeleOp extends LinearOpMode
             else if(!gamepad2.dpad_down)
             {
                 dPadDownState = false;
+            }*/
+
+            if(gamepad2.a)
+            {
+                grabberLiftPosition += grabberLiftMaxChange;
+            }
+            if(gamepad2.y)
+            {
+                grabberLiftPosition -= grabberLiftMaxChange;
             }
             curiosity.grabberLift.setPosition(grabberLiftPosition);
 
             //Controlling Grabber Open/Close
-            if(gamepad2.left_bumper || gamepad2.left_trigger > 0.1)
+            if(gamepad2.right_bumper || gamepad2.right_trigger > 0.1)
             {
                 //Opening the Grabber
-                if(gamepad2.left_bumper)
+                if(gamepad2.right_bumper)
                 {
-                    grabberPosition += (grabberMaxChange);
+                    grabberPosition -= (grabberMaxChange);
                 }
                 //Closing the Grabber
-                if(gamepad2.left_trigger > 0.1)
+                if(gamepad2.right_trigger > 0.1)
                 {
-                    grabberPosition -= (gamepad2.left_trigger * grabberMaxChange);
+                    grabberPosition += (gamepad2.right_trigger * grabberMaxChange);
                 }
 
                 curiosity.grabber.setPosition(grabberPosition);
             }
 
             //Controlling the Slides (Relic Arm Movement)
-            if(gamepad2.left_stick_y > 0.1)
+            if(gamepad2.right_stick_y > 0.1)
             {
-                slidesPower = -gamepad2.left_stick_y * .40;
+                slidesPower = -gamepad2.right_stick_y * .40;
             }
-            if(gamepad2.left_stick_y < 0.1)
+            if(gamepad2.right_stick_y < 0.1)
             {
-                slidesPower = -gamepad2.left_stick_y;
+                slidesPower = -gamepad2.right_stick_y;
             }
             if(slidesEncoderCheck)
             {
-                if(curiosity.slides.getCurrentPosition() < 9300 || gamepad2.left_stick_y > 0.1)
+                if((curiosity.slides.getCurrentPosition() < 9300 && gamepad2.right_stick_y < 0.1 ) || (curiosity.slides.getCurrentPosition() > 0 && gamepad2.right_stick_y > 0.1))
                 {
                     curiosity.slides.setPower(slidesPower);
                 }
@@ -210,23 +217,23 @@ public class DRTeleOp extends LinearOpMode
             }
             */
 
-            if(gamepad2.right_stick_y > 0.2 || gamepad2.right_stick_y < -0.2)
+            if(gamepad2.left_stick_y > 0.2 || gamepad2.left_stick_y < -0.2)
             {
 
-                knockPos += (gamepad2.right_stick_y * knockMaxChange);
+                knockPos += (gamepad2.left_stick_y * knockMaxChange);
                 curiosity.knock.setPosition(knockPos);
             }
 
             //Setting the Claw
-            if(gamepad2.right_bumper || gamepad2.right_trigger > 0.1)
+            if(gamepad2.left_bumper || gamepad2.left_trigger > 0.1)
             {
-                if(gamepad2.right_bumper)
+                if(gamepad2.left_bumper)
                 {
                     clawPos += (clawMaxChange);
                 }
-                if(gamepad2.right_trigger > 0.1)
+                if(gamepad2.left_trigger > 0.1)
                 {
-                    clawPos -= (gamepad2.right_trigger * clawMaxChange);
+                    clawPos -= (gamepad2.left_trigger * clawMaxChange);
                 }
 
                 curiosity.claw.setPosition(clawPos);

@@ -233,7 +233,7 @@ public class AutoBlueLeftStay extends LinearOpModeCamera
             }
 
             //drive.encoderDrive(450, driveStyle.STRAFE_LEFT, 0.45, motors); //Strafes off stone
-            sleep(250);
+            //sleep(250);
             //drive.encoderDrive(200, driveStyle.STRAFE_RIGHT, 0.45, motors); //Strafes back to hit stone
             sleep(250);
             /*
@@ -350,28 +350,28 @@ public class AutoBlueLeftStay extends LinearOpModeCamera
                 case "LEFT": //If key is LEFT
                 {
                     //Was 600
-                    drive.encoderDrive(250, driveStyle.STRAFE_RIGHT, 0.45, motors); //Strafes to left column of cryptobox
+                    drive.encoderDrive(100, driveStyle.STRAFE_RIGHT, 0.6, motors); //Strafes to left column of cryptobox
                     break;
                 }
 
                 case "CENTER": //If key is CENTER
                 {
                     //Was 1050
-                    drive.encoderDrive(700, driveStyle.STRAFE_RIGHT, 0.55, motors); //Strafes to center column of cryptobox
+                    drive.encoderDrive(550, driveStyle.STRAFE_RIGHT, 0.6, motors); //Strafes to center column of cryptobox
                     break;
                 }
 
                 case "RIGHT": //If key is RIGHT
                 {
                     //Was 1550
-                    drive.encoderDrive(1200, driveStyle.STRAFE_RIGHT, 0.55, motors); //Strafes to right column of cryptobox
+                    drive.encoderDrive(1050, driveStyle.STRAFE_RIGHT, 0.6, motors); //Strafes to right column of cryptobox
                     break;
                 }
 
                 case "UNKNOWN": //If phone couldn't sense a pictogram
                 {
                     //Was 1050
-                    drive.encoderDrive(700, driveStyle.STRAFE_RIGHT, 0.55, motors); //Strafes to center column
+                    drive.encoderDrive(550, driveStyle.STRAFE_RIGHT, 0.6, motors); //Strafes to center column
                     break;
                 }
             }

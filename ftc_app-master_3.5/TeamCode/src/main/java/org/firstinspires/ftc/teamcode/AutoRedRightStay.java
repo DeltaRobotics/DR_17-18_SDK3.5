@@ -245,8 +245,7 @@ public class AutoRedRightStay extends LinearOpModeCamera
                     */
             servoMove.knockOffJewel(servos, jewelColorInt, "red");
                     //drive.timeDrive(85, 0.4, driveStyle.STRAFE_LEFT, motors);
-            drive.encoderDrive(1325, driveStyle.BACKWARD, 0.5, motors);
-            sleep(250);
+            drive.encoderDrive(1225, driveStyle.BACKWARD, 0.5, motors);
             //drive.encoderDrive(350, driveStyle.STRAFE_LEFT, 0.45, motors);
                     //drive.timeDrive(800, 0.5, driveStyle.BACKWARD, motors);
             // Moved up above previous to compensate for longer arm and direct movement
@@ -260,14 +259,14 @@ public class AutoRedRightStay extends LinearOpModeCamera
                 case "LEFT":
                 {
                     //Was 1700
-                    drive.encoderDrive(1350, driveStyle.STRAFE_RIGHT, 0.55, motors);
+                    drive.encoderDrive(1125, driveStyle.STRAFE_RIGHT, 0.75, motors);
                     break;
                 }
 
                 case "CENTER":
                 {
                     //Was 1150
-                    drive.encoderDrive(800, driveStyle.STRAFE_RIGHT, 0.55, motors);
+                    drive.encoderDrive(575, driveStyle.STRAFE_RIGHT, 0.75, motors);
 
                     break;
                 }
@@ -275,7 +274,7 @@ public class AutoRedRightStay extends LinearOpModeCamera
                 case "RIGHT":
                 {
                     //Was 750
-                    drive.encoderDrive(400, driveStyle.STRAFE_RIGHT, 0.55, motors);
+                    drive.encoderDrive(175, driveStyle.STRAFE_RIGHT, 0.75, motors);
 
                     break;
                 }
@@ -283,13 +282,13 @@ public class AutoRedRightStay extends LinearOpModeCamera
                 case "UNKNOWN":
                 {
                     //Was 1150
-                    drive.encoderDrive(800, driveStyle.STRAFE_RIGHT, 0.55, motors);
+                    drive.encoderDrive(575, driveStyle.STRAFE_RIGHT, 0.75, motors);
 
                     break;
                 }
             }
                     //drive.encoderDrive(2500, driveStyle.PIVOT_LEFT, 0.5, motors);
-            drive.OrientationDrive(170, driveStyle.PIVOT_LEFT, 0.4, motors, imu);
+            drive.OrientationDrive(170, driveStyle.PIVOT_LEFT, 0.6, motors, imu);
             sleep(500);
             angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
             telemetry.addData("Before Move", AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle));
@@ -307,6 +306,8 @@ public class AutoRedRightStay extends LinearOpModeCamera
             angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
             telemetry.addData("After Move", AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle));
             telemetry.update();
+            sleep(250);
+            drive.encoderDrive(200, driveStyle.BACKWARD, 0.5, motors);
             /*sleep(250);
             drive.encoderDrive(50, driveStyle.BACKWARD, 0.5, motors);
             sleep(250);

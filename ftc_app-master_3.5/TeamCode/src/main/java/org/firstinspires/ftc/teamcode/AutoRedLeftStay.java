@@ -264,7 +264,7 @@ public class AutoRedLeftStay extends LinearOpModeCamera {
             {
                 case "LEFT":
                 {
-                    drive.encoderDrive(2425, driveStyle.BACKWARD, 0.5, motors);
+                    drive.encoderDrive(2300, driveStyle.BACKWARD, 0.5, motors);
                     break;
                 }
 
@@ -275,7 +275,7 @@ public class AutoRedLeftStay extends LinearOpModeCamera {
                 }
                 case "RIGHT":
                 {
-                    drive.encoderDrive(1525, driveStyle.BACKWARD, 0.5, motors);
+                    drive.encoderDrive(1400, driveStyle.BACKWARD, 0.5, motors);
                     break;
                 }
                 case "UNKNOWN":
@@ -289,7 +289,7 @@ public class AutoRedLeftStay extends LinearOpModeCamera {
             sleep(250);
             //True 90 degree turn
             angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-                drive.OrientationDrive(85 - AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle), driveStyle.PIVOT_LEFT, 0.4, motors, imu);
+                drive.OrientationDrive(85 - AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle), driveStyle.PIVOT_LEFT, 0.6, motors, imu);
                 sleep(250);
                 angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
                 telemetry.addData("Before Move", AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle));
@@ -308,9 +308,6 @@ public class AutoRedLeftStay extends LinearOpModeCamera {
             }
             angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
             telemetry.addData("After Move", AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle));
-            sleep(250);
-            drive.encoderDrive(300, driveStyle.BACKWARD, 0.5, motors);
-            sleep(250);
             servoMove.placeGlyph(servos, robot, drive);
             telemetry.update();
             //drive.timeDrive(1000, 0.5, driveStyle.BACKWARD, motors);
