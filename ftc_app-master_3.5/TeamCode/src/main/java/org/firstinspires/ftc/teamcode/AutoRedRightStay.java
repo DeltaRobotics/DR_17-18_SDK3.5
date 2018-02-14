@@ -18,6 +18,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
+import org.firstinspires.ftc.robotcore.internal.ftdi.eeprom.FT_EEPROM_232H;
 
 import for_camera_opmodes.LinearOpModeCamera;
 
@@ -245,7 +246,7 @@ public class AutoRedRightStay extends LinearOpModeCamera
                     */
             servoMove.knockOffJewel(servos, jewelColorInt, "red");
                     //drive.timeDrive(85, 0.4, driveStyle.STRAFE_LEFT, motors);
-            drive.encoderDrive(1225, driveStyle.BACKWARD, 0.5, motors);
+            drive.encoderDrive(1225, driveStyle.BACKWARD, Drive.drivePower, motors);
             //drive.encoderDrive(350, driveStyle.STRAFE_LEFT, 0.45, motors);
                     //drive.timeDrive(800, 0.5, driveStyle.BACKWARD, motors);
             // Moved up above previous to compensate for longer arm and direct movement
@@ -259,14 +260,14 @@ public class AutoRedRightStay extends LinearOpModeCamera
                 case "LEFT":
                 {
                     //Was 1700
-                    drive.encoderDrive(1125, driveStyle.STRAFE_RIGHT, 0.75, motors);
+                    drive.encoderDrive(1125, driveStyle.STRAFE_RIGHT, Drive.strafePower, motors);
                     break;
                 }
 
                 case "CENTER":
                 {
                     //Was 1150
-                    drive.encoderDrive(775, driveStyle.STRAFE_RIGHT, 0.75, motors);
+                    drive.encoderDrive(775, driveStyle.STRAFE_RIGHT, Drive.strafePower, motors);
 
                     break;
                 }
@@ -274,7 +275,7 @@ public class AutoRedRightStay extends LinearOpModeCamera
                 case "RIGHT":
                 {
                     //Was 750
-                    drive.encoderDrive(175, driveStyle.STRAFE_RIGHT, 0.75, motors);
+                    drive.encoderDrive(175, driveStyle.STRAFE_RIGHT, Drive.strafePower, motors);
 
                     break;
                 }
@@ -282,7 +283,7 @@ public class AutoRedRightStay extends LinearOpModeCamera
                 case "UNKNOWN":
                 {
                     //Was 1150
-                    drive.encoderDrive(575, driveStyle.STRAFE_RIGHT, 0.75, motors);
+                    drive.encoderDrive(575, driveStyle.STRAFE_RIGHT, Drive.strafePower, motors);
 
                     break;
                 }
@@ -296,18 +297,18 @@ public class AutoRedRightStay extends LinearOpModeCamera
             if(AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle) > 0)
             {
                 telemetry.update();
-                drive.OrientationDrive((180 - AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle))/2, driveStyle.PIVOT_LEFT, 0.4, motors, imu);
+                drive.OrientationDrive((180 - AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle))/2, driveStyle.PIVOT_LEFT, Drive.pivotPower / 1.5, motors, imu);
             }
             else
             {
                 telemetry.update();
-                drive.OrientationDrive((180 + AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle))/2, driveStyle.PIVOT_RIGHT, 0.4, motors, imu);
+                drive.OrientationDrive((180 + AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle))/2, driveStyle.PIVOT_RIGHT, Drive.pivotPower / 1.5, motors, imu);
             }
             angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
             telemetry.addData("After Move", AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle));
             telemetry.update();
             sleep(250);
-            drive.encoderDrive(200, driveStyle.BACKWARD, 0.5, motors);
+            drive.encoderDrive(200, driveStyle.BACKWARD, Drive.drivePower, motors);
             /*sleep(250);
             drive.encoderDrive(50, driveStyle.BACKWARD, 0.5, motors);
             sleep(250);

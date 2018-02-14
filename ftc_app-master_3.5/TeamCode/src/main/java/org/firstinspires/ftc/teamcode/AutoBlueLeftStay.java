@@ -341,7 +341,7 @@ public class AutoBlueLeftStay extends LinearOpModeCamera
             //sleep(250);
             //drive.encoderDrive(50, driveStyle.STRAFE_LEFT, 0.45, motors); //Strafes so the robot isn't right against the stone
             sleep(250);
-            drive.encoderDrive(1250, driveStyle.FORWARD, 0.7, motors); //Drives forward towards the cryptobox
+            drive.encoderDrive(1250, driveStyle.FORWARD, Drive.drivePower, motors); //Drives forward towards the cryptobox
             sleep(250);
 
             switch(keyPosition) //Handles where the robot should move depending on key
@@ -350,28 +350,28 @@ public class AutoBlueLeftStay extends LinearOpModeCamera
                 case "LEFT": //If key is LEFT
                 {
                     //Was 600
-                    drive.encoderDrive(100, driveStyle.STRAFE_RIGHT, 0.75, motors); //Strafes to left column of cryptobox
+                    drive.encoderDrive(100, driveStyle.STRAFE_RIGHT, Drive.strafePower, motors); //Strafes to left column of cryptobox
                     break;
                 }
 
                 case "CENTER": //If key is CENTER
                 {
                     //Was 1050
-                    drive.encoderDrive(550, driveStyle.STRAFE_RIGHT, 0.75, motors); //Strafes to center column of cryptobox
+                    drive.encoderDrive(550, driveStyle.STRAFE_RIGHT, Drive.strafePower, motors); //Strafes to center column of cryptobox
                     break;
                 }
 
                 case "RIGHT": //If key is RIGHT
                 {
                     //Was 1550
-                    drive.encoderDrive(1050, driveStyle.STRAFE_RIGHT, 0.75, motors); //Strafes to right column of cryptobox
+                    drive.encoderDrive(1050, driveStyle.STRAFE_RIGHT, Drive.strafePower, motors); //Strafes to right column of cryptobox
                     break;
                 }
 
                 case "UNKNOWN": //If phone couldn't sense a pictogram
                 {
                     //Was 1050
-                    drive.encoderDrive(550, driveStyle.STRAFE_RIGHT, 0.75, motors); //Strafes to center column
+                    drive.encoderDrive(550, driveStyle.STRAFE_RIGHT, Drive.strafePower, motors); //Strafes to center column
                     break;
                 }
             }
@@ -386,12 +386,12 @@ public class AutoBlueLeftStay extends LinearOpModeCamera
                 {
                     telemetry.addData("Expected Change 1", AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle) / 2);
                     telemetry.update(); //Updates telemetry
-                    drive.OrientationDrive(Math.abs((AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle)) / 2), driveStyle.PIVOT_RIGHT, 0.4, motors, imu); //Moves robot to correct orientation
+                    drive.OrientationDrive(Math.abs((AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle)) / 2), driveStyle.PIVOT_RIGHT, Drive.pivotPower / 1.5, motors, imu); //Moves robot to correct orientation
                 } else //If the robot's current orientation isn't greater than 0
                 {
                     telemetry.addData("Expected Change 2", AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle) / 2);
                     telemetry.update(); //Updates telemetry
-                    drive.OrientationDrive(Math.abs((AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle)) / 2), driveStyle.PIVOT_LEFT, 0.4, motors, imu); //Moves robot to correct orientation
+                    drive.OrientationDrive(Math.abs((AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle)) / 2), driveStyle.PIVOT_LEFT, Drive.pivotPower / 1.5, motors, imu); //Moves robot to correct orientation
                 }
                 angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES); //Gets current orientation of robot
                 telemetry.addData("After Move", AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle)); //Displays robot's orientation after the orientation correction

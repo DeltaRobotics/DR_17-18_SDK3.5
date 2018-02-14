@@ -79,18 +79,18 @@ public class ServoMove extends LinearOpMode
         sleep(250);
         servos[2].setPosition(0.05); //Moves knock out
         sleep(750);
-        servos[3].setPosition(0.05); //Opens claw
+        servos[3].setPosition(0.0); //Opens claw
+        sleep(1250);
+        drive.encoderDrive(200, driveStyle.BACKWARD, Drive.drivePower, motors); //Moves robot back
         sleep(750);
-        drive.encoderDrive(100, driveStyle.BACKWARD, 0.7, motors); //Moves robot back
-        sleep(250);
         servos[2].setPosition(0.15); //Moves knock to a mid position
         sleep(250);
         servos[3].setPosition(0.25); //Closes claw
         servos[2].setPosition(0.75); //Moves knock to home position
-        sleep(1000);
-        drive.encoderDrive(750, driveStyle.FORWARD, 0.7, motors); //Moves robot forward to push in glyph
+        sleep(500);
+        drive.encoderDrive(850, driveStyle.FORWARD, Drive.drivePower, motors); //Moves robot forward to push in glyph
         sleep(250);
-        drive.encoderDrive(250, driveStyle.BACKWARD, 0.7, motors); //Moves robot backward
+        drive.encoderDrive(250, driveStyle.BACKWARD, Drive.drivePower, motors); //Moves robot backward
         //
     }
 

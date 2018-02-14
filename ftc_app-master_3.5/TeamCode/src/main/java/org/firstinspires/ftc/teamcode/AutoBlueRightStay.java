@@ -215,7 +215,6 @@ public class AutoBlueRightStay extends LinearOpModeCamera {
 
             sleep(250);
             //drive.encoderDrive(450, driveStyle.STRAFE_LEFT, 0.45, motors); //Robot strafes off stone
-            sleep(250);
             //drive.encoderDrive(200, driveStyle.STRAFE_RIGHT, 0.45, motors); //Robot strafes back into stone
             servoMove.knockOffJewel(servos, jewelColorInt, "blue"); //Robot knocks off correct jewel
             sleep(250);
@@ -225,25 +224,25 @@ public class AutoBlueRightStay extends LinearOpModeCamera {
             {
                 case "RIGHT": //If key is RIGHT
                 {
-                    drive.encoderDrive(2675, driveStyle.FORWARD, 0.5, motors); //Moves robot to the right column of the cryptobox
+                    drive.encoderDrive(2675, driveStyle.FORWARD, Drive.drivePower, motors); //Moves robot to the right column of the cryptobox
                     break;
                 }
 
                 case "CENTER": //If key is CENTER
                 {
-                    drive.encoderDrive(2200, driveStyle.FORWARD, 0.5, motors); //Moves robot to the center column of the cryptobox
+                    drive.encoderDrive(2200, driveStyle.FORWARD, Drive.drivePower, motors); //Moves robot to the center column of the cryptobox
                     break;
                 }
 
                 case "LEFT": //If key is LEFT
                 {
-                    drive.encoderDrive(1725, driveStyle.FORWARD, 0.5, motors); //Moves robot to the left column of the cryptobox
+                    drive.encoderDrive(1725, driveStyle.FORWARD, Drive.drivePower, motors); //Moves robot to the left column of the cryptobox
                     break;
                 }
 
                 case "UNKNOWN": //If the phone didn't sense a pictograph
                 {
-                    drive.encoderDrive(2200, driveStyle.FORWARD, 0.5, motors); //Moves robot to the center column of the cryptobox
+                    drive.encoderDrive(2200, driveStyle.FORWARD, Drive.drivePower, motors); //Moves robot to the center column of the cryptobox
                     break;
                 }
             }
@@ -252,7 +251,7 @@ public class AutoBlueRightStay extends LinearOpModeCamera {
             //drive.encoderDrive(200, driveStyle.STRAFE_RIGHT, 0.45, motors); //Moves robot away from the cryptobox so it can rotate without hitting it
             sleep(250);
             angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES); //Gets the robot's current orientation
-            drive.OrientationDrive(85 + AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle), driveStyle.PIVOT_LEFT, 0.6, motors, imu); //Pivots robot 90 degrees right
+            drive.OrientationDrive(85 + AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle), driveStyle.PIVOT_LEFT, Drive.pivotPower, motors, imu); //Pivots robot 90 degrees right
 
             angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES); //Gets the robot's current orientation
             telemetry.addData("Before Move", AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle)); //Displays the robots orientation before it trys to correct its orientation
@@ -263,17 +262,17 @@ public class AutoBlueRightStay extends LinearOpModeCamera {
                 if (targetError > 0) //If target error is greater than 0
                 {
                     telemetry.update(); //Updates telemetry
-                    drive.OrientationDrive(Math.abs(targetError), driveStyle.PIVOT_LEFT, 0.4, motors, imu); //Corrects robot's orientation
+                    drive.OrientationDrive(Math.abs(targetError), driveStyle.PIVOT_LEFT, Drive.pivotPower / 1.5, motors, imu); //Corrects robot's orientation
                 } else //If target error isn't greater than 0
                 {
                     telemetry.update(); //Updates telemetry
-                    drive.OrientationDrive(Math.abs(targetError), driveStyle.PIVOT_RIGHT, 0.4, motors, imu); //Corrects robot's orientation
+                    drive.OrientationDrive(Math.abs(targetError), driveStyle.PIVOT_RIGHT, Drive.pivotPower / 1.5, motors, imu); //Corrects robot's orientation
                 }
             }
             angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES); //Gets robot's orientation
             telemetry.addData("After Move", AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle)); //Displays robot's orientation after it tries to correct its orientation
             sleep(250);
-            drive.encoderDrive(300, driveStyle.BACKWARD, 0.5, motors); //Moves the robot backwards a bit
+            drive.encoderDrive(300, driveStyle.BACKWARD, Drive.drivePower, motors); //Moves the robot backwards a bit
             sleep(250);
             servoMove.placeGlyph(servos, robot, drive); //Places glyph in correct cryptobox column
         }

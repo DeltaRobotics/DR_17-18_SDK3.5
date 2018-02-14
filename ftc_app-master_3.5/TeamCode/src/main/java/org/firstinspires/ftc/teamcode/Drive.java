@@ -26,6 +26,10 @@ enum driveStyle
 public class Drive extends LinearOpMode
 {
 
+   public static double drivePower = 0.75;
+    public static double strafePower = 0.85;
+    public static double pivotPower = 0.6;
+
 
     public double[] setPower(double dirX, double dirY, double pivot)
     {
