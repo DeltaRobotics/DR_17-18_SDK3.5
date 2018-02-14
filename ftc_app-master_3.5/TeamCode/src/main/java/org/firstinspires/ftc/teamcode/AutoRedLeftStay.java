@@ -137,8 +137,8 @@ public class AutoRedLeftStay extends LinearOpModeCamera {
                 SaveImage(rgbImage);
 
                 //Analyzing Jewel Color
-                for (int x = 480; x < 680; x++) {
-                    for (int y = 850; y < 1280; y++) {
+                for (int x = 550; x < 850; x++) {
+                    for (int y = 900; y < 1280; y++) {
                         int pixel = rgbImage.getPixel(x, y);
                         redValueLeft += red(pixel);
                         blueValueLeft += blue(pixel);
@@ -264,23 +264,23 @@ public class AutoRedLeftStay extends LinearOpModeCamera {
             {
                 case "LEFT":
                 {
-                    drive.encoderDrive(2300, driveStyle.BACKWARD, 0.5, motors);
+                    drive.encoderDrive(2300, driveStyle.BACKWARD, 0.7, motors);
                     break;
                 }
 
                 case "CENTER":
                 {
-                    drive.encoderDrive(1900, driveStyle.BACKWARD, 0.5, motors);
+                    drive.encoderDrive(1900, driveStyle.BACKWARD, 0.7, motors);
                     break;
                 }
                 case "RIGHT":
                 {
-                    drive.encoderDrive(1400, driveStyle.BACKWARD, 0.5, motors);
+                    drive.encoderDrive(1400, driveStyle.BACKWARD, 0.7, motors);
                     break;
                 }
                 case "UNKNOWN":
                 {
-                    drive.encoderDrive(1900, driveStyle.BACKWARD, 0.5, motors);
+                    drive.encoderDrive(1900, driveStyle.BACKWARD, 0.7, motors);
                     break;
                 }
             }
@@ -308,6 +308,8 @@ public class AutoRedLeftStay extends LinearOpModeCamera {
             }
             angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
             telemetry.addData("After Move", AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle));
+            sleep(250);
+            drive.encoderDrive(100, driveStyle.BACKWARD, 0.7, motors);
             servoMove.placeGlyph(servos, robot, drive);
             telemetry.update();
             //drive.timeDrive(1000, 0.5, driveStyle.BACKWARD, motors);

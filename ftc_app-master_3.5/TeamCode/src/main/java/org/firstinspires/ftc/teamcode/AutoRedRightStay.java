@@ -134,8 +134,8 @@ public class AutoRedRightStay extends LinearOpModeCamera
 
                 SaveImage(rgbImage);
                 //Analyzing Jewel Color
-                for (int x = 480; x < 680; x++) {
-                    for (int y = 850; y < 1280; y++) {
+                for (int x = 550; x < 850; x++) {
+                    for (int y = 900; y < 1280; y++) {
                         int pixel = rgbImage.getPixel(x, y);
                         redValueLeft += red(pixel);
                         blueValueLeft += blue(pixel);
@@ -266,7 +266,7 @@ public class AutoRedRightStay extends LinearOpModeCamera
                 case "CENTER":
                 {
                     //Was 1150
-                    drive.encoderDrive(575, driveStyle.STRAFE_RIGHT, 0.75, motors);
+                    drive.encoderDrive(775, driveStyle.STRAFE_RIGHT, 0.75, motors);
 
                     break;
                 }

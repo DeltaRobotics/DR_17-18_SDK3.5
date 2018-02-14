@@ -130,8 +130,8 @@ public class AutoBlueRightStay extends LinearOpModeCamera {
                 SaveImage(rgbImage);
 
                 //Analyzing Jewel Color
-                for (int x = 480; x < 680; x++) {
-                    for (int y = 850; y < 1280; y++) {
+                for (int x = 550; x < 800; x++) {
+                    for (int y = 900; y < 1280; y++) {
                         int pixel = rgbImage.getPixel(x, y);
                         redValueLeft += red(pixel);
                         blueValueLeft += blue(pixel);
@@ -225,19 +225,19 @@ public class AutoBlueRightStay extends LinearOpModeCamera {
             {
                 case "RIGHT": //If key is RIGHT
                 {
-                    drive.encoderDrive(2625, driveStyle.FORWARD, 0.5, motors); //Moves robot to the right column of the cryptobox
+                    drive.encoderDrive(2675, driveStyle.FORWARD, 0.5, motors); //Moves robot to the right column of the cryptobox
                     break;
                 }
 
                 case "CENTER": //If key is CENTER
                 {
-                    drive.encoderDrive(2100, driveStyle.FORWARD, 0.5, motors); //Moves robot to the center column of the cryptobox
+                    drive.encoderDrive(2200, driveStyle.FORWARD, 0.5, motors); //Moves robot to the center column of the cryptobox
                     break;
                 }
 
                 case "LEFT": //If key is LEFT
                 {
-                    drive.encoderDrive(1625, driveStyle.FORWARD, 0.5, motors); //Moves robot to the left column of the cryptobox
+                    drive.encoderDrive(1725, driveStyle.FORWARD, 0.5, motors); //Moves robot to the left column of the cryptobox
                     break;
                 }
 

@@ -26,7 +26,7 @@ public class DRTeleOp extends LinearOpMode
     double clawInit = 0.93;
     */
     double wristMaxChange = 0.005;
-    double knockMaxChange = 0.0025;
+    double knockMaxChange = 0.005;
     double slapperMaxChange = 0.005;
     double flapperMaxChange = 0.004;
     double clawMaxChange = 0.005;

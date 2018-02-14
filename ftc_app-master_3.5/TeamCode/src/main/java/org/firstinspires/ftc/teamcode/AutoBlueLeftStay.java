@@ -140,7 +140,7 @@ public class AutoBlueLeftStay extends LinearOpModeCamera
                 SaveImage(rgbImage);
 
                 //Analyzing Jewel Color
-                for (int x = 600; x < 900; x++) //Sets x bounds for the box we will be analyzing
+                for (int x = 550; x < 900; x++) //Sets x bounds for the box we will be analyzing
                 {
                     for (int y = 950; y < 1280; y++) //Sets y bounds for the box we will be analyzing
                     {
@@ -341,7 +341,7 @@ public class AutoBlueLeftStay extends LinearOpModeCamera
             //sleep(250);
             //drive.encoderDrive(50, driveStyle.STRAFE_LEFT, 0.45, motors); //Strafes so the robot isn't right against the stone
             sleep(250);
-            drive.encoderDrive(1250, driveStyle.FORWARD, 0.5, motors); //Drives forward towards the cryptobox
+            drive.encoderDrive(1250, driveStyle.FORWARD, 0.7, motors); //Drives forward towards the cryptobox
             sleep(250);
 
             switch(keyPosition) //Handles where the robot should move depending on key
@@ -350,28 +350,28 @@ public class AutoBlueLeftStay extends LinearOpModeCamera
                 case "LEFT": //If key is LEFT
                 {
                     //Was 600
-                    drive.encoderDrive(100, driveStyle.STRAFE_RIGHT, 0.6, motors); //Strafes to left column of cryptobox
+                    drive.encoderDrive(100, driveStyle.STRAFE_RIGHT, 0.75, motors); //Strafes to left column of cryptobox
                     break;
                 }
 
                 case "CENTER": //If key is CENTER
                 {
                     //Was 1050
-                    drive.encoderDrive(550, driveStyle.STRAFE_RIGHT, 0.6, motors); //Strafes to center column of cryptobox
+                    drive.encoderDrive(550, driveStyle.STRAFE_RIGHT, 0.75, motors); //Strafes to center column of cryptobox
                     break;
                 }
 
                 case "RIGHT": //If key is RIGHT
                 {
                     //Was 1550
-                    drive.encoderDrive(1050, driveStyle.STRAFE_RIGHT, 0.6, motors); //Strafes to right column of cryptobox
+                    drive.encoderDrive(1050, driveStyle.STRAFE_RIGHT, 0.75, motors); //Strafes to right column of cryptobox
                     break;
                 }
 
                 case "UNKNOWN": //If phone couldn't sense a pictogram
                 {
                     //Was 1050
-                    drive.encoderDrive(550, driveStyle.STRAFE_RIGHT, 0.6, motors); //Strafes to center column
+                    drive.encoderDrive(550, driveStyle.STRAFE_RIGHT, 0.75, motors); //Strafes to center column
                     break;
                 }
             }
