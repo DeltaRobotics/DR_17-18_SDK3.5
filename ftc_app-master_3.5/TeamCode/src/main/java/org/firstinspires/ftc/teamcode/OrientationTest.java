@@ -56,18 +56,19 @@ public class OrientationTest extends LinearOpMode
         drive.OrientationDrive(45, driveStyle.PIVOT_LEFT, 0.3, motors,imu);
         */
 
-        //while(opModeIsActive()) {
-            sleep(3000);
+        while(opModeIsActive()) {
+            //sleep(3000);
             angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
             telemetry.addData("Orientation", AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle));
             telemetry.update();
-            sleep(2000);
-            drive.OrientationDrive(6, driveStyle.PIVOT_LEFT, 0.4, motors, imu);
+            //sleep(2000);
+            /*drive.OrientationDrive(6, driveStyle.PIVOT_LEFT, 0.4, motors, imu);
             angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
             telemetry.addData("Orientation After Pivot", AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle));
             telemetry.update();
             sleep(2000);
+            */
 
-        //}
+        }
     }
 }
