@@ -25,8 +25,8 @@ import for_camera_opmodes.LinearOpModeCamera;
  * Created by User on 10/14/2017.
  */
 
-@Autonomous (name = "AutoBlueLeftDiagonal", group = "Auto Diagonal")
-public class AutoBlueLeftDiagonal extends LinearOpModeCamera
+@Autonomous (name = "AutoRedRightDiagonal", group = "Auto Diagonal")
+public class AutoRedRightDiagonal extends LinearOpModeCamera
 {
     RobotHardware robot = new RobotHardware(); //Object of RobotHardware class
     Drive drive = new Drive(); //Object of Drive class
@@ -341,18 +341,11 @@ public class AutoBlueLeftDiagonal extends LinearOpModeCamera
                 drive.encoderDrive(150, driveStyle.FORWARD, 0.30, motors);
             }
             */
-            servoMove.knockOffJewel(servos, jewelColorInt, "blue"); //Knocks off correct jewel
+            servoMove.knockOffJewel(servos, jewelColorInt, "red"); //Knocks off correct jewel
             //sleep(250);
             //drive.encoderDrive(50, driveStyle.STRAFE_LEFT, 0.45, motors); //Strafes so the robot isn't right against the stone
             sleep(250);
-            if(keyPosition == "LEFT")
-            {
-                drive.encoderDrive(1000, driveStyle.FORWARD, Drive.drivePower, motors); //Drives forward towards the cryptobox
-            }
-            else
-            {
-                drive.encoderDrive(1250, driveStyle.FORWARD, Drive.drivePower, motors); //Drives forward towards the cryptobox
-            }
+            drive.encoderDrive(1150, driveStyle.BACKWARD, Drive.drivePower, motors); //Drives forward towards the cryptobox
             sleep(250);
 
             switch(keyPosition) //Handles where the robot should move depending on key
@@ -362,7 +355,7 @@ public class AutoBlueLeftDiagonal extends LinearOpModeCamera
                 {
                     //Was 600
                     //drive.encoderDrive(100, driveStyle.STRAFE_RIGHT, Drive.strafePower, motors); //Strafes to left column of cryptobox
-                    pivotValue = 5;
+                    pivotValue = 150;
                     break;
                 }
 
@@ -370,7 +363,7 @@ public class AutoBlueLeftDiagonal extends LinearOpModeCamera
                 {
                     //Was 1050
                     //drive.encoderDrive(550, driveStyle.STRAFE_RIGHT, Drive.strafePower, motors); //Strafes to center column of cryptobox
-                    pivotValue = 15;
+                    pivotValue = 130;
                     break;
                 }
 
@@ -378,7 +371,7 @@ public class AutoBlueLeftDiagonal extends LinearOpModeCamera
                 {
                     //Was 1550
                     //drive.encoderDrive(1050, driveStyle.STRAFE_RIGHT, Drive.strafePower, motors); //Strafes to right column of cryptobox
-                    pivotValue = 25;
+                    pivotValue = 170;
                     break;
                 }
 
@@ -386,7 +379,7 @@ public class AutoBlueLeftDiagonal extends LinearOpModeCamera
                 {
                     //Was 1050
                     //drive.encoderDrive(550, driveStyle.STRAFE_RIGHT, Drive.strafePower, motors); //Strafes to center column
-                    pivotValue = 15;
+                    pivotValue = 120;
                     break;
                 }
             }
@@ -397,9 +390,9 @@ public class AutoBlueLeftDiagonal extends LinearOpModeCamera
             telemetry.update(); //Updates telemetry
             //Chunk of code below corrects the robot's orientation
             if(!(keyPosition == "LEFT")) {
-                targetError = (pivotValue + AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle)) / 2;
+                targetError = (pivotValue - AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle)) / 2;
                 if (AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle) > (pivotValue + 3) || AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle) < (pivotValue - 3)) {
-                    if (targetError > 0) //If the robot's current orientation is greater than 0
+                    if (targetError < 0) //If the robot's current orientation is greater than 0
                     {
                         //telemetry.addData("Expected Change 1", AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle) / 2);
                         telemetry.update(); //Updates telemetry
@@ -418,9 +411,9 @@ public class AutoBlueLeftDiagonal extends LinearOpModeCamera
 
             servoMove.placeGlyph(servos, robot, drive); //Places and pushes in the glyph into the correct cryptobox column
             sleep(250);
-            drive.encoderDrive(450, driveStyle.FORWARD, Drive.drivePower, motors); //Moves robot forward to push in glyph
+            drive.encoderDrive(300, driveStyle.FORWARD, Drive.drivePower, motors); //Moves robot forward to push in glyph
             sleep(250);
-            drive.encoderDrive(200, driveStyle.BACKWARD, Drive.drivePower, motors); //Moves robot backward
+            drive.encoderDrive(50, driveStyle.BACKWARD, Drive.drivePower, motors); //Moves robot backward
 
 
         }

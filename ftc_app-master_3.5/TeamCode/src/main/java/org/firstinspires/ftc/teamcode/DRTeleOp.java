@@ -188,7 +188,7 @@ public class DRTeleOp extends LinearOpMode
             }
             if(slidesEncoderCheck)
             {
-                if((curiosity.slides.getCurrentPosition() < 9300 && gamepad2.right_stick_y < 0.1 ) || (curiosity.slides.getCurrentPosition() > 0 && gamepad2.right_stick_y > 0.1))
+                if((curiosity.slides.getCurrentPosition() < 4260 && gamepad2.right_stick_y < 0.1 ) || (curiosity.slides.getCurrentPosition() > 0 && gamepad2.right_stick_y > 0.1))
                 {
                     curiosity.slides.setPower(slidesPower);
                 }
