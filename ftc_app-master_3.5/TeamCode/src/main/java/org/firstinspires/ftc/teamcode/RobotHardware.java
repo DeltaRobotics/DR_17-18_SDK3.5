@@ -66,7 +66,7 @@ public class RobotHardware
         knock.setPosition(0.75);//] Sets servos to their home positions
         claw.setPosition(0.2);//]
         //brake.setPosition(0.10);//]
-        grabber.setPosition(0.7);//]
+        grabber.setPosition(0.99);//]
         grabberLift.setPosition(0.18);//]
 
         motorRF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);//]

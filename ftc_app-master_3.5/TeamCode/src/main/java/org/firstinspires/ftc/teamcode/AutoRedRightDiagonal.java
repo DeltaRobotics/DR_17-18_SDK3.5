@@ -355,7 +355,7 @@ public class AutoRedRightDiagonal extends LinearOpModeCamera
                 {
                     //Was 600
                     //drive.encoderDrive(100, driveStyle.STRAFE_RIGHT, Drive.strafePower, motors); //Strafes to left column of cryptobox
-                    pivotValue = 150;
+                    pivotValue = 120;
                     break;
                 }
 
@@ -371,7 +371,7 @@ public class AutoRedRightDiagonal extends LinearOpModeCamera
                 {
                     //Was 1550
                     //drive.encoderDrive(1050, driveStyle.STRAFE_RIGHT, Drive.strafePower, motors); //Strafes to right column of cryptobox
-                    pivotValue = 170;
+                    pivotValue = 145;
                     break;
                 }
 
@@ -379,17 +379,27 @@ public class AutoRedRightDiagonal extends LinearOpModeCamera
                 {
                     //Was 1050
                     //drive.encoderDrive(550, driveStyle.STRAFE_RIGHT, Drive.strafePower, motors); //Strafes to center column
-                    pivotValue = 120;
+                    pivotValue = 130;
                     break;
                 }
             }
             drive.OrientationDrive(pivotValue, driveStyle.PIVOT_RIGHT, Drive.pivotPower, motors, imu);
             sleep(500);
+            if(keyPosition == "RIGHT")
+            {
+                drive.encoderDrive(250, driveStyle.BACKWARD, Drive.drivePower, motors);
+            }
+            else if(keyPosition == "CENTER")
+            {
+                drive.encoderDrive(150, driveStyle.BACKWARD, Drive.drivePower, motors);
+            }
+
+            sleep(250);
             angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES); //Gets current orientation of robot
             telemetry.addData("Before Move", AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle)); //Displays current orientation before the robot pivots
             telemetry.update(); //Updates telemetry
             //Chunk of code below corrects the robot's orientation
-            if(!(keyPosition == "LEFT")) {
+            if(keyPosition != "LEFT") {
                 targetError = (pivotValue - AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle)) / 2;
                 if (AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle) > (pivotValue + 3) || AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle) < (pivotValue - 3)) {
                     if (targetError < 0) //If the robot's current orientation is greater than 0
@@ -411,9 +421,25 @@ public class AutoRedRightDiagonal extends LinearOpModeCamera
 
             servoMove.placeGlyph(servos, robot, drive); //Places and pushes in the glyph into the correct cryptobox column
             sleep(250);
-            drive.encoderDrive(300, driveStyle.FORWARD, Drive.drivePower, motors); //Moves robot forward to push in glyph
-            sleep(250);
-            drive.encoderDrive(50, driveStyle.BACKWARD, Drive.drivePower, motors); //Moves robot backward
+            if(keyPosition =="RIGHT")
+            {
+                drive.encoderDrive(450, driveStyle.FORWARD, Drive.drivePower, motors); //Moves robot forward to push in glyph
+                sleep(250);
+                drive.encoderDrive(150, driveStyle.BACKWARD, Drive.drivePower, motors); //Moves robot backward
+            }
+            else if(keyPosition == "LEFT")
+            {
+                drive.encoderDrive(500, driveStyle.FORWARD, Drive.drivePower, motors); //Moves robot forward to push in glyph
+                sleep(250);
+                drive.encoderDrive(100, driveStyle.BACKWARD, Drive.drivePower, motors); //Moves robot backward
+            }
+            else
+            {
+                drive.encoderDrive(400, driveStyle.FORWARD, Drive.drivePower, motors); //Moves robot forward to push in glyph
+                sleep(250);
+                drive.encoderDrive(100, driveStyle.BACKWARD, Drive.drivePower, motors); //Moves robot backward
+            }
+
 
 
         }

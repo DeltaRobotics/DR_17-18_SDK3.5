@@ -6,6 +6,7 @@ import android.graphics.Color;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -27,6 +28,7 @@ import for_camera_opmodes.LinearOpModeCamera;
  */
 
 @Autonomous (name = "AutoRedRightStay", group = "Auto Stay")
+@Disabled
 public class AutoRedRightStay extends LinearOpModeCamera
 {
     RobotHardware robot = new RobotHardware();

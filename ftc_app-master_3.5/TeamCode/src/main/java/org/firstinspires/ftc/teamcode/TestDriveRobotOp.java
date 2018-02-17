@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -9,6 +10,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
  * Created by User on 12/5/2017.
  */
 @TeleOp(name = "ConnerTestDrive", group = "Testing")
+@Disabled
 public class TestDriveRobotOp extends LinearOpMode
 {
     double speed = 1;

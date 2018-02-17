@@ -6,6 +6,7 @@ import android.graphics.Color;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -25,7 +26,8 @@ import for_camera_opmodes.LinearOpModeCamera;
  * Created by User on 10/14/2017.
  */
 
-//@Autonomous (name = "AutoRedLeft", group = "Auto")
+@Autonomous (name = "AutoRedLeft", group = "Auto")
+@Disabled
 public class AutoRedLeft extends LinearOpModeCamera {
     RobotHardware robot = new RobotHardware(); //Object of RobotHardware class
     Drive drive = new Drive(); //Object of Drive class

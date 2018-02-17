@@ -31,7 +31,7 @@ public class DRTeleOp extends LinearOpMode
     double flapperMaxChange = 0.004;
     double clawMaxChange = 0.005;
     double grabberMaxChange = 0.005;
-    double grabberLiftMaxChange = 0.005;
+    double grabberLiftMaxChange = 0.003;
     double zSclae = 0.75;
 
     double armServoAdjustment = 0.2;
@@ -45,7 +45,7 @@ public class DRTeleOp extends LinearOpMode
 
     boolean slidesEncoderCheck = true;
 
-    double speed = 0.5;
+    double speed = 1.0;
 
     double clawOpen = 0.0;
     double knockSwitch;
@@ -84,7 +84,7 @@ public class DRTeleOp extends LinearOpMode
             //wristPos = Range.clip(wristPos, 0.01, 0.99);
             clawPos = Range.clip(clawPos, 0.01, 0.25);
             grabberLiftPosition = Range.clip(grabberLiftPosition, 0.18, 0.95);
-            grabberPosition = Range.clip(grabberPosition, 0.35, 0.7);
+            grabberPosition = Range.clip(grabberPosition, 0.01, 0.99);
 
 
             if(gamepad1.a)
@@ -158,6 +158,10 @@ public class DRTeleOp extends LinearOpMode
             {
                 grabberLiftPosition -= grabberLiftMaxChange;
             }
+            if(gamepad2.b)
+            {
+                grabberLiftPosition = 0.535;
+            }
             curiosity.grabberLift.setPosition(grabberLiftPosition);
 
             //Controlling Grabber Open/Close
@@ -173,22 +177,29 @@ public class DRTeleOp extends LinearOpMode
                 {
                     grabberPosition += (gamepad2.right_trigger * grabberMaxChange);
                 }
-
-                curiosity.grabber.setPosition(grabberPosition);
             }
+            if(gamepad2.x)
+            {
+                grabberPosition = 0.005;
+            }
+            curiosity.grabber.setPosition(grabberPosition);
 
             //Controlling the Slides (Relic Arm Movement)
             if(gamepad2.right_stick_y > 0.1)
             {
                 slidesPower = -gamepad2.right_stick_y * .40;
             }
-            if(gamepad2.right_stick_y < 0.1)
+            else if(gamepad2.right_stick_y < -0.1)
             {
-                slidesPower = -gamepad2.right_stick_y;
+                slidesPower = -((gamepad2.right_stick_y * 0.5) - 0.5);
+            }
+            else
+            {
+                curiosity.slides.setPower(0.0);
             }
             if(slidesEncoderCheck)
             {
-                if((curiosity.slides.getCurrentPosition() < 4260 && gamepad2.right_stick_y < 0.1 ) || (curiosity.slides.getCurrentPosition() > 0 && gamepad2.right_stick_y > 0.1))
+                if((curiosity.slides.getCurrentPosition() < 4260 && gamepad2.right_stick_y < -0.1 ) || (curiosity.slides.getCurrentPosition() > 0 && gamepad2.right_stick_y > 0.1))
                 {
                     curiosity.slides.setPower(slidesPower);
                 }
@@ -200,6 +211,33 @@ public class DRTeleOp extends LinearOpMode
             else
             {
                 curiosity.slides.setPower(slidesPower);
+            }
+
+            //Complete Relic Release Button
+            if(gamepad2.dpad_down)
+            {
+                while(curiosity.grabberLift.getPosition() > .57)
+                {
+                    curiosity.grabberLift.setPosition(curiosity.grabberLift.getPosition() - 0.05);
+                    sleep(100);
+                }
+                curiosity.grabberLift.setPosition(0.57);
+                sleep(500);
+                curiosity.grabber.setPosition(0.99);
+                sleep(500);
+                while(curiosity.slides.getCurrentPosition() > 2500)
+                {
+                    curiosity.slides.setPower(-0.40);
+                }
+                curiosity.slides.setPower(0.0);
+                sleep(100);
+                curiosity.grabberLift.setPosition(0.95);
+            }
+
+            if(gamepad2.dpad_up)
+            {
+                grabberLiftPosition = 0.95;
+                curiosity.grabberLift.setPosition(0.95);
             }
 
 
@@ -289,6 +327,8 @@ public class DRTeleOp extends LinearOpMode
             //telemetry.addData("Wrist Pos", curiosity.wrist.getPosition());
             telemetry.addData("Knock Pos", curiosity.knock.getPosition());
             telemetry.addData("Claw Pos", curiosity.claw.getPosition());
+            telemetry.addData("Grabber", curiosity.grabber.getPosition());
+            telemetry.addData("GrabberLift", curiosity.grabberLift.getPosition());
             telemetry.addData("Slides Power", slidesPower);
             telemetry.addData("Slides Actual Motor Power", curiosity.slides.getPower());
             telemetry.addData("Slides Encoder", curiosity.slides.getCurrentPosition());

@@ -30,6 +30,7 @@ import java.util.Locale;
  * @see <a href="http://www.adafruit.com/products/2472">Adafruit IMU</a>
  */
 @TeleOp(name = "Sensor: BNO055 IMU", group = "Sensor")
+@Disabled
 
 public class AccelerometerTest extends LinearOpMode
 {

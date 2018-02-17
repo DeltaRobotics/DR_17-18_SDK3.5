@@ -370,7 +370,7 @@ public class AutoBlueLeftDiagonal extends LinearOpModeCamera
                 {
                     //Was 1050
                     //drive.encoderDrive(550, driveStyle.STRAFE_RIGHT, Drive.strafePower, motors); //Strafes to center column of cryptobox
-                    pivotValue = 15;
+                    pivotValue = 30;
                     break;
                 }
 
@@ -378,7 +378,7 @@ public class AutoBlueLeftDiagonal extends LinearOpModeCamera
                 {
                     //Was 1550
                     //drive.encoderDrive(1050, driveStyle.STRAFE_RIGHT, Drive.strafePower, motors); //Strafes to right column of cryptobox
-                    pivotValue = 25;
+                    pivotValue = 40;
                     break;
                 }
 
@@ -386,12 +386,17 @@ public class AutoBlueLeftDiagonal extends LinearOpModeCamera
                 {
                     //Was 1050
                     //drive.encoderDrive(550, driveStyle.STRAFE_RIGHT, Drive.strafePower, motors); //Strafes to center column
-                    pivotValue = 15;
+                    pivotValue = 30;
                     break;
                 }
             }
             drive.OrientationDrive(pivotValue, driveStyle.PIVOT_RIGHT, Drive.pivotPower, motors, imu);
             sleep(500);
+            if(keyPosition != "LEFT")
+            {
+                drive.encoderDrive(100, driveStyle.BACKWARD, Drive.drivePower, motors);
+                sleep(250);
+            }
             angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES); //Gets current orientation of robot
             telemetry.addData("Before Move", AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle)); //Displays current orientation before the robot pivots
             telemetry.update(); //Updates telemetry
@@ -418,9 +423,9 @@ public class AutoBlueLeftDiagonal extends LinearOpModeCamera
 
             servoMove.placeGlyph(servos, robot, drive); //Places and pushes in the glyph into the correct cryptobox column
             sleep(250);
-            drive.encoderDrive(450, driveStyle.FORWARD, Drive.drivePower, motors); //Moves robot forward to push in glyph
+            drive.encoderDrive(400, driveStyle.FORWARD, Drive.drivePower, motors); //Moves robot forward to push in glyph
             sleep(250);
-            drive.encoderDrive(200, driveStyle.BACKWARD, Drive.drivePower, motors); //Moves robot backward
+            drive.encoderDrive(150, driveStyle.BACKWARD, Drive.drivePower, motors); //Moves robot backward
 
 
         }
