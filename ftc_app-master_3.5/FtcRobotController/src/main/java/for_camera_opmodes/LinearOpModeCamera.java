@@ -412,7 +412,7 @@ public class LinearOpModeCamera extends LinearOpMode
         resultingMovement[0] = cryptoboxHeight - (int)(cryptoboxHeight *.25);
         resultingMovement[1] = cryptoboxHeight - (int)(cryptoboxHeight *.5);
         resultingMovement[2] = cryptoboxHeight - (int)(cryptoboxHeight *.75);
-        SaveCryptoboxColorLog(colorValues, cryptoboxWidth);
+        //SaveCryptoboxColorLog(colorValues, cryptoboxWidth);
 
         return resultingMovement;
     }

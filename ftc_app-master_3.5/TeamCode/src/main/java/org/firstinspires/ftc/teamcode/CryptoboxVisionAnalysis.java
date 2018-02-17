@@ -32,7 +32,7 @@ public class CryptoboxVisionAnalysis extends LinearOpModeCamera
     public void runOpMode()
     {
         //Resolution of image, currently set to 1 (higher number means less resolution but faster speed)
-        setCameraDownsampling(0);
+        setCameraDownsampling(1);
         //Takes some time, is initializing all of the camera's internal workings
         startCamera();
         //Stays Initialized, waits for the Driver's Station Button to be pressed
@@ -45,12 +45,12 @@ public class CryptoboxVisionAnalysis extends LinearOpModeCamera
             {
                 Bitmap rgbImage2;
                 //The last value must correspond to the downsampling value from above
-                rgbImage2 = convertYuvImageToRgb(yuvImage, width, height, 0);
+                rgbImage2 = convertYuvImageToRgb(yuvImage, width, height, 1);
                 resultingMovement = FindCryptoboxSides(rgbImage2, "RED");
                 cryptoboxHeight = rgbImage2.getHeight();
                 cryptoboxWidth = rgbImage2.getWidth();
 
-                for (int x = 0; x < cryptoboxWidth; x++)
+                /*for (int x = 0; x < cryptoboxWidth; x++)
                 {
                     for (int y = 0; y < cryptoboxHeight; y++)
                     {
@@ -81,7 +81,7 @@ public class CryptoboxVisionAnalysis extends LinearOpModeCamera
                         }
 
                     }
-                }
+                }*/
                 count++;
                 telemetry.addData("Orange Line 1", resultingMovement[0]);
                 telemetry.addData("Orange Line 2", resultingMovement[1]);
