@@ -17,7 +17,7 @@ public class ServoMove extends LinearOpMode
         /*servos[1].setPosition(0.3); // rotates slapper
         sleep(500);*/
         double servo0PositionDown = 0.61;
-        double servo0PositionUp = 0.27;
+        double servo0PositionUp = 0.24;
         for(int x = 0; x < 38; x++)
         {
             servos[0].setPosition(servo0PositionDown);

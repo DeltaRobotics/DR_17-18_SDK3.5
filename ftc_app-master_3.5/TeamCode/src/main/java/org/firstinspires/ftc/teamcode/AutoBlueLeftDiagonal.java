@@ -370,7 +370,7 @@ public class AutoBlueLeftDiagonal extends LinearOpModeCamera
                 {
                     //Was 1050
                     //drive.encoderDrive(550, driveStyle.STRAFE_RIGHT, Drive.strafePower, motors); //Strafes to center column of cryptobox
-                    pivotValue = 30;
+                    pivotValue = 20;
                     break;
                 }
 
@@ -378,7 +378,7 @@ public class AutoBlueLeftDiagonal extends LinearOpModeCamera
                 {
                     //Was 1550
                     //drive.encoderDrive(1050, driveStyle.STRAFE_RIGHT, Drive.strafePower, motors); //Strafes to right column of cryptobox
-                    pivotValue = 40;
+                    pivotValue = 32;
                     break;
                 }
 
@@ -386,7 +386,7 @@ public class AutoBlueLeftDiagonal extends LinearOpModeCamera
                 {
                     //Was 1050
                     //drive.encoderDrive(550, driveStyle.STRAFE_RIGHT, Drive.strafePower, motors); //Strafes to center column
-                    pivotValue = 30;
+                    pivotValue = 20;
                     break;
                 }
             }
@@ -423,7 +423,7 @@ public class AutoBlueLeftDiagonal extends LinearOpModeCamera
 
             servoMove.placeGlyph(servos, robot, drive); //Places and pushes in the glyph into the correct cryptobox column
             sleep(250);
-            drive.encoderDrive(400, driveStyle.FORWARD, Drive.drivePower, motors); //Moves robot forward to push in glyph
+            drive.encoderDrive(600, driveStyle.FORWARD, Drive.drivePower, motors); //Moves robot forward to push in glyph
             sleep(250);
             drive.encoderDrive(150, driveStyle.BACKWARD, Drive.drivePower, motors); //Moves robot backward
 

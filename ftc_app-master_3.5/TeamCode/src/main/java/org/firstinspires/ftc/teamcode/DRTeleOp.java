@@ -240,6 +240,12 @@ public class DRTeleOp extends LinearOpMode
                 curiosity.grabberLift.setPosition(0.95);
             }
 
+            if(gamepad2.dpad_left)
+            {
+                grabberPosition = 0.99;
+                curiosity.grabber.setPosition(0.99);
+            }
+
 
 
 

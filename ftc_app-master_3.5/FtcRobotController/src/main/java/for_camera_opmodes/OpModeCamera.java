@@ -195,13 +195,12 @@ public class OpModeCamera extends OpMode
     static public Bitmap convertYuvImageToRgb(YuvImage yuvImage, int width, int height, int downSample) {
         Bitmap rgbImage;
         ByteArrayOutputStream out = new ByteArrayOutputStream();
-        yuvImage.compressToJpeg(new Rect(0, 100, width, height), 0, out);
+        yuvImage.compressToJpeg(new Rect(0, 0, width, height), 0, out);
         byte[] imageBytes = out.toByteArray();
 
         BitmapFactory.Options opt;
         opt = new BitmapFactory.Options();
         opt.inSampleSize = downSample;
-        opt.inDensity = 120;
 
         Bitmap tmpImage;
         Matrix matrix = new Matrix();
@@ -217,10 +216,10 @@ public class OpModeCamera extends OpMode
         return rgbImage;
     }
 
-    /*public int normalizePixels(int value) {
+    public int normalizePixels(int value) {
         value /= 100000;
         return value;
-    }*/
+    }
 
     public void SaveImage(Bitmap finalBitmap) {
 
@@ -234,7 +233,7 @@ public class OpModeCamera extends OpMode
         if (file.exists ()) file.delete ();
         try {
             FileOutputStream out = new FileOutputStream(file);
-            finalBitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+            finalBitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
             out.flush();
             out.close();
 
