@@ -165,6 +165,7 @@ public class DRTeleOp extends LinearOpMode
             curiosity.grabberLift.setPosition(grabberLiftPosition);
 
             //Controlling Grabber Open/Close
+            /*
             if(gamepad2.right_bumper || gamepad2.right_trigger > 0.1)
             {
                 //Opening the Grabber
@@ -177,6 +178,17 @@ public class DRTeleOp extends LinearOpMode
                 {
                     grabberPosition += (gamepad2.right_trigger * grabberMaxChange);
                 }
+            }
+            */
+            /*if(gamepad2.guide)
+            {
+                slidesEncoderCheck = false;
+            }*/
+
+            if(gamepad2.right_trigger > 0.9)
+            {
+                grabberPosition = 0.99;
+                curiosity.grabber.setPosition(0.99);
             }
             if(gamepad2.x)
             {
@@ -216,14 +228,15 @@ public class DRTeleOp extends LinearOpMode
             //Complete Relic Release Button
             if(gamepad2.dpad_down)
             {
-                while(curiosity.grabberLift.getPosition() > .57)
+                while(curiosity.grabberLift.getPosition() > .54)
                 {
-                    curiosity.grabberLift.setPosition(curiosity.grabberLift.getPosition() - 0.05);
-                    sleep(100);
+                    curiosity.grabberLift.setPosition(curiosity.grabberLift.getPosition() - 0.025);
+                    sleep(50);
                 }
-                curiosity.grabberLift.setPosition(0.57);
+                curiosity.grabberLift.setPosition(0.54);
                 sleep(500);
                 curiosity.grabber.setPosition(0.99);
+                grabberPosition = 0.99;
                 sleep(500);
                 while(curiosity.slides.getCurrentPosition() > 2500)
                 {
@@ -239,15 +252,6 @@ public class DRTeleOp extends LinearOpMode
                 grabberLiftPosition = 0.95;
                 curiosity.grabberLift.setPosition(0.95);
             }
-
-            if(gamepad2.dpad_left)
-            {
-                grabberPosition = 0.99;
-                curiosity.grabber.setPosition(0.99);
-            }
-
-
-
 
 
             //Removed capability of wrist for easier glyph control at first meet.
