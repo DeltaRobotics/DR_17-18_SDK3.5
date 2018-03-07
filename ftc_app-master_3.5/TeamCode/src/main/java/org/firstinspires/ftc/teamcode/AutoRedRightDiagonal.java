@@ -355,7 +355,7 @@ public class AutoRedRightDiagonal extends LinearOpModeCamera
                 {
                     //Was 600
                     //drive.encoderDrive(100, driveStyle.STRAFE_RIGHT, Drive.strafePower, motors); //Strafes to left column of cryptobox
-                    pivotValue = 120;
+                    pivotValue = 112;
                     break;
                 }
 
@@ -363,7 +363,7 @@ public class AutoRedRightDiagonal extends LinearOpModeCamera
                 {
                     //Was 1050
                     //drive.encoderDrive(550, driveStyle.STRAFE_RIGHT, Drive.strafePower, motors); //Strafes to center column of cryptobox
-                    pivotValue = 130;
+                    pivotValue = 115;
                     break;
                 }
 
@@ -371,7 +371,7 @@ public class AutoRedRightDiagonal extends LinearOpModeCamera
                 {
                     //Was 1550
                     //drive.encoderDrive(1050, driveStyle.STRAFE_RIGHT, Drive.strafePower, motors); //Strafes to right column of cryptobox
-                    pivotValue = 145;
+                    pivotValue = 141;
                     break;
                 }
 
@@ -379,7 +379,7 @@ public class AutoRedRightDiagonal extends LinearOpModeCamera
                 {
                     //Was 1050
                     //drive.encoderDrive(550, driveStyle.STRAFE_RIGHT, Drive.strafePower, motors); //Strafes to center column
-                    pivotValue = 130;
+                    pivotValue = 115;
                     break;
                 }
             }
@@ -418,24 +418,24 @@ public class AutoRedRightDiagonal extends LinearOpModeCamera
                     telemetry.update(); //Updates telemetry
                 }
             }
-
+            drive.encoderDrive(200, driveStyle.BACKWARD, Drive.drivePower, motors); //Moves robot backward
             servoMove.placeGlyph(servos, robot, drive); //Places and pushes in the glyph into the correct cryptobox column
             sleep(250);
             if(keyPosition =="RIGHT")
             {
-                drive.encoderDrive(450, driveStyle.FORWARD, Drive.drivePower, motors); //Moves robot forward to push in glyph
+                drive.encoderDrive(650, driveStyle.FORWARD, Drive.drivePower, motors); //Moves robot forward to push in glyph
                 sleep(250);
                 drive.encoderDrive(150, driveStyle.BACKWARD, Drive.drivePower, motors); //Moves robot backward
             }
             else if(keyPosition == "LEFT")
             {
-                drive.encoderDrive(500, driveStyle.FORWARD, Drive.drivePower, motors); //Moves robot forward to push in glyph
+                drive.encoderDrive(700, driveStyle.FORWARD, Drive.drivePower, motors); //Moves robot forward to push in glyph
                 sleep(250);
                 drive.encoderDrive(100, driveStyle.BACKWARD, Drive.drivePower, motors); //Moves robot backward
             }
             else
             {
-                drive.encoderDrive(400, driveStyle.FORWARD, Drive.drivePower, motors); //Moves robot forward to push in glyph
+                drive.encoderDrive(600, driveStyle.FORWARD, Drive.drivePower, motors); //Moves robot forward to push in glyph
                 sleep(250);
                 drive.encoderDrive(100, driveStyle.BACKWARD, Drive.drivePower, motors); //Moves robot backward
             }

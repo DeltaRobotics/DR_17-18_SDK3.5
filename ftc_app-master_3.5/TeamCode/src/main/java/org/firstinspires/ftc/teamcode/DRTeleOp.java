@@ -238,9 +238,9 @@ public class DRTeleOp extends LinearOpMode
                 curiosity.grabber.setPosition(0.99);
                 grabberPosition = 0.99;
                 sleep(500);
-                while(curiosity.slides.getCurrentPosition() > 2500)
+                while(curiosity.slides.getCurrentPosition() > 3800)
                 {
-                    curiosity.slides.setPower(-0.40);
+                    curiosity.slides.setPower(-0.20);
                 }
                 curiosity.slides.setPower(0.0);
                 sleep(100);

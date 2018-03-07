@@ -228,8 +228,8 @@ public class AutoBlueRightDiagonal extends LinearOpModeCamera {
             {
                 case "RIGHT": //If key is RIGHT
                 {
-                    drive.encoderDrive(2100, driveStyle.FORWARD, Drive.drivePower, motors);
-                    pivotValue = 90;
+                    drive.encoderDrive(1800, driveStyle.FORWARD, Drive.drivePower, motors);
+                    pivotValue = 50;
                     break;
                 }
 
@@ -242,8 +242,8 @@ public class AutoBlueRightDiagonal extends LinearOpModeCamera {
 
                 case "LEFT": //If key is LEFT
                 {
-                    drive.encoderDrive(1800, driveStyle.FORWARD, Drive.drivePower, motors);
-                    pivotValue = 50;
+                    drive.encoderDrive(2100, driveStyle.FORWARD, Drive.drivePower, motors);
+                    pivotValue = 110;
                     break;
                 }
 
@@ -282,6 +282,11 @@ public class AutoBlueRightDiagonal extends LinearOpModeCamera {
             sleep(250);
             drive.encoderDrive(300, driveStyle.BACKWARD, Drive.drivePower, motors);
             servoMove.placeGlyph(servos, robot, drive);
+            if(keyPosition == "RIGHT")
+            {
+                drive.encoderDrive(400, driveStyle.FORWARD, Drive.drivePower, motors);
+
+            }
             drive.encoderDrive(600, driveStyle.FORWARD, Drive.drivePower, motors);
             drive.encoderDrive(300, driveStyle.BACKWARD, Drive.drivePower, motors);
             telemetry.update();
