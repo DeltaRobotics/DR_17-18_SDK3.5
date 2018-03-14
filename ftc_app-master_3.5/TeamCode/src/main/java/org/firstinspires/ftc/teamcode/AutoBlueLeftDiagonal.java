@@ -28,6 +28,7 @@ import for_camera_opmodes.LinearOpModeCamera;
 @Autonomous (name = "AutoBlueLeftDiagonal", group = "Auto Diagonal")
 public class AutoBlueLeftDiagonal extends LinearOpModeCamera
 {
+
     RobotHardware robot = new RobotHardware(); //Object of RobotHardware class
     Drive drive = new Drive(); //Object of Drive class
     ServoMove servoMove = new ServoMove(); //Object of ServoMove class
