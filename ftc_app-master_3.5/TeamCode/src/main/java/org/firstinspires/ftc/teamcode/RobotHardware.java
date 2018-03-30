@@ -6,37 +6,82 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
- * Created by User on 9/26/2017.
+ * This is a class that initializes all of the various devices<br/>
+ * on the robot. This can also be used to set any values you want<br/>
+ * when the robot initializes
+ * @author Delta Robotics
+ * @since 9/26/2017.
  */
 
 public class RobotHardware
 {
+    /**
+     * Object of Right Front motor on drive train
+     */
     public DcMotor motorRF = null; //MotorRF on drive train
+    /**
+     * Object of Left Front motor on drive train
+     */
     public DcMotor motorLF = null; //MotorLF on drive train
+    /**
+     * Object of Right Back motor on drive train
+     */
     public DcMotor motorRB = null; //MotorRB on drive train
+    /**
+     * Object of Left Back motor on drive train
+     */
     public DcMotor motorLB = null; //MotorLB on drive train
+
 
     //public DcMotor joint1 = null; //Joint 1 on arm
     //public DcMotor joint2 = null; //Joint 2 on arm
    // public DcMotor joint3 = null; //Joint 3 on arm
 
     //public Servo wrist = null; //Wrist on arm
+    /**
+     * Object of Knock servo
+     */
     public Servo knock = null; //Knock on arm
+    /**
+     * Object of Claw servo
+     */
     public Servo claw = null; //Claw on arm
-    //public Servo brake = null; //Servo brake on arm
 
+    //public Servo brake = null; //Servo brake on arm
+    /**
+     * Object of Flapper servo
+     */
     public Servo flapper = null; //Flapper
+    /**
+     * Object of Slapper servo
+     */
     public Servo slapper = null; //Slapper
 
+    /**
+     * Object of Slide motor
+     */
     public DcMotor slides = null; //Slides/Winch for Relic Arm
+    /**
+     * Object of Grabber servo
+     */
     public Servo grabber = null; //Grabber for grabbing the relic (on end of relic arm slides)
+    /**
+     * Object of Grabber Lift servo
+     */
     public Servo grabberLift = null; //Raises and lowers the grabber for placing the relic
 
+    /**
+     * Blank constructor
+     */
     public RobotHardware() //Constructor
     {
 
     }
 
+    /**
+     * Initializes all of the devices on the<br/>
+     * robot and sets any values necessary
+     */
     public void init(HardwareMap ahwMap) //Code that runs when you init the hardware map
     {
         motorRF = ahwMap.dcMotor.get("motorRF"); //What to look for in config for motorRF
