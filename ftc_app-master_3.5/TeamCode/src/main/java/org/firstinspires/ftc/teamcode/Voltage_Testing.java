@@ -55,13 +55,13 @@ public class Voltage_Testing extends LinearOpMode
             {
                 voltageMin = voltageNow;
             }
-            //Finding minimum voltage
+            //Finding minimum voltage of robot
 
             if(voltageNow > voltageMax)
             {
                 voltageMax = voltageNow;
             }
-            //Finding maximum voltage
+            //Finding maximum voltage of robot
             telemetry.addData("Voltage", voltageNow);
             telemetry.addData("Minimum", voltageMin);
             telemetry.addData("Maximum", voltageMax);
