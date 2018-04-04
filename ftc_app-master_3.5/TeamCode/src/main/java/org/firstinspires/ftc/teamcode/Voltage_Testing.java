@@ -1,9 +1,21 @@
 package org.firstinspires.ftc.teamcode;
 
+import android.graphics.Bitmap;
+import android.os.Environment;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.security.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by User on 3/29/2018.
@@ -12,6 +24,16 @@ import com.qualcomm.robotcore.hardware.VoltageSensor;
 public class Voltage_Testing extends LinearOpMode
 {
     RobotHardware robot = new RobotHardware();
+    String root = Environment.getExternalStorageDirectory().toString();
+
+
+    SimpleDateFormat s = new SimpleDateFormat("ddhhmmss");
+    String format = s.format(new Date());
+    String fname = format +".txt";
+
+    File myDir = new File(root);
+
+    FileOutputStream out = null;
 
     VoltageSensor motorLFvoltage;
     VoltageSensor motorRFvoltage;
@@ -23,6 +45,7 @@ public class Voltage_Testing extends LinearOpMode
     double LBvolts;
     double RBvolts;
     double robotVolts;
+    int counter =0;
 
     double zSclae = 0.75;
     double speed = 1.0;
@@ -36,6 +59,24 @@ public class Voltage_Testing extends LinearOpMode
         robot.init(hardwareMap);
         telemetry.addData("Robot Init", "Completed");
         telemetry.update();
+
+
+        myDir.mkdir();
+
+        File saveFile = new File(myDir, fname);
+
+        if (saveFile.exists ()) saveFile.delete ();
+        try
+            {
+                out = new FileOutputStream(saveFile);
+            }
+            catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+
+
+
         waitForStart();
         //Initializing the robot, and waiting for the start button to be pressed
 
@@ -61,14 +102,29 @@ public class Voltage_Testing extends LinearOpMode
             {
                 voltageMax = voltageNow;
             }
+            counter++;
             //Finding maximum voltage of robot
             telemetry.addData("Voltage", voltageNow);
             telemetry.addData("Minimum", voltageMin);
             telemetry.addData("Maximum", voltageMax);
+            telemetry.addData("loop count", counter);
+
             //Sending telemetry to the driver's station
             telemetry.update();
+
+
+            try {
+
+                out.write((voltageNow + "\r\n").getBytes());
+                //out.close();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
         }
 
-
     }
+
+
 }
