@@ -25,11 +25,14 @@ public class Voltage_Testing extends LinearOpMode
 {
     RobotHardware robot = new RobotHardware();
     String root = Environment.getExternalStorageDirectory().toString();
+    long beginTime;
+    long loopTime;
+    boolean first;
 
 
     SimpleDateFormat s = new SimpleDateFormat("ddhhmmss");
     String format = s.format(new Date());
-    String fname = format +".txt";
+    String fname = "VoltageData" + format +".txt";
 
     File myDir = new File(root);
 
@@ -60,6 +63,8 @@ public class Voltage_Testing extends LinearOpMode
         telemetry.addData("Robot Init", "Completed");
         telemetry.update();
 
+        String root = Environment.getExternalStorageDirectory().toString();
+        File myDir = new File(root);
 
         myDir.mkdir();
 
@@ -112,10 +117,16 @@ public class Voltage_Testing extends LinearOpMode
             //Sending telemetry to the driver's station
             telemetry.update();
 
+            if(first)
+            {
+                first = false;
+                beginTime = System.currentTimeMillis();
+            }
+            loopTime = System.currentTimeMillis() - beginTime;
 
             try {
 
-                out.write((voltageNow + "\r\n").getBytes());
+                out.write((loopTime + " " + ((float)Math.round(voltageNow * 1000) / 1000) + " " + ((float)Math.round(robot.motorLF.getPower() * 1000) / 1000) + " " + ((float)Math.round(robot.motorRF.getPower() * 1000) / 1000) +" " + ((float)Math.round(robot.motorLB.getPower() * 1000) / 1000) + " " + ((float)Math.round(robot.motorRB.getPower() * 1000) / 1000) +"\r\n").getBytes());
                 //out.close();
 
             } catch (Exception e) {
