@@ -17,6 +17,9 @@ import java.security.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static org.firstinspires.ftc.teamcode.Voltage_Testing.addIndex;
+import static org.firstinspires.ftc.teamcode.Voltage_Testing.outIndex;
+
 /**
  * Created by User on 3/29/2018.
  */
@@ -24,31 +27,29 @@ import java.util.Date;
 public class Voltage_Testing extends LinearOpMode
 {
     RobotHardware robot = new RobotHardware();
-    String root = Environment.getExternalStorageDirectory().toString();
+    //String root = Environment.getExternalStorageDirectory().toString();
     long beginTime;
     long loopTime;
     boolean first;
 
 
-    SimpleDateFormat s = new SimpleDateFormat("ddhhmmss");
+    /*SimpleDateFormat s = new SimpleDateFormat("ddhhmmss");
     String format = s.format(new Date());
     String fname = "VoltageData" + format +".txt";
 
     File myDir = new File(root);
 
     FileOutputStream out = null;
+    */
 
-    VoltageSensor motorLFvoltage;
-    VoltageSensor motorRFvoltage;
-    VoltageSensor motorLBvoltage;
-    VoltageSensor motorRBvoltage;
     VoltageSensor robotVoltage;
-    double LFvolts;
-    double RFvolts;
-    double LBvolts;
-    double RBvolts;
+
+    String[] voltageArr = new String[100000];
+    String newLine;
+    static int addIndex = 0;
+    static int outIndex = 0;
+
     double robotVolts;
-    int counter =0;
 
     double zSclae = 0.75;
     double speed = 1.0;
@@ -59,11 +60,13 @@ public class Voltage_Testing extends LinearOpMode
 
     public void runOpMode()
     {
+        VoltageThread v = new VoltageThread(voltageArr);
+        v.start();
         robot.init(hardwareMap);
         telemetry.addData("Robot Init", "Completed");
         telemetry.update();
 
-        String root = Environment.getExternalStorageDirectory().toString();
+        /*String root = Environment.getExternalStorageDirectory().toString();
         File myDir = new File(root);
 
         myDir.mkdir();
@@ -79,8 +82,7 @@ public class Voltage_Testing extends LinearOpMode
             {
                 e.printStackTrace();
             }
-
-
+            */
 
         waitForStart();
         //Initializing the robot, and waiting for the start button to be pressed
@@ -107,15 +109,7 @@ public class Voltage_Testing extends LinearOpMode
             {
                 voltageMax = voltageNow;
             }
-            counter++;
             //Finding maximum voltage of robot
-            telemetry.addData("Voltage", voltageNow);
-            telemetry.addData("Minimum", voltageMin);
-            telemetry.addData("Maximum", voltageMax);
-            telemetry.addData("loop count", counter);
-
-            //Sending telemetry to the driver's station
-            telemetry.update();
 
             if(first)
             {
@@ -123,19 +117,92 @@ public class Voltage_Testing extends LinearOpMode
                 beginTime = System.currentTimeMillis();
             }
             loopTime = System.currentTimeMillis() - beginTime;
+            newLine = Long.toString(loopTime) + " " + roundNumstoString(voltageNow) + " " + roundNumstoString(robot.motorLF.getPower()) + " " + roundNumstoString(robot.motorRF.getPower()) +" " + roundNumstoString(robot.motorLB.getPower()) + " " + roundNumstoString(robot.motorRB.getPower()) + "\r\n";
 
-            try {
+            voltageArr[addIndex] = newLine;
+            /*try {
 
                 out.write((loopTime + " " + ((float)Math.round(voltageNow * 1000) / 1000) + " " + ((float)Math.round(robot.motorLF.getPower() * 1000) / 1000) + " " + ((float)Math.round(robot.motorRF.getPower() * 1000) / 1000) +" " + ((float)Math.round(robot.motorLB.getPower() * 1000) / 1000) + " " + ((float)Math.round(robot.motorRB.getPower() * 1000) / 1000) +"\r\n").getBytes());
                 //out.close();
 
             } catch (Exception e) {
                 e.printStackTrace();
-            }
+            }*/
+            addIndex++;
+            telemetry.addData("Voltage", voltageNow);
+            telemetry.addData("Minimum", voltageMin);
+            telemetry.addData("Maximum", voltageMax);
+            telemetry.addData("addIndex", addIndex);
+            telemetry.addData("outIndex", outIndex);
+            telemetry.addData("Data?", voltageArr[addIndex]);
 
+            //Sending telemetry to the driver's station
+            telemetry.update();
+
+            if(addIndex > 100000)
+            {
+                v.interrupt();
+            }
+        }
+    }
+    public String roundNumstoString(double num)
+    {
+        String returnNum;
+        returnNum = Double.toString((float)Math.round(num * 1000) / 1000);
+
+        return returnNum;
+    }
+}
+
+class VoltageThread extends Thread
+{
+    String root = Environment.getExternalStorageDirectory().toString();
+
+    SimpleDateFormat s = new SimpleDateFormat("ddhhmmss");
+    String format = s.format(new Date());
+    String fname = "VoltageData" + format +".txt";
+
+    File myDir = new File(root);
+
+    FileOutputStream out = null;
+
+
+    String[] voltageLine;
+    VoltageThread(String[] voltageLine)
+    {
+        this.voltageLine = voltageLine;
+    }
+
+    public void run()
+    {
+        myDir.mkdir();
+
+        File saveFile = new File(myDir, fname);
+
+        if (saveFile.exists ()) saveFile.delete ();
+        try
+        {
+            out = new FileOutputStream(saveFile);
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+
+        while(addIndex < 100000){
+            if((addIndex != 0) && (addIndex > outIndex))
+            {
+                try {
+
+                    out.write((outIndex + " " + voltageLine[outIndex]).getBytes());
+                    outIndex++;
+                    //out.close();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
         }
 
     }
-
-
 }
