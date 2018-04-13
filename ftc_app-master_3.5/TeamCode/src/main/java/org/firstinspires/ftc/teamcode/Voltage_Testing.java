@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -27,10 +28,17 @@ import static org.firstinspires.ftc.teamcode.Voltage_Testing.outIndex;
 public class Voltage_Testing extends LinearOpMode
 {
     RobotHardware robot = new RobotHardware();
+    ElapsedTime runtime = new ElapsedTime();
     //String root = Environment.getExternalStorageDirectory().toString();
     long beginTime;
     long loopTime;
     boolean first;
+
+    boolean stall = false;
+
+    int loopCount = 0;
+
+    double targetRuntime = 0.0;
 
 
     /*SimpleDateFormat s = new SimpleDateFormat("ddhhmmss");
@@ -57,6 +65,10 @@ public class Voltage_Testing extends LinearOpMode
     double voltageMax = 0;
     double voltageMin = 20;
     double voltageNow = 0.0;
+
+    double startVoltage = 0.0;
+
+    double stallVoltage = 0.0;
 
     public void runOpMode()
     {
@@ -89,6 +101,8 @@ public class Voltage_Testing extends LinearOpMode
 
         while (opModeIsActive())
         {
+            loopCount++;
+
             robot.motorRF.setPower(speed*((-gamepad1.right_stick_y - gamepad1.right_stick_x) - (zSclae * gamepad1.left_stick_x)));
             robot.motorLB.setPower(speed*(-(-gamepad1.right_stick_y - gamepad1.right_stick_x) - (zSclae * gamepad1.left_stick_x)));
             robot.motorRB.setPower(speed*(-(-gamepad1.right_stick_x + gamepad1.right_stick_y) - (zSclae * gamepad1.left_stick_x)));
@@ -128,6 +142,28 @@ public class Voltage_Testing extends LinearOpMode
             } catch (Exception e) {
                 e.printStackTrace();
             }*/
+            if(loopCount == 3)
+            {
+                startVoltage = voltageNow;
+                stallVoltage = startVoltage - 2.0;
+
+            }
+
+            if(voltageNow <= stallVoltage)
+            {
+                if(targetRuntime == 0)
+                {
+                    targetRuntime = runtime.milliseconds() + 750;
+                }
+                if(runtime.milliseconds() >= targetRuntime)
+                {
+                    stall = true;
+                }
+            }
+            else
+            {
+                targetRuntime = 0;
+            }
             addIndex++;
             telemetry.addData("Voltage", voltageNow);
             telemetry.addData("Minimum", voltageMin);
@@ -135,6 +171,9 @@ public class Voltage_Testing extends LinearOpMode
             telemetry.addData("addIndex", addIndex);
             telemetry.addData("outIndex", outIndex);
             telemetry.addData("Data?", voltageArr[addIndex]);
+            telemetry.addData("Start Voltage", startVoltage);
+            telemetry.addData("Target Runtime", targetRuntime);
+            telemetry.addData("Stall", stall);
 
             //Sending telemetry to the driver's station
             telemetry.update();
@@ -143,6 +182,8 @@ public class Voltage_Testing extends LinearOpMode
             {
                 v.interrupt();
             }
+
+
         }
     }
     public String roundNumstoString(double num)
