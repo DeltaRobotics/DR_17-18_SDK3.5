@@ -99,7 +99,7 @@ public class Voltage_Testing extends LinearOpMode
         waitForStart();
         //Initializing the robot, and waiting for the start button to be pressed
 
-        while (opModeIsActive())
+        while (opModeIsActive() && !stall)
         {
             loopCount++;
 
@@ -146,14 +146,13 @@ public class Voltage_Testing extends LinearOpMode
             {
                 startVoltage = voltageNow;
                 stallVoltage = startVoltage - 2.0;
-
             }
 
             if(voltageNow <= stallVoltage)
             {
                 if(targetRuntime == 0)
                 {
-                    targetRuntime = runtime.milliseconds() + 750;
+                    targetRuntime = runtime.milliseconds() + 2000;
                 }
                 if(runtime.milliseconds() >= targetRuntime)
                 {
