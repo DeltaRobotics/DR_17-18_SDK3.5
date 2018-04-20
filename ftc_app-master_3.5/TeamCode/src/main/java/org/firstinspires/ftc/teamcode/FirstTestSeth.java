@@ -1,0 +1,48 @@
+package org.firstinspires.ftc.teamcode;
+
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
+
+/**
+ * Created by User on 4/19/2018.
+ */
+@TeleOp(name="FirstTestSeth",group = "")
+public class FirstTestSeth extends LinearOpMode
+{
+    double loopcount = 0;
+    double zSclae = 0.75;
+    double speed = 1.0;
+
+    DcMotor motorRF = null;
+    DcMotor motorLF = null;
+    DcMotor motorRB = null;
+    DcMotor motorLB = null;
+    public void runOpMode()
+    {
+        motorRF = hardwareMap.dcMotor.get("motorRF");
+        motorRB = hardwareMap.dcMotor.get("motorRB");
+        motorLF = hardwareMap.dcMotor.get("motorLF");
+        motorLB = hardwareMap.dcMotor.get("motorLB");
+        waitForStart();
+        while (opModeIsActive())
+        {
+            /*
+            robot.motorRF.setPower(-gamepad1.right_stick_y);
+            robot.motorRB.setPower(-gamepad1.right_stick_y);
+            robot.motorLF.setPower(gamepad1.left_stick_y);
+            robot.motorLB.setPower(gamepad1.left_stick_y);
+            */
+            motorRF.setPower(speed*((-gamepad1.left_stick_y - gamepad1.left_stick_x) - (zSclae * gamepad1.right_stick_x)));
+            motorLB.setPower(speed*((-gamepad1.left_stick_y - gamepad1.left_stick_x) + (zSclae * gamepad1.right_stick_x)));
+            motorRB.setPower(speed*(-(-gamepad1.left_stick_x + gamepad1.left_stick_y) - (zSclae * gamepad1.right_stick_x)));
+            motorLF.setPower(speed*(-(-gamepad1.left_stick_x + gamepad1.left_stick_y)) + (zSclae * gamepad1.right_stick_x));
+
+            loopcount++;
+            telemetry.addData("Loop Count", loopcount);
+            telemetry.update();
+        }
+
+    }
+
+}
