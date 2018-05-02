@@ -471,48 +471,48 @@ public class Drive extends LinearOpMode
         motors[3].setPower(setPower(0, 0, motorPower)[3]);
     }
 
-       public void methodShareDriveForward(double motorPower, double methodTime, DcMotor[] motors)
-       {
-           motors[0].setPower(setPower(0, -motorPower, 0)[0]);
-           motors[1].setPower(setPower(0, -motorPower, 0)[1]);
-           motors[2].setPower(setPower(0, -motorPower, 0)[2]);
-           motors[3].setPower(setPower(0, -motorPower, 0)[3]);
-           time++;
-           sleep(1);
-           if (time >= methodTime)
-           {
-               motors[0].setPower(setPower(0, 0, 0)[0]);
-               motors[1].setPower(setPower(0, 0, 0)[1]);
-               motors[2].setPower(setPower(0, 0, 0)[2]);
-               motors[3].setPower(setPower(0, 0, 0)[3]);
-               isMethodShareForwardFinished = true;
-           }
-       }
-
-        public void methodShareModPower(double motorPower, DcMotor[] motors)
+    public void methodShareDriveForward(double motorPower, double methodTime, DcMotor[] motors)
+    {
+        motors[0].setPower(setPower(0, -motorPower, 0)[0]);
+        motors[1].setPower(setPower(0, -motorPower, 0)[1]);
+        motors[2].setPower(setPower(0, -motorPower, 0)[2]);
+        motors[3].setPower(setPower(0, -motorPower, 0)[3]);
+        time++;
+        sleep(1);
+        if (time >= methodTime)
         {
-            motors[0].setPower(setPower(0, -motorPower, 0)[0]);
-            motors[1].setPower(setPower(0, -motorPower, 0)[1]);
-            motors[2].setPower(setPower(0, -motorPower, 0)[2]);
-            motors[3].setPower(setPower(0, -motorPower, 0)[3]);
+            motors[0].setPower(setPower(0, 0, 0)[0]);
+            motors[1].setPower(setPower(0, 0, 0)[1]);
+            motors[2].setPower(setPower(0, 0, 0)[2]);
+            motors[3].setPower(setPower(0, 0, 0)[3]);
+            isMethodShareForwardFinished = true;
         }
+    }
 
-        public void methodShareEncoderTest(double motorPower, double methodEncoder, DcMotor[] motors)
+    public void methodShareModPower(double motorPower, DcMotor[] motors)
+    {
+        motors[0].setPower(setPower(0, -motorPower, 0)[0]);
+        motors[1].setPower(setPower(0, -motorPower, 0)[1]);
+        motors[2].setPower(setPower(0, -motorPower, 0)[2]);
+        motors[3].setPower(setPower(0, -motorPower, 0)[3]);
+    }
+
+    public void methodShareEncoderTest(double motorPower, double methodEncoder, DcMotor[] motors)
+    {
+        encoder = motors[1].getCurrentPosition();
+        motors[0].setPower(setPower(0, -motorPower, 0)[0]);
+        motors[1].setPower(setPower(0, -motorPower, 0)[1]);
+        motors[2].setPower(setPower(0, -motorPower, 0)[2]);
+        motors[3].setPower(setPower(0, -motorPower, 0)[3]);
+        if(encoder >= methodEncoder + startingEncoder)
         {
-            encoder = motors[1].getCurrentPosition();
-            motors[0].setPower(setPower(0, -motorPower, 0)[0]);
-            motors[1].setPower(setPower(0, -motorPower, 0)[1]);
-            motors[2].setPower(setPower(0, -motorPower, 0)[2]);
-            motors[3].setPower(setPower(0, -motorPower, 0)[3]);
-            if(encoder >= methodEncoder + startingEncoder)
-            {
-                motors[0].setPower(setPower(0, 0, 0)[0]);
-                motors[1].setPower(setPower(0, 0, 0)[1]);
-                motors[2].setPower(setPower(0, 0, 0)[2]);
-                motors[3].setPower(setPower(0, 0, 0)[3]);
-                isMethodShareEncoderTestFinished = true;
-            }
+            motors[0].setPower(setPower(0, 0, 0)[0]);
+            motors[1].setPower(setPower(0, 0, 0)[1]);
+            motors[2].setPower(setPower(0, 0, 0)[2]);
+            motors[3].setPower(setPower(0, 0, 0)[3]);
+            isMethodShareEncoderTestFinished = true;
         }
+    }
 
 
 

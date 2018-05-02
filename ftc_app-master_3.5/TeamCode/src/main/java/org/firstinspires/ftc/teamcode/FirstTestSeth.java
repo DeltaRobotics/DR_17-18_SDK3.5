@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 public class FirstTestSeth extends LinearOpMode
 {
     double loopcount = 0;
-    double zSclae = 0.75;
+    double zSclae = 1.0;
     double speed = 1.0;
 
     DcMotor motorRF = null;
@@ -24,6 +24,12 @@ public class FirstTestSeth extends LinearOpMode
         motorRB = hardwareMap.dcMotor.get("motorRB");
         motorLF = hardwareMap.dcMotor.get("motorLF");
         motorLB = hardwareMap.dcMotor.get("motorLB");
+
+        motorRF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorLF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorLB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorRB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
         waitForStart();
         while (opModeIsActive())
         {
