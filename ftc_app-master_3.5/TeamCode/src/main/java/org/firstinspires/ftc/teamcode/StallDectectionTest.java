@@ -20,7 +20,7 @@ public class StallDectectionTest extends LinearOpMode
 
     ElapsedTime runtime = new ElapsedTime();
 
-    Drive drive = new Drive();
+    Drive_Mecanum drive = new Drive_Mecanum();
 
 
     VoltageSensor robotVoltage;

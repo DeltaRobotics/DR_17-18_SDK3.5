@@ -15,7 +15,7 @@ import org.firstinspires.ftc.teamcode.driveStyle;
 public class AutoTesting extends LinearOpMode
 {
     RobotHardware robot = new RobotHardware();
-    Drive drive = new Drive();
+    Drive_Mecanum drive = new Drive_Mecanum();
 
     @Override
     public void runOpMode()

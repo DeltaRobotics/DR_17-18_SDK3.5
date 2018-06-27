@@ -29,7 +29,7 @@ import for_camera_opmodes.LinearOpModeCamera;
 public class AutoRedRightDiagonal extends LinearOpModeCamera
 {
     RobotHardware robot = new RobotHardware(); //Object of RobotHardware class
-    Drive drive = new Drive(); //Object of Drive class
+    Drive_Mecanum drive = new Drive_Mecanum(); //Object of Drive class
     ServoMove servoMove = new ServoMove(); //Object of ServoMove class
     BNO055IMU imu; //Rev IMU sensor
     Orientation angles; //Object for the robots orientation
@@ -345,7 +345,7 @@ public class AutoRedRightDiagonal extends LinearOpModeCamera
             //sleep(250);
             //drive.encoderDrive(50, driveStyle.STRAFE_LEFT, 0.45, motors); //Strafes so the robot isn't right against the stone
             sleep(250);
-            drive.encoderDrive(1150, driveStyle.BACKWARD, Drive.drivePower, motors); //Drives forward towards the cryptobox
+            drive.encoderDrive(1150, driveStyle.BACKWARD, Drive_Mecanum.drivePower, motors); //Drives forward towards the cryptobox
             sleep(250);
 
             switch(keyPosition) //Handles where the robot should move depending on key
@@ -383,15 +383,15 @@ public class AutoRedRightDiagonal extends LinearOpModeCamera
                     break;
                 }
             }
-            drive.OrientationDrive(pivotValue, driveStyle.PIVOT_RIGHT, Drive.pivotPower, motors, imu);
+            drive.OrientationDrive(pivotValue, driveStyle.PIVOT_RIGHT, Drive_Mecanum.pivotPower, motors, imu);
             sleep(500);
             if(keyPosition == "RIGHT")
             {
-                drive.encoderDrive(250, driveStyle.BACKWARD, Drive.drivePower, motors);
+                drive.encoderDrive(250, driveStyle.BACKWARD, Drive_Mecanum.drivePower, motors);
             }
             else if(keyPosition == "CENTER")
             {
-                drive.encoderDrive(150, driveStyle.BACKWARD, Drive.drivePower, motors);
+                drive.encoderDrive(150, driveStyle.BACKWARD, Drive_Mecanum.drivePower, motors);
             }
 
             sleep(250);
@@ -406,38 +406,38 @@ public class AutoRedRightDiagonal extends LinearOpModeCamera
                     {
                         //telemetry.addData("Expected Change 1", AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle) / 2);
                         telemetry.update(); //Updates telemetry
-                        drive.OrientationDrive(Math.abs(targetError), driveStyle.PIVOT_LEFT, Drive.pivotPower, motors, imu); //Moves robot to correct orientation
+                        drive.OrientationDrive(Math.abs(targetError), driveStyle.PIVOT_LEFT, Drive_Mecanum.pivotPower, motors, imu); //Moves robot to correct orientation
                     } else //If the robot's current orientation isn't greater than 0
                     {
                         //telemetry.addData("Expected Change 2", AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle) / 2);
                         telemetry.update(); //Updates telemetry
-                        drive.OrientationDrive(Math.abs(targetError), driveStyle.PIVOT_RIGHT, Drive.pivotPower, motors, imu); //Moves robot to correct orientation
+                        drive.OrientationDrive(Math.abs(targetError), driveStyle.PIVOT_RIGHT, Drive_Mecanum.pivotPower, motors, imu); //Moves robot to correct orientation
                     }
                     angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES); //Gets current orientation of robot
                     telemetry.addData("After Move", AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle)); //Displays robot's orientation after the orientation correction
                     telemetry.update(); //Updates telemetry
                 }
             }
-            drive.encoderDrive(200, driveStyle.BACKWARD, Drive.drivePower, motors); //Moves robot backward
+            drive.encoderDrive(200, driveStyle.BACKWARD, Drive_Mecanum.drivePower, motors); //Moves robot backward
             servoMove.placeGlyph(servos, robot, drive); //Places and pushes in the glyph into the correct cryptobox column
             sleep(250);
             if(keyPosition =="RIGHT")
             {
-                drive.encoderDrive(650, driveStyle.FORWARD, Drive.drivePower, motors); //Moves robot forward to push in glyph
+                drive.encoderDrive(650, driveStyle.FORWARD, Drive_Mecanum.drivePower, motors); //Moves robot forward to push in glyph
                 sleep(250);
-                drive.encoderDrive(150, driveStyle.BACKWARD, Drive.drivePower, motors); //Moves robot backward
+                drive.encoderDrive(150, driveStyle.BACKWARD, Drive_Mecanum.drivePower, motors); //Moves robot backward
             }
             else if(keyPosition == "LEFT")
             {
-                drive.encoderDrive(700, driveStyle.FORWARD, Drive.drivePower, motors); //Moves robot forward to push in glyph
+                drive.encoderDrive(700, driveStyle.FORWARD, Drive_Mecanum.drivePower, motors); //Moves robot forward to push in glyph
                 sleep(250);
-                drive.encoderDrive(100, driveStyle.BACKWARD, Drive.drivePower, motors); //Moves robot backward
+                drive.encoderDrive(100, driveStyle.BACKWARD, Drive_Mecanum.drivePower, motors); //Moves robot backward
             }
             else
             {
-                drive.encoderDrive(600, driveStyle.FORWARD, Drive.drivePower, motors); //Moves robot forward to push in glyph
+                drive.encoderDrive(600, driveStyle.FORWARD, Drive_Mecanum.drivePower, motors); //Moves robot forward to push in glyph
                 sleep(250);
-                drive.encoderDrive(100, driveStyle.BACKWARD, Drive.drivePower, motors); //Moves robot backward
+                drive.encoderDrive(100, driveStyle.BACKWARD, Drive_Mecanum.drivePower, motors); //Moves robot backward
             }
 
 

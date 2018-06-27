@@ -33,7 +33,7 @@ import for_camera_opmodes.LinearOpModeCamera;
 public class AutoRedRight extends LinearOpModeCamera
 {
     RobotHardware robot = new RobotHardware();
-    Drive drive = new Drive();
+    Drive_Mecanum drive = new Drive_Mecanum();
     BNO055IMU imu;
     Orientation angles;
 

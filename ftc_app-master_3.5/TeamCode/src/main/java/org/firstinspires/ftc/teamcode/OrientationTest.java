@@ -23,7 +23,7 @@ public class OrientationTest extends LinearOpMode
     Orientation angles;
 
 
-    Drive drive = new Drive();
+    Drive_Mecanum drive = new Drive_Mecanum();
     RobotHardware robot = new RobotHardware();
     public void runOpMode()
     {

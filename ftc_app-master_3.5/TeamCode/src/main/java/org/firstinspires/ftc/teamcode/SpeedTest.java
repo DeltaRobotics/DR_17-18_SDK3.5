@@ -15,7 +15,7 @@ import com.qualcomm.robotcore.util.Range;
 public class SpeedTest extends LinearOpMode
 {
     RobotHardware curiosity = new RobotHardware();
-    Drive drive = new Drive();
+    Drive_Mecanum drive = new Drive_Mecanum();
 
     double motorPower = 0.5;
 

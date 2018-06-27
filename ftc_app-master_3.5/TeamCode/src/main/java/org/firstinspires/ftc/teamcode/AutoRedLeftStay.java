@@ -31,7 +31,7 @@ import for_camera_opmodes.LinearOpModeCamera;
 @Disabled
 public class AutoRedLeftStay extends LinearOpModeCamera {
     RobotHardware robot = new RobotHardware(); //Object of RobotHardware class
-    Drive drive = new Drive(); //Object of Drive class
+    Drive_Mecanum drive = new Drive_Mecanum(); //Object of Drive class
 
     BNO055IMU imu; //BNO055IMU sensor in Rev Module
 
@@ -267,23 +267,23 @@ public class AutoRedLeftStay extends LinearOpModeCamera {
             {
                 case "LEFT":
                 {
-                    drive.encoderDrive(2300, driveStyle.BACKWARD, Drive.drivePower, motors);
+                    drive.encoderDrive(2300, driveStyle.BACKWARD, Drive_Mecanum.drivePower, motors);
                     break;
                 }
 
                 case "CENTER":
                 {
-                    drive.encoderDrive(1900, driveStyle.BACKWARD, Drive.drivePower, motors);
+                    drive.encoderDrive(1900, driveStyle.BACKWARD, Drive_Mecanum.drivePower, motors);
                     break;
                 }
                 case "RIGHT":
                 {
-                    drive.encoderDrive(1400, driveStyle.BACKWARD, Drive.drivePower, motors);
+                    drive.encoderDrive(1400, driveStyle.BACKWARD, Drive_Mecanum.drivePower, motors);
                     break;
                 }
                 case "UNKNOWN":
                 {
-                    drive.encoderDrive(1900, driveStyle.BACKWARD, Drive.drivePower, motors);
+                    drive.encoderDrive(1900, driveStyle.BACKWARD, Drive_Mecanum.drivePower, motors);
                     break;
                 }
             }
@@ -292,7 +292,7 @@ public class AutoRedLeftStay extends LinearOpModeCamera {
             sleep(250);
             //True 90 degree turn
             angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-                drive.OrientationDrive(85 - AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle), driveStyle.PIVOT_LEFT, Drive.pivotPower, motors, imu);
+                drive.OrientationDrive(85 - AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle), driveStyle.PIVOT_LEFT, Drive_Mecanum.pivotPower, motors, imu);
                 sleep(250);
                 angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
                 telemetry.addData("Before Move", AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle));
@@ -303,16 +303,16 @@ public class AutoRedLeftStay extends LinearOpModeCamera {
                     if (targetError > 0)//corrects orientation
                     {
                         telemetry.update();
-                        drive.OrientationDrive(Math.abs(targetError), driveStyle.PIVOT_LEFT, Drive.pivotPower / 1.5, motors, imu);
+                        drive.OrientationDrive(Math.abs(targetError), driveStyle.PIVOT_LEFT, Drive_Mecanum.pivotPower / 1.5, motors, imu);
                     } else {
                         telemetry.update();
-                        drive.OrientationDrive(Math.abs(targetError), driveStyle.PIVOT_RIGHT, Drive.pivotPower / 1.5, motors, imu);
+                        drive.OrientationDrive(Math.abs(targetError), driveStyle.PIVOT_RIGHT, Drive_Mecanum.pivotPower / 1.5, motors, imu);
                     }
             }
             angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
             telemetry.addData("After Move", AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle));
             sleep(250);
-            drive.encoderDrive(100, driveStyle.BACKWARD, Drive.drivePower, motors);
+            drive.encoderDrive(100, driveStyle.BACKWARD, Drive_Mecanum.drivePower, motors);
             servoMove.placeGlyph(servos, robot, drive);
             telemetry.update();
             //drive.timeDrive(1000, 0.5, driveStyle.BACKWARD, motors);

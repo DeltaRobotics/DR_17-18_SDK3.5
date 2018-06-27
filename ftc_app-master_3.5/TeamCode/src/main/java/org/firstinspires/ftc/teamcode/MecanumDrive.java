@@ -14,7 +14,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 public class MecanumDrive extends LinearOpMode
 {
     RobotHardware robot = new RobotHardware();
-    Drive drive = new Drive();
+    Drive_Mecanum drive = new Drive_Mecanum();
 
     boolean bState = false;
     boolean xState = false;

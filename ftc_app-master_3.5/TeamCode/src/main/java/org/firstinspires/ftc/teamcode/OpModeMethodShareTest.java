@@ -15,7 +15,7 @@ public class OpModeMethodShareTest extends LinearOpMode
     DcMotor motorLF = null;
     DcMotor motorRB = null;
     DcMotor motorLB = null;
-    Drive drive = new Drive();
+    Drive_Mecanum drive = new Drive_Mecanum();
     VoltageSensor robotVoltage;
     double voltageNow = 0.0;
     public void runOpMode()
@@ -37,9 +37,9 @@ public class OpModeMethodShareTest extends LinearOpMode
         motors[2] = motorLB;//]
         motors[3] = motorLF;//]
 
-        Drive.isMethodShareEncoderTestFinished = false;
-        Drive.encoder = 0;
-        Drive.startingEncoder = motors[1].getCurrentPosition();
+        Drive_Mecanum.isMethodShareEncoderTestFinished = false;
+        Drive_Mecanum.encoder = 0;
+        Drive_Mecanum.startingEncoder = motors[1].getCurrentPosition();
 
         int loop = 0;
 
@@ -50,7 +50,7 @@ public class OpModeMethodShareTest extends LinearOpMode
             robotVoltage = hardwareMap.voltageSensor.get("Expansion Hub 2");
             //accessing expansion hub voltage
             voltageNow = robotVoltage.getVoltage();
-            if(!Drive.isMethodShareEncoderTestFinished)
+            if(!Drive_Mecanum.isMethodShareEncoderTestFinished)
             {
                 drive.methodShareEncoderTest(0.5, 5000, motors);
             }

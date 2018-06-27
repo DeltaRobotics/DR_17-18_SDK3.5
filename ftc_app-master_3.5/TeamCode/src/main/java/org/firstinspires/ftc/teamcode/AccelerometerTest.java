@@ -43,7 +43,7 @@ public class AccelerometerTest extends LinearOpMode
 
     RobotHardware curiosity = new RobotHardware();
 
-    Drive drive = new Drive();
+    Drive_Mecanum drive = new Drive_Mecanum();
 
     // State used for updating telemetry
     Orientation angles;

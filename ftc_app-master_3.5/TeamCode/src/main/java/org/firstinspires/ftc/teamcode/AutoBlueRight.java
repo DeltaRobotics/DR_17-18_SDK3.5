@@ -32,7 +32,7 @@ import for_camera_opmodes.LinearOpModeCamera;
 @Disabled
 public class AutoBlueRight extends LinearOpModeCamera {
     RobotHardware robot = new RobotHardware(); //Object of RobotHardware class
-    Drive drive = new Drive(); //Object of Drive class
+    Drive_Mecanum drive = new Drive_Mecanum(); //Object of Drive class
     ServoMove servoMove = new ServoMove(); //Object of ServoMove class
 
     BNO055IMU imu; //BNO055IMU sensor in Rev Module

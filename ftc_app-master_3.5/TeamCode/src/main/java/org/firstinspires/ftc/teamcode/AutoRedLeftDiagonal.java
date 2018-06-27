@@ -30,7 +30,7 @@ import for_camera_opmodes.LinearOpModeCamera;
 //@Disabled
 public class AutoRedLeftDiagonal extends LinearOpModeCamera {
     RobotHardware robot = new RobotHardware(); //Object of RobotHardware class
-    Drive drive = new Drive(); //Object of Drive class
+    Drive_Mecanum drive = new Drive_Mecanum(); //Object of Drive class
 
     BNO055IMU imu; //BNO055IMU sensor in Rev Module
 
@@ -268,26 +268,26 @@ public class AutoRedLeftDiagonal extends LinearOpModeCamera {
             {
                 case "LEFT":
                 {
-                    drive.encoderDrive(1400, driveStyle.BACKWARD, Drive.drivePower, motors);
+                    drive.encoderDrive(1400, driveStyle.BACKWARD, Drive_Mecanum.drivePower, motors);
                     pivotValue = 120;
                     break;
                 }
 
                 case "CENTER":
                 {
-                    drive.encoderDrive(1250, driveStyle.BACKWARD, Drive.drivePower, motors);
+                    drive.encoderDrive(1250, driveStyle.BACKWARD, Drive_Mecanum.drivePower, motors);
                     pivotValue = 110;
                     break;
                 }
                 case "RIGHT":
                 {
-                    drive.encoderDrive(1250, driveStyle.BACKWARD, Drive.drivePower, motors);
+                    drive.encoderDrive(1250, driveStyle.BACKWARD, Drive_Mecanum.drivePower, motors);
                     pivotValue = 95;
                     break;
                 }
                 case "UNKNOWN":
                 {
-                    drive.encoderDrive(1250, driveStyle.BACKWARD, Drive.drivePower, motors);
+                    drive.encoderDrive(1250, driveStyle.BACKWARD, Drive_Mecanum.drivePower, motors);
                     pivotValue = 110;
                     break;
                 }
@@ -297,7 +297,7 @@ public class AutoRedLeftDiagonal extends LinearOpModeCamera {
             sleep(250);
             //True 90 degree turn
             angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-                drive.OrientationDrive(pivotValue - AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle), driveStyle.PIVOT_LEFT, Drive.pivotPower, motors, imu);
+                drive.OrientationDrive(pivotValue - AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle), driveStyle.PIVOT_LEFT, Drive_Mecanum.pivotPower, motors, imu);
                 sleep(250);
                 angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
                 telemetry.addData("Before Move", AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle));
@@ -308,19 +308,19 @@ public class AutoRedLeftDiagonal extends LinearOpModeCamera {
                     if (targetError > 0)//corrects orientation
                     {
                         telemetry.update();
-                        drive.OrientationDrive(Math.abs(targetError), driveStyle.PIVOT_LEFT, Drive.pivotPower / 1.5, motors, imu);
+                        drive.OrientationDrive(Math.abs(targetError), driveStyle.PIVOT_LEFT, Drive_Mecanum.pivotPower / 1.5, motors, imu);
                     } else {
                         telemetry.update();
-                        drive.OrientationDrive(Math.abs(targetError), driveStyle.PIVOT_RIGHT, Drive.pivotPower / 1.5, motors, imu);
+                        drive.OrientationDrive(Math.abs(targetError), driveStyle.PIVOT_RIGHT, Drive_Mecanum.pivotPower / 1.5, motors, imu);
                     }
             }
             angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
             telemetry.addData("After Move", AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle));
             sleep(250);
-            drive.encoderDrive(300, driveStyle.BACKWARD, Drive.drivePower, motors);
+            drive.encoderDrive(300, driveStyle.BACKWARD, Drive_Mecanum.drivePower, motors);
             servoMove.placeGlyph(servos, robot, drive);
-            drive.encoderDrive(500, driveStyle.FORWARD, Drive.drivePower, motors);
-            drive.encoderDrive(300, driveStyle.BACKWARD, Drive.drivePower, motors);
+            drive.encoderDrive(500, driveStyle.FORWARD, Drive_Mecanum.drivePower, motors);
+            drive.encoderDrive(300, driveStyle.BACKWARD, Drive_Mecanum.drivePower, motors);
             telemetry.update();
             //drive.timeDrive(1000, 0.5, driveStyle.BACKWARD, motors);
             //drive.encoderDrive(2000, driveStyle.BACKWARD, 0.5, motors);

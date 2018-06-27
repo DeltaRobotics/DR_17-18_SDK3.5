@@ -69,7 +69,7 @@ public class ServoMove extends LinearOpMode
         return ;
     }
 
-    public void placeGlyph(Servo[] servos, RobotHardware curiosity, Drive drive)
+    public void placeGlyph(Servo[] servos, RobotHardware curiosity, Drive_Mecanum drive)
     {
         DcMotor[] motors = new DcMotor[4];//]
         motors[0] = curiosity.motorRF; //]

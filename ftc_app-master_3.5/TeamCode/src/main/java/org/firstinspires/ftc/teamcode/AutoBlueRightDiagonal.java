@@ -30,7 +30,7 @@ import for_camera_opmodes.LinearOpModeCamera;
 //@Disabled
 public class AutoBlueRightDiagonal extends LinearOpModeCamera {
     RobotHardware robot = new RobotHardware(); //Object of RobotHardware class
-    Drive drive = new Drive(); //Object of Drive class
+    Drive_Mecanum drive = new Drive_Mecanum(); //Object of Drive class
     ServoMove servoMove = new ServoMove(); //Object of ServoMove class
 
     BNO055IMU imu; //BNO055IMU sensor in Rev Module
@@ -228,28 +228,28 @@ public class AutoBlueRightDiagonal extends LinearOpModeCamera {
             {
                 case "RIGHT": //If key is RIGHT
                 {
-                    drive.encoderDrive(1800, driveStyle.FORWARD, Drive.drivePower, motors);
+                    drive.encoderDrive(1800, driveStyle.FORWARD, Drive_Mecanum.drivePower, motors);
                     pivotValue = 50;
                     break;
                 }
 
                 case "CENTER": //If key is CENTER
                 {
-                    drive.encoderDrive(1800, driveStyle.FORWARD, Drive.drivePower, motors);
+                    drive.encoderDrive(1800, driveStyle.FORWARD, Drive_Mecanum.drivePower, motors);
                     pivotValue = 65;
                     break;
                 }
 
                 case "LEFT": //If key is LEFT
                 {
-                    drive.encoderDrive(2100, driveStyle.FORWARD, Drive.drivePower, motors);
+                    drive.encoderDrive(2100, driveStyle.FORWARD, Drive_Mecanum.drivePower, motors);
                     pivotValue = 110;
                     break;
                 }
 
                 case "UNKNOWN": //If the phone didn't sense a pictograph
                 {
-                    drive.encoderDrive(1800, driveStyle.FORWARD, Drive.drivePower, motors);
+                    drive.encoderDrive(1800, driveStyle.FORWARD, Drive_Mecanum.drivePower, motors);
                     pivotValue = 65;
                     break;
                 }
@@ -259,7 +259,7 @@ public class AutoBlueRightDiagonal extends LinearOpModeCamera {
             //drive.encoderDrive(200, driveStyle.STRAFE_RIGHT, 0.45, motors); //Moves robot away from the cryptobox so it can rotate without hitting it
             sleep(250);
             angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES); //Gets the robot's current orientation
-            drive.OrientationDrive(pivotValue + AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle), driveStyle.PIVOT_LEFT, Drive.pivotPower, motors, imu); //Pivots robot 90 degrees right
+            drive.OrientationDrive(pivotValue + AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle), driveStyle.PIVOT_LEFT, Drive_Mecanum.pivotPower, motors, imu); //Pivots robot 90 degrees right
 
             angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES); //Gets the robot's current orientation
             telemetry.addData("Before Move", AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle)); //Displays the robots orientation before it trys to correct its orientation
@@ -270,25 +270,25 @@ public class AutoBlueRightDiagonal extends LinearOpModeCamera {
                 if (targetError > 0) //If target error is greater than 0
                 {
                     telemetry.update(); //Updates telemetry
-                    drive.OrientationDrive(Math.abs(targetError), driveStyle.PIVOT_LEFT, Drive.pivotPower / 1.5, motors, imu); //Corrects robot's orientation
+                    drive.OrientationDrive(Math.abs(targetError), driveStyle.PIVOT_LEFT, Drive_Mecanum.pivotPower / 1.5, motors, imu); //Corrects robot's orientation
                 } else //If target error isn't greater than 0
                 {
                     telemetry.update(); //Updates telemetry
-                    drive.OrientationDrive(Math.abs(targetError), driveStyle.PIVOT_RIGHT, Drive.pivotPower / 1.5, motors, imu); //Corrects robot's orientation
+                    drive.OrientationDrive(Math.abs(targetError), driveStyle.PIVOT_RIGHT, Drive_Mecanum.pivotPower / 1.5, motors, imu); //Corrects robot's orientation
                 }
             }
             angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES); //Gets robot's orientation
             telemetry.addData("After Move", AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle)); //Displays robot's orientation after it tries to correct its orientation
             sleep(250);
-            drive.encoderDrive(300, driveStyle.BACKWARD, Drive.drivePower, motors);
+            drive.encoderDrive(300, driveStyle.BACKWARD, Drive_Mecanum.drivePower, motors);
             servoMove.placeGlyph(servos, robot, drive);
             if(keyPosition == "RIGHT")
             {
-                drive.encoderDrive(400, driveStyle.FORWARD, Drive.drivePower, motors);
+                drive.encoderDrive(400, driveStyle.FORWARD, Drive_Mecanum.drivePower, motors);
 
             }
-            drive.encoderDrive(600, driveStyle.FORWARD, Drive.drivePower, motors);
-            drive.encoderDrive(300, driveStyle.BACKWARD, Drive.drivePower, motors);
+            drive.encoderDrive(600, driveStyle.FORWARD, Drive_Mecanum.drivePower, motors);
+            drive.encoderDrive(300, driveStyle.BACKWARD, Drive_Mecanum.drivePower, motors);
             telemetry.update();
         }
     }

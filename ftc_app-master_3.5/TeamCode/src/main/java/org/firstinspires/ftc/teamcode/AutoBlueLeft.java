@@ -33,7 +33,7 @@ import for_camera_opmodes.LinearOpModeCamera;
 public class AutoBlueLeft extends LinearOpModeCamera
 {
     RobotHardware robot = new RobotHardware(); //Object of RobotHardware class
-    Drive drive = new Drive(); //Object of Drive class
+    Drive_Mecanum drive = new Drive_Mecanum(); //Object of Drive class
     ServoMove servoMove = new ServoMove(); //Object of ServoMove class
     BNO055IMU imu; //Rev IMU sensor
     Orientation angles; //Object for the robots orientation

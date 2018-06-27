@@ -23,7 +23,7 @@ enum driveStyle
 {
     FORWARD, BACKWARD, STRAFE_LEFT, STRAFE_RIGHT, FORWARD_RIGHT, FORWARD_LEFT, BACKWARD_RIGHT, BACKWARD_LEFT, PIVOT_RIGHT, PIVOT_LEFT
 }
-public class Drive extends LinearOpMode
+public class Drive_Mecanum extends LinearOpMode
 {
 
    public static double drivePower = 0.75;
