@@ -172,6 +172,8 @@ public class LinearOpModeCamera extends LinearOpMode
         }
     }
 
+    //Below this point does not change camera functionality//
+
     static public int red(int pixel) {
         return (pixel >> 16) & 0xff;
     }
@@ -263,6 +265,12 @@ public class LinearOpModeCamera extends LinearOpMode
             }
         }
     }
+
+
+    //Below Here is Game Specific Methods for 2017-18//\
+
+
+
     public void SaveJewelColorLog (int[][] colorValues)
     {
         String text = "";
